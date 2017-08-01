@@ -1,20 +1,30 @@
 <template>
   <table>
     <thead>
-      <th>Labels</th>
-      <th>Governance & Transparency</th>
-      <th>Environmental impact</th>
-      <th>Social impact</th>
+      <tr><th v-for="column in columns">{{column}}</th></tr>
     </thead>
     <tbody>
-      <tr><td>RSPO</td><td>1</td><td>2</td><td>3</td></tr>
+      <tr v-for="row in moQueried">
+        <td v-for="column in columns">{{colMap[column](row)}}</td>
+      </tr>
     </tbody>
   </table>
 </template>
 
 <script>
+import {moLocalTable} from 'mo-vue-table'
 
 export default {
+  mixins: [moLocalTable],
+  data: () => ({
+    columns: ['Labels', 'Governance & Transparency', 'Environmental impact', 'Social impact'],
+    colMap: {
+      'Labels': row => row.label.name,
+      'Governance & Transparency': row => row.govTrans,
+      'Environmental impact': row => row.envImpact,
+      'Social impact': row => row.scoImpact
+    }
+  })
 }
 </script>
 
