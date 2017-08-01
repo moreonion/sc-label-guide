@@ -1,5 +1,5 @@
 <template>
-  <nuxt/>
+  <div><nuxt/></div>
 </template>
 
 <style>
@@ -18,5 +18,9 @@ html
 {
   box-sizing: border-box;
   margin: 0;
+}
+
+div {
+  padding: 10px;
 }
 </style>

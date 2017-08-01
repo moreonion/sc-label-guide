@@ -27,7 +27,7 @@ export default {
   components: {
     LabelTable
   },
-  data: () => ({
+  asyncData: () => ({
     tableData: genTableData(200)
   })
 }
