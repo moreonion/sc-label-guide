@@ -1,14 +1,22 @@
 <template>
-  <table>
-    <thead>
-      <tr><th v-for="column in columns">{{column}}</th></tr>
-    </thead>
-    <tbody>
-      <tr v-for="row in moQueried">
-        <td v-for="column in columns">{{colMap[column](row)}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th v-mo-toggle-orderby="column[0]" :key="column[1]" v-for="column in moSelectedColumns"
+            :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">{{column[0]}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in moDisplayed">
+          <td  v-for="column in moSelectedColumns">
+            {{colMap[column[0]](row)}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script>
@@ -18,13 +26,18 @@ export default {
   mixins: [moLocalTable],
   data: () => ({
     columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
+    selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
     colMap: {
-      'Labels': row => row.label.name,
-      'Governance& Transparency': row => row.govTrans,
-      'Environmental impact': row => row.envImpact,
-      'Social impact': row => row.scoImpact
+      'label': row => row.label.name,
+      'govTrans': row => row.govTrans,
+      'envImpact': row => row.envImpact,
+      'scoImpact': row => row.scoImpact
     }
-  })
+  }),
+  created: function () {
+    this.moSetSelectState(this.selected)
+    this.moSetLimit(5)
+  }
 }
 </script>
 
@@ -68,5 +81,15 @@ export default {
 
   table td:first-child {
     text-align: left;
+  }
+
+  .mo-asc::after {
+    content: '\25B2';
+    font-size: 9px;
+  }
+
+  .mo-desc::after {
+    content: '\25BC';
+    font-size: 9px;
   }
 </style>
