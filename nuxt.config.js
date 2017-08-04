@@ -20,6 +20,7 @@ module.exports = {
   /*
   ** Build configuration
   */
+  plugins: ['~plugins/mo-vue-table'],
   build: {
     vendor: ['mo-vue-table'],
     /*
