@@ -1,7 +1,7 @@
 <template>
   <div class="cont">
     <div>
-      <btn class="table-ctrl">Filters</btn>
+      <el-button>Filters</el-button>
 
       <search-input class="search-input" :search.sync="search"></search-input>
 
@@ -35,8 +35,8 @@
     <table-legend @click="dialog['bgInfo'].visible = true"></table-legend>
 
     <div class="last-row">
-      <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
-      <btn class="table-ctrl" v-on:click="dialog['share'].visible = true"><i class="el-icon-share"></i> Share it</btn>
+      <el-button @click="dialog['customize'].visible = true"><i class="el-icon-setting"></i> Customize Display</el-button>
+      <el-button v-on:click="dialog['share'].visible = true"><i class="el-icon-share"></i> Share it</el-button>
     </div>
 
     <!-- Share Dialog -->
@@ -44,7 +44,7 @@
       <span slot="title">Embed this label guide on your website</span>
       <el-input readonly type="textarea" :rows="15" v-model="dialog['share'].data.shareSnippet"></el-input>
       <span slot="footer">
-        <btn @click="dialog['share'].visible = false">Close</btn>
+        <el-button @click="dialog['share'].visible = false">Close</el-button>
       </span>
     </el-dialog>
 
@@ -53,7 +53,7 @@
       <span slot="title">Criteria this label has</span>
       <pre>{{dialog['info'].props.value}}</pre>
       <span slot="footer">
-        <btn @click="hideInfoDialog">Close</btn>
+        <el-button @click="hideInfoDialog">Close</el-button>
       </span>
     </el-dialog>
 
@@ -76,7 +76,16 @@
         Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
       </p>
       <span slot="footer">
-        <btn @click="dialog['bgInfo'].visible = false">Close</btn>
+        <el-button @click="dialog['bgInfo'].visible = false">Close</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- Customize Display Dialog -->
+    <el-dialog :visible.sync="dialog['customize'].visible">
+      <span slot="title">Columns to show</span>
+      <span slot="footer">
+        <el-button @click="dialog['customize'].visible = false">Close</el-button>
+        <el-button @click="dialog['customize'].visible = false">Apply</el-button>
       </span>
     </el-dialog>
   </div>
@@ -85,7 +94,6 @@
 <script>
   import {moLocalTable} from 'mo-vue-table'
 
-  import Btn from './Btn.vue'
   import SearchInput from './SearchInput.vue'
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
@@ -94,7 +102,6 @@
   export default {
     mixins: [moLocalTable],
     components: {
-      'btn': Btn,
       'search-input': SearchInput,
       'lang-select': LangSelect,
       'eval-circle': EvalCircle,
@@ -150,6 +157,9 @@
           data: {
             shareSnippet: '<<< TODO: Coming Soon! >>>'
           }
+        },
+        'customize': {
+          visible: false
         }
       }
     }),
