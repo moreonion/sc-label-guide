@@ -49,4 +49,9 @@ export default {
   .test svg {
     margin-right: 5px;
   }
+
+  a {
+    color: #6DC051;
+    cursor: pointer;
+  }
 </style>

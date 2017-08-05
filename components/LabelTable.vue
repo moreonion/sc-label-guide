@@ -1,37 +1,60 @@
 <template>
   <div class="cont">
-    <btn class="table-ctrl">Filters</btn>
+    <el-row :gutter="10">
+      <el-col :xs="8" :sm="4">
+        <btn class="table-ctrl">Filters</btn>
+      </el-col>
 
-    <div class="search-cont">
-      <search-input :search.sync="search"></search-input>
-    </div>
+      <el-col :xs="8" :sm="12">
+        <search-input :search.sync="search"></search-input>
+      </el-col>
 
-    <lang-select class="table-ctrl lang" :lang.sync="lang"></lang-select>
+      <el-col :xs="8" :sm="{offset:2, span:6}">
+        <lang-select class="table-ctrl lang" :lang.sync="lang"></lang-select>
+      </el-col>
+    </el-row>
 
-    <table>
-      <thead>
-        <tr>
-          <th v-mo-toggle-orderby="column[0]" :key="column[1]" v-for="column in moSelectedColumns"
-            :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">{{column[0]}}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in moDisplayed">
-          <td  v-for="column in moSelectedColumns">
-            {{colMap[column[0]](row)}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <el-row>
+      <el-col :span="24">
+        <table>
+          <thead>
+            <tr>
+              <th v-mo-toggle-orderby="column[0]" :key="column[1]" v-for="column in moSelectedColumns"
+                :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">{{column[0]}}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="row in moDisplayed">
+              <td  v-for="column in moSelectedColumns">
+                {{colMap[column[0]](row)}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </el-col>
+    </el-row>
 
-    <el-pagination small layout="prev, pager, next" :total="moQueried.length"></el-pagination>
+    <el-row>
+      <el-col :span="24">
+        <el-pagination small layout="prev, pager, next" :total="moQueried.length"></el-pagination>
+      </el-col>
+    </el-row>
 
-    <table-legend class="legend"></table-legend>
+    <el-row>
+      <el-col :span="24">
+        <table-legend class="legend"></table-legend>
+      </el-col>
+    </el-row>
 
-    <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
-
-    <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
+    <el-row>
+      <el-col :xs="14" :sm="9">
+        <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
+      </el-col>
+      <el-col :xs="10" :sm="8">
+        <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -132,9 +155,14 @@ export default {
     text-align: left;
   }
 
-  .legend {
+  .el-pagination {
     margin-top: 20px;
     margin-bottom: 20px;
+  }
+
+  .legend {
+    /*margin-top: 20px;
+    margin-bottom: 20px;*/
   }
 
   .mo-asc::after {
