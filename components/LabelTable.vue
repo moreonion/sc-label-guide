@@ -11,7 +11,7 @@
     <table>
       <thead>
         <tr>
-          <th v-mo-toggle-orderby="column[0]" :key="column[1]" v-for="column in moSelectedColumns"
+          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="column[0]" :key="column[1]"
             :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">
             {{colNameMap[column[0]]}}
           </th>
