@@ -1,6 +1,6 @@
 <template>
   <div class="cont">
-    <btn class="table-ctrl" btn-text="Filters"></btn>
+    <btn class="table-ctrl">Filters</btn>
 
     <div class="search-cont">
       <search-input :search.sync="search"></search-input>
@@ -25,14 +25,16 @@
       </tbody>
     </table>
 
+    <el-pagination small layout="prev, pager, next" :total="moQueried.length"></el-pagination>
+
     <eval-circle value="1"></eval-circle>
     <eval-circle value="2"></eval-circle>
     <eval-circle value="3"></eval-circle>
 
 
-    <btn class="table-ctrl" btn-text="Customize Display"></btn>
+    <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
 
-    <btn class="table-ctrl" btn-text="Share it"></btn>
+    <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
 
   </div>
 </template>

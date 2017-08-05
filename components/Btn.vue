@@ -1,10 +1,9 @@
 <template>
-  <el-button>{{btnText}}</el-button>
+  <el-button><slot></slot></el-button>
 </template>
 
 <script>
 export default {
-  props: ['btnText']
 }
 </script>
 
