@@ -1,9 +1,10 @@
 <template>
-  <el-button>Filters</el-button>
+  <el-button>{{btnText}}</el-button>
 </template>
 
 <script>
 export default {
+  props: ['btnText']
 }
 </script>
 

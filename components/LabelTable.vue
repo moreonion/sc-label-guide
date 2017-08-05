@@ -1,6 +1,6 @@
 <template>
   <div class="cont">
-    <filters-btn class="table-ctrl"></filters-btn>
+    <btn class="table-ctrl" btn-text="Filters"></btn>
 
     <div class="search-cont">
       <search-input :search.sync="search"></search-input>
@@ -24,20 +24,25 @@
         </tr>
       </tbody>
     </table>
+
+    <btn class="table-ctrl" btn-text="Customize Display"></btn>
+
+    <btn class="table-ctrl" btn-text="Share it"></btn>
+
   </div>
 </template>
 
 <script>
 import {moLocalTable} from 'mo-vue-table'
 
-import FiltersBtn from './FiltersBtn.vue'
+import Btn from './Btn.vue'
 import SearchInput from './SearchInput.vue'
 import LangSelect from './LangSelect.vue'
 
 export default {
   mixins: [moLocalTable],
   components: {
-    'filters-btn': FiltersBtn,
+    'btn': Btn,
     'search-input': SearchInput,
     'lang-select': LangSelect
   },
