@@ -25,6 +25,11 @@
       </tbody>
     </table>
 
+    <eval-circle value="1"></eval-circle>
+    <eval-circle value="2"></eval-circle>
+    <eval-circle value="3"></eval-circle>
+
+
     <btn class="table-ctrl" btn-text="Customize Display"></btn>
 
     <btn class="table-ctrl" btn-text="Share it"></btn>
@@ -38,13 +43,15 @@ import {moLocalTable} from 'mo-vue-table'
 import Btn from './Btn.vue'
 import SearchInput from './SearchInput.vue'
 import LangSelect from './LangSelect.vue'
+import EvalCircle from './EvalCircle.vue'
 
 export default {
   mixins: [moLocalTable],
   components: {
     'btn': Btn,
     'search-input': SearchInput,
-    'lang-select': LangSelect
+    'lang-select': LangSelect,
+    'eval-circle': EvalCircle
   },
   data: () => ({
     search: '',
