@@ -97,7 +97,21 @@ export default {
   },
   methods: {
     pageChange: function (page) {
-      this.moSetOffset((page - 1) * this.limit)
+      this.page = page
+    }
+  },
+  computed: {
+    offset: function () {
+      return (this.page - 1) * this.limit
+    }
+  },
+  watch: {
+    offset: {
+      handler: function () {
+        console.log('Set offset')
+        this.moSetOffset(this.offset)
+      },
+      immediate: true
     }
   }
 }
