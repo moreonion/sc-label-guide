@@ -37,7 +37,7 @@
 
     <el-row>
       <el-col :span="24">
-        <el-pagination small layout="prev, pager, next" :total="moQueried.length"></el-pagination>
+        <el-pagination small layout="prev, pager, next" :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange"></el-pagination>
       </el-col>
     </el-row>
 
@@ -77,6 +77,8 @@ export default {
     'table-legend': TableLegend
   },
   data: () => ({
+    limit: 5,
+    page: 1,
     search: '',
     lang: 'English',
     columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
@@ -89,8 +91,14 @@ export default {
     }
   }),
   created: function () {
+    // Init table state
     this.moSetSelectState(this.selected)
-    this.moSetLimit(5)
+    this.moSetLimit(this.limit)
+  },
+  methods: {
+    pageChange: function (page) {
+      this.moSetOffset((page - 1) * this.limit)
+    }
   }
 }
 </script>
