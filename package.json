@@ -1,9 +1,9 @@
 {
   "name": "mo-label-guide",
-  "version": "1.0.0",
-  "description": "Nuxt.js project",
-  "author": "Onur Dogangönül",
   "private": true,
+  "version": "0.1.0",
+  "description": "More Onion - Label Guide",
+  "author": "Onur Dogangönül <contact@dinony.com>",
   "dependencies": {
     "element-ui": "^1.4.1",
     "mo-vue-table": "^0.1.1",
