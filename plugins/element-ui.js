@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import {Button, Input, Select, Pagination, Row, Col} from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 
 Vue.component(Button.name, Button)
 Vue.component(Input.name, Input)

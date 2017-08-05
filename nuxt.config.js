@@ -11,7 +11,6 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://unpkg.com/element-ui/lib/theme-default/index.css'}
     ]
   },
   /*
