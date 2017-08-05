@@ -1,12 +1,13 @@
 <template>
   <div class="cont">
-    <el-button class="table-ctrl">Filters</el-button>
+    <filters-btn class="table-ctrl"></filters-btn>
+
     <div class="search-cont">
-      <el-input class="table-ctrl" icon="search" v-model="search"></el-input>
+      <search-input :search.sync="search"></search-input>
     </div>
-    <el-select class="table-ctrl lang" v-model="lang" disabled placeholder="Language">
-      <el-option v-for="item in [{label: 'English', value: 0}]" :key="item.value" :label="item.label" :value="item.value"></el-option>
-    </el-select>
+
+    <lang-select class="table-ctrl lang" :lang.sync="lang"></lang-select>
+
     <table>
       <thead>
         <tr>
@@ -29,8 +30,17 @@
 <script>
 import {moLocalTable} from 'mo-vue-table'
 
+import FiltersBtn from './FiltersBtn.vue'
+import SearchInput from './SearchInput.vue'
+import LangSelect from './LangSelect.vue'
+
 export default {
   mixins: [moLocalTable],
+  components: {
+    'filters-btn': FiltersBtn,
+    'search-input': SearchInput,
+    'lang-select': LangSelect
+  },
   data: () => ({
     search: '',
     lang: 'English',
