@@ -1,5 +1,12 @@
 <template>
-  <div>
+  <div class="cont">
+    <el-button class="table-ctrl">Filters</el-button>
+    <div class="search-cont">
+      <el-input class="table-ctrl" icon="search" v-model="search"></el-input>
+    </div>
+    <el-select class="table-ctrl lang" v-model="lang" disabled placeholder="Language">
+      <el-option v-for="item in [{label: 'English', value: 0}]" :key="item.value" :label="item.label" :value="item.value"></el-option>
+    </el-select>
     <table>
       <thead>
         <tr>
@@ -25,6 +32,8 @@ import {moLocalTable} from 'mo-vue-table'
 export default {
   mixins: [moLocalTable],
   data: () => ({
+    search: '',
+    lang: 'English',
     columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
     selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
     colMap: {
@@ -42,11 +51,29 @@ export default {
 </script>
 
 <style>
+  .cont {
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
+
+  .search-cont {
+    display: inline-block;
+  }
+
+  .table-ctrl {
+    margin-right: 10px;
+  }
+
+  .lang {
+    float: right;
+    margin-right: 0px;
+  }
+
   table {
     border-spacing: 0px;
     border: 1px solid #D9DADB;
-    max-width: 500px;
-    margin: 0 auto;
+    margin-top: 15px;
   }
 
   table thead {

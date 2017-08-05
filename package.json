@@ -5,6 +5,7 @@
   "author": "Onur Dogangönül",
   "private": true,
   "dependencies": {
+    "element-ui": "^1.4.1",
     "mo-vue-table": "^0.1.1",
     "nuxt": "latest"
   },

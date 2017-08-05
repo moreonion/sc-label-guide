@@ -10,7 +10,8 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://unpkg.com/element-ui/lib/theme-default/index.css'}
     ]
   },
   /*
@@ -20,9 +21,9 @@ module.exports = {
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/mo-vue-table'],
+  plugins: ['~plugins/mo-vue-table', '~plugins/element-ui'],
   build: {
-    vendor: ['mo-vue-table'],
+    vendor: ['mo-vue-table', 'element-ui'],
     /*
     ** Run ESLINT on save
     */
