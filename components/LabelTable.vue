@@ -27,15 +27,11 @@
 
     <el-pagination small layout="prev, pager, next" :total="moQueried.length"></el-pagination>
 
-    <eval-circle value="1"></eval-circle>
-    <eval-circle value="2"></eval-circle>
-    <eval-circle value="3"></eval-circle>
-
+    <table-legend class="legend"></table-legend>
 
     <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
 
     <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
-
   </div>
 </template>
 
@@ -46,6 +42,7 @@ import Btn from './Btn.vue'
 import SearchInput from './SearchInput.vue'
 import LangSelect from './LangSelect.vue'
 import EvalCircle from './EvalCircle.vue'
+import TableLegend from './TableLegend.vue'
 
 export default {
   mixins: [moLocalTable],
@@ -53,7 +50,8 @@ export default {
     'btn': Btn,
     'search-input': SearchInput,
     'lang-select': LangSelect,
-    'eval-circle': EvalCircle
+    'eval-circle': EvalCircle,
+    'table-legend': TableLegend
   },
   data: () => ({
     search: '',
@@ -132,6 +130,11 @@ export default {
 
   table td:first-child {
     text-align: left;
+  }
+
+  .legend {
+    margin-top: 20px;
+    margin-bottom: 20px;
   }
 
   .mo-asc::after {
