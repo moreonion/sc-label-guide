@@ -1,5 +1,5 @@
 <template>
-  <crcl width="30" height="30" radius="15" :color="color"></crcl>
+  <crcl width="20" height="20" radius="10" :color="color"></crcl>
 </template>
 
 <script>

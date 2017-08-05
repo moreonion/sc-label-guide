@@ -43,11 +43,11 @@
 
     <el-row>
       <el-col :span="24">
-        <table-legend class="legend"></table-legend>
+        <table-legend></table-legend>
       </el-col>
     </el-row>
 
-    <el-row>
+    <el-row class="last-row">
       <el-col :xs="14" :sm="9">
         <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
       </el-col>
@@ -102,16 +102,11 @@ export default {
     margin-top: 20px;
   }
 
-  .search-cont {
-    display: inline-block;
-  }
-
   .table-ctrl {
     margin-right: 10px;
   }
 
   .lang {
-    float: right;
     margin-right: 0px;
   }
 
@@ -123,7 +118,7 @@ export default {
 
   table thead {
     background: #EFEFEF;
-    font-color: #404040;
+    color: #404040;
     font-size: 10px;
     text-align: left
   }
@@ -155,16 +150,6 @@ export default {
     text-align: left;
   }
 
-  .el-pagination {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-
-  .legend {
-    /*margin-top: 20px;
-    margin-bottom: 20px;*/
-  }
-
   .mo-asc::after {
     content: '\25B2';
     font-size: 9px;
@@ -173,5 +158,14 @@ export default {
   .mo-desc::after {
     content: '\25BC';
     font-size: 9px;
+  }
+
+  .el-pagination {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .last-row {
+    padding-top: 10px;
   }
 </style>

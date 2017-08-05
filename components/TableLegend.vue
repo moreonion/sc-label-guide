@@ -1,17 +1,17 @@
 <template>
-  <el-row :gutter="10" type="flex" align="middle" class="legend-container">
+  <el-row type="flex" algin="middle" class="legend-cont">
     <el-col :xs="8" :sm="5">
-      <div class="test">
+      <div class="eval-cont">
         <eval-circle value="3"></eval-circle><span>Good</span>
       </div>
     </el-col>
     <el-col :xs="8" :sm="5" class="test">
-      <div class="test">
+      <div class="eval-cont">
         <eval-circle value="2"></eval-circle><span>Mediocre</span>
       </div>
     </el-col>
     <el-col :xs="8" :sm="5" class="test">
-      <div class="test">
+      <div class="eval-cont">
         <eval-circle value="1"></eval-circle><span>Not Good</span>
       </div>
     </el-col>
@@ -33,20 +33,20 @@ export default {
 </script>
 
 <style>
-  .legend-container {
+  .legend-cont {
     border-bottom: 1px solid #BCBEBF;
     border-top: 1px solid #BCBEBF;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    font-size: 12px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 10px;
   }
 
-  .test {
+  .eval-cont {
     display: flex;
     align-items: center;
   }
 
-  .test svg {
+  .eval-cont svg {
     margin-right: 5px;
   }
 
