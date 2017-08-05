@@ -8,7 +8,7 @@ import LabelTable from '../components/LabelTable.vue'
 const labelNames = ['RSPO', 'EU Organic', 'Fairtrade', 'UTZ']
 const rndLabelName = () => labelNames[Math.floor(Math.random() * (labelNames.length - 1))]
 const rndLabel = () => ({name: rndLabelName(), img: null})
-const rndRating = () => Math.floor(Math.random() * 3)
+const rndRating = () => Math.ceil(Math.random() * 3)
 
 const genTableData = num => {
   const res = []

@@ -19,8 +19,11 @@
       </thead>
       <tbody>
         <tr v-for="row in moDisplayed">
-          <td  v-for="column in moSelectedColumns">
-            {{colValMap[column[0]](row)}}
+          <td v-for="column in moSelectedColumns">
+            <eval-circle v-if="colValMap[column[0]](row) >= 0 && colValMap[column[0]](row) <= 3"
+              :value="colValMap[column[0]](row)">
+            </eval-circle>
+            <span v-else>{{colValMap[column[0]](row)}}</span>
           </td>
         </tr>
       </tbody>
