@@ -37,8 +37,16 @@
 
     <div class="last-row">
       <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
-      <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
+      <btn class="table-ctrl" v-on:click="dialog['share'].visible = true"><i class="el-icon-share"></i> Share it</btn>
     </div>
+
+    <el-dialog :visible.sync="dialog['share'].visible">
+      <span slot="title">Embed this label guide on your website</span>
+      <el-input readonly type="textarea" :rows="15" v-model="dialog['share'].data.shareSnippet"></el-input>
+      <span slot="footer">
+        <btn @click="dialog['share'].visible = false">Cancel</btn>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -84,6 +92,14 @@
         'govTrans': 'govTrans',
         'envImpact': 'envImpact',
         'scoImpact': 'scoImpact'
+      },
+      dialog: {
+        'share': {
+          visible: false,
+          data: {
+            shareSnippet: '<<< TODO: Coming Soon! >>>'
+          }
+        }
       }
     }),
     created: function () {
