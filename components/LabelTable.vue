@@ -150,7 +150,7 @@
   }
 
   table th {
-    padding: 20px;
+    padding: 20px 10px;
     border-bottom: 1px solid #D9DADB;
   }
 
