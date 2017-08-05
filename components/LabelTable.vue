@@ -44,7 +44,7 @@
       <span slot="title">Embed this label guide on your website</span>
       <el-input readonly type="textarea" :rows="15" v-model="dialog['share'].data.shareSnippet"></el-input>
       <span slot="footer">
-        <btn @click="dialog['share'].visible = false">Cancel</btn>
+        <btn @click="dialog['share'].visible = false">Close</btn>
       </span>
     </el-dialog>
   </div>
