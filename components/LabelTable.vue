@@ -260,9 +260,9 @@
     border-right: 1px solid #D9DADB;
   }
 
-  /*table th:first-child {
+  table th:first-child {
     width: 40%;
-  }*/
+  }
 
   table td {
     padding: 20px;
