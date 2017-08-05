@@ -11,8 +11,8 @@
     <table>
       <thead>
         <tr>
-          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="column[0]" :key="column[1]"
-            :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">
+          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]"
+            :class="moColumnOrder(colPathMap[column[0]]) !== null ? 'mo-' + moColumnOrder(colPathMap[column[0]]) : ''">
             {{colNameMap[column[0]]}}
           </th>
         </tr>
@@ -64,17 +64,23 @@
       lang: 'English',
       columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
       selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
+      colNameMap: {
+        'label': 'Labels',
+        'govTrans': 'Governance& Transparency',
+        'envImpact': 'Environmental impact',
+        'scoImpact': 'Social impact'
+      },
       colValMap: {
         'label': row => row.label.name,
         'govTrans': row => row.govTrans,
         'envImpact': row => row.envImpact,
         'scoImpact': row => row.scoImpact
       },
-      colNameMap: {
-        'label': 'Labels',
-        'govTrans': 'Governance& Transparency',
-        'envImpact': 'Environmental impact',
-        'scoImpact': 'Social impact'
+      colPathMap: {
+        'label': 'label.name',
+        'govTrans': 'govTrans',
+        'envImpact': 'envImpact',
+        'scoImpact': 'scoImpact'
       }
     }),
     created: function () {
