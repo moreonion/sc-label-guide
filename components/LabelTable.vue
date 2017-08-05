@@ -122,8 +122,8 @@
   }
 
   .lang-select {
-    margin-right: 0px;
     float: right;
+    margin-right: 0px;
     max-width: 100px;
   }
 
