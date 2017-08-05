@@ -17,7 +17,7 @@
     </el-col>
     <el-col :xs="24" :sm="8">
       <span>How does the scoring work?</span><br>
-      <a>Background Information</a>
+      <a @click="onClick">Background Information</a>
     </el-col>
   </el-row>
 </template>
@@ -28,6 +28,11 @@ import EvalCircle from './EvalCircle'
 export default {
   components: {
     'eval-circle': EvalCircle
+  },
+  methods: {
+    onClick: function () {
+      this.$emit('click')
+    }
   }
 }
 </script>

@@ -32,7 +32,7 @@
       :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange">
     </el-pagination>
 
-    <table-legend></table-legend>
+    <table-legend @click="dialog['bgInfo'].visible = true"></table-legend>
 
     <div class="last-row">
       <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
@@ -52,6 +52,29 @@
     <el-dialog :visible.sync="dialog['info'].visible">
       <span slot="title">Criteria this label has</span>
       <pre>{{dialog['info'].props.value}}</pre>
+      <span slot="footer">
+        <btn @click="hideInfoDialog">Close</btn>
+      </span>
+    </el-dialog>
+
+    <!-- Bg Info Dialog -->
+    <el-dialog :visible.sync="dialog['bgInfo'].visible">
+      <span slot="title">How does the scoring work?</span>
+      <h1>Header</h1>
+      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+         tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+         vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+         no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
+         consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+         dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+        dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+        ipsum dolor sit amet.</p>
+      <h2>Subheader</h2>
+      <p>
+        Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus.
+
+        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+      </p>
       <span slot="footer">
         <btn @click="hideInfoDialog">Close</btn>
       </span>
@@ -116,6 +139,10 @@
           props: {
             value: null
           },
+          data: {}
+        },
+        'bgInfo': {
+          visible: false,
           data: {}
         },
         'share': {
