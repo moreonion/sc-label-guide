@@ -83,9 +83,12 @@
     <!-- Customize Display Dialog -->
     <el-dialog :visible.sync="dialog['customize'].visible">
       <span slot="title">Columns to show</span>
+      <el-checkbox-group v-model="dialog['customize'].data.columns" :min="1">
+        <el-checkbox class="checkbox" :key="column[1]" v-for="column in selectable" :label="column[0]">{{colNameMap[column[0]]}}</el-checkbox>
+      </el-checkbox-group>
       <span slot="footer">
         <el-button @click="dialog['customize'].visible = false">Close</el-button>
-        <el-button @click="dialog['customize'].visible = false">Apply</el-button>
+        <el-button @click="projectColumns(dialog['customize'].data.columns)" type="primary">Apply</el-button>
       </span>
     </el-dialog>
   </div>
@@ -113,6 +116,7 @@
       search: '',
       lang: 'English',
       columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
+      selectable: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
       selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
       colNameMap: {
         'label': 'Labels',
@@ -159,7 +163,10 @@
           }
         },
         'customize': {
-          visible: false
+          visible: false,
+          data: {
+            columns: []
+          }
         }
       }
     }),
@@ -167,6 +174,8 @@
       // Init table state
       this.moSetSelectState(this.selected)
       this.moSetLimit(this.limit)
+
+      this.selected.forEach(c => this.dialog['customize'].data.columns.push(c[0]))
     },
     methods: {
       pageChange: function (page) {
@@ -179,6 +188,10 @@
       hideInfoDialog: function () {
         this.dialog['info'].visible = false
         this.dialog['info'].props.value = null
+      },
+      projectColumns: function (cols) {
+        this.selected = this.selectable.filter(col => cols.find(c => c === col[0]) !== undefined)
+        this.dialog['customize'].visible = false
       }
     },
     computed: {
@@ -193,6 +206,9 @@
           this.moSetOffset(this.offset)
         },
         immediate: true
+      },
+      selected: function () {
+        this.moSetSelectState(this.selected)
       }
     }
   }
@@ -222,6 +238,7 @@
   }
 
   table {
+    width: 100%;
     border-spacing: 0px;
     border: 1px solid #D9DADB;
     margin-top: 15px;
@@ -243,9 +260,9 @@
     border-right: 1px solid #D9DADB;
   }
 
-  table th:first-child {
+  /*table th:first-child {
     width: 40%;
-  }
+  }*/
 
   table td {
     padding: 20px;
@@ -282,5 +299,11 @@
 
   .pointable {
     cursor: pointer;
+  }
+
+  .checkbox.el-checkbox {
+    display: block;
+    margin-left: 0px;
+    margin-bottom: 10px;
   }
 </style>
