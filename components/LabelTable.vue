@@ -1,120 +1,107 @@
 <template>
   <div class="cont">
-    <el-row :gutter="10">
-      <el-col :xs="8" :sm="4">
-        <btn class="table-ctrl">Filters</btn>
-      </el-col>
+    <div>
+      <btn class="table-ctrl">Filters</btn>
 
-      <el-col :xs="8" :sm="12">
-        <search-input :search.sync="search"></search-input>
-      </el-col>
+      <search-input class="search-input" :search.sync="search"></search-input>
 
-      <el-col :xs="8" :sm="{offset:2, span:6}">
-        <lang-select class="table-ctrl lang" :lang.sync="lang"></lang-select>
-      </el-col>
-    </el-row>
+      <lang-select class="lang-select" :lang.sync="lang"></lang-select>
+    </div>
 
-    <el-row>
-      <el-col :span="24">
-        <table>
-          <thead>
-            <tr>
-              <th v-mo-toggle-orderby="column[0]" :key="column[1]" v-for="column in moSelectedColumns"
-                :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">{{column[0]}}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in moDisplayed">
-              <td  v-for="column in moSelectedColumns">
-                {{colMap[column[0]](row)}}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </el-col>
-    </el-row>
+    <table>
+      <thead>
+        <tr>
+          <th v-mo-toggle-orderby="column[0]" :key="column[1]" v-for="column in moSelectedColumns"
+            :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">
+            {{colNameMap[column[0]]}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in moDisplayed">
+          <td  v-for="column in moSelectedColumns">
+            {{colValMap[column[0]](row)}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
 
-    <el-row>
-      <el-col :span="24">
-        <el-pagination small layout="prev, pager, next" :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange"></el-pagination>
-      </el-col>
-    </el-row>
+    <el-pagination small layout="prev, pager, next"
+      :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange">
+    </el-pagination>
 
-    <el-row>
-      <el-col :span="24">
-        <table-legend></table-legend>
-      </el-col>
-    </el-row>
+    <table-legend></table-legend>
 
-    <el-row class="last-row">
-      <el-col :xs="14" :sm="9">
-        <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
-      </el-col>
-      <el-col :xs="10" :sm="8">
-        <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
-      </el-col>
-    </el-row>
+    <div class="last-row">
+      <btn class="table-ctrl"><i class="el-icon-setting"></i> Customize Display</btn>
+      <btn class="table-ctrl"><i class="el-icon-share"></i> Share it</btn>
+    </div>
   </div>
 </template>
 
 <script>
-import {moLocalTable} from 'mo-vue-table'
+  import {moLocalTable} from 'mo-vue-table'
 
-import Btn from './Btn.vue'
-import SearchInput from './SearchInput.vue'
-import LangSelect from './LangSelect.vue'
-import EvalCircle from './EvalCircle.vue'
-import TableLegend from './TableLegend.vue'
+  import Btn from './Btn.vue'
+  import SearchInput from './SearchInput.vue'
+  import LangSelect from './LangSelect.vue'
+  import EvalCircle from './EvalCircle.vue'
+  import TableLegend from './TableLegend.vue'
 
-export default {
-  mixins: [moLocalTable],
-  components: {
-    'btn': Btn,
-    'search-input': SearchInput,
-    'lang-select': LangSelect,
-    'eval-circle': EvalCircle,
-    'table-legend': TableLegend
-  },
-  data: () => ({
-    limit: 5,
-    page: 1,
-    search: '',
-    lang: 'English',
-    columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
-    selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
-    colMap: {
-      'label': row => row.label.name,
-      'govTrans': row => row.govTrans,
-      'envImpact': row => row.envImpact,
-      'scoImpact': row => row.scoImpact
-    }
-  }),
-  created: function () {
-    // Init table state
-    this.moSetSelectState(this.selected)
-    this.moSetLimit(this.limit)
-  },
-  methods: {
-    pageChange: function (page) {
-      this.page = page
-    }
-  },
-  computed: {
-    offset: function () {
-      return (this.page - 1) * this.limit
-    }
-  },
-  watch: {
-    offset: {
-      handler: function () {
-        console.log('Set offset')
-        this.moSetOffset(this.offset)
+  export default {
+    mixins: [moLocalTable],
+    components: {
+      'btn': Btn,
+      'search-input': SearchInput,
+      'lang-select': LangSelect,
+      'eval-circle': EvalCircle,
+      'table-legend': TableLegend
+    },
+    data: () => ({
+      limit: 5,
+      page: 1,
+      search: '',
+      lang: 'English',
+      columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
+      selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
+      colValMap: {
+        'label': row => row.label.name,
+        'govTrans': row => row.govTrans,
+        'envImpact': row => row.envImpact,
+        'scoImpact': row => row.scoImpact
       },
-      immediate: true
+      colNameMap: {
+        'label': 'Labels',
+        'govTrans': 'Governance& Transparency',
+        'envImpact': 'Environmental impact',
+        'scoImpact': 'Social impact'
+      }
+    }),
+    created: function () {
+      // Init table state
+      this.moSetSelectState(this.selected)
+      this.moSetLimit(this.limit)
+    },
+    methods: {
+      pageChange: function (page) {
+        this.page = page
+      }
+    },
+    computed: {
+      offset: function () {
+        return (this.page - 1) * this.limit
+      }
+    },
+    watch: {
+      offset: {
+        handler: function () {
+          console.log('Set offset')
+          this.moSetOffset(this.offset)
+        },
+        immediate: true
+      }
     }
   }
-}
 </script>
 
 <style>
@@ -124,12 +111,20 @@ export default {
     margin-top: 20px;
   }
 
-  .table-ctrl {
-    margin-right: 10px;
+  .el-button, .el-input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
   }
 
-  .lang {
+  .search-input {
+    max-width: 200px;
+  }
+
+  .lang-select {
     margin-right: 0px;
+    float: right;
+    max-width: 100px;
   }
 
   table {
@@ -155,7 +150,7 @@ export default {
   }
 
   table th:first-child {
-    width: 50%;
+    width: 40%;
   }
 
   table td {
