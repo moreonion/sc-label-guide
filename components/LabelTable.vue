@@ -20,9 +20,8 @@
       <tbody>
         <tr v-for="row in moDisplayed">
           <td v-for="column in moSelectedColumns">
-            <eval-circle v-if="colValMap[column[0]](row) >= 0 && colValMap[column[0]](row) <= 3"
-              :value="colValMap[column[0]](row)">
-            </eval-circle>
+            <eval-circle v-if="colIsRating[column[0]]" :value="colValMap[column[0]](row)"></eval-circle>
+            <span class="pointable" v-else-if="colHasInfo[column[0]]" @click="showInfoDialog(row, column[0])">{{colValMap[column[0]](row)}}</span>
             <span v-else>{{colValMap[column[0]](row)}}</span>
           </td>
         </tr>
@@ -40,11 +39,21 @@
       <btn class="table-ctrl" v-on:click="dialog['share'].visible = true"><i class="el-icon-share"></i> Share it</btn>
     </div>
 
+    <!-- Share Dialog -->
     <el-dialog :visible.sync="dialog['share'].visible">
       <span slot="title">Embed this label guide on your website</span>
       <el-input readonly type="textarea" :rows="15" v-model="dialog['share'].data.shareSnippet"></el-input>
       <span slot="footer">
         <btn @click="dialog['share'].visible = false">Close</btn>
+      </span>
+    </el-dialog>
+
+    <!-- Info Dialog -->
+    <el-dialog :visible.sync="dialog['info'].visible">
+      <span slot="title">Criteria this label has</span>
+      <pre>{{dialog['info'].props.value}}</pre>
+      <span slot="footer">
+        <btn @click="hideInfoDialog">Close</btn>
       </span>
     </el-dialog>
   </div>
@@ -93,7 +102,22 @@
         'envImpact': 'envImpact',
         'scoImpact': 'scoImpact'
       },
+      colHasInfo: {
+        'label': true
+      },
+      colIsRating: {
+        'govTrans': true,
+        'envImpact': true,
+        'scoImpact': true
+      },
       dialog: {
+        'info': {
+          visible: false,
+          props: {
+            value: null
+          },
+          data: {}
+        },
         'share': {
           visible: false,
           data: {
@@ -110,6 +134,14 @@
     methods: {
       pageChange: function (page) {
         this.page = page
+      },
+      showInfoDialog: function (row, col) {
+        this.dialog['info'].props.value = {row, col}
+        this.dialog['info'].visible = true
+      },
+      hideInfoDialog: function () {
+        this.dialog['info'].visible = false
+        this.dialog['info'].props.value = null
       }
     },
     computed: {
@@ -209,5 +241,9 @@
 
   .last-row {
     padding-top: 10px;
+  }
+
+  .pointable {
+    cursor: pointer;
   }
 </style>
