@@ -16,7 +16,12 @@
           <el-option v-for="(op, index) in ops" :key="index" :label="op" :value="op"></el-option>
         </el-select>
 
-        <el-input style="width: 100px" placeholder="Value" v-model="filter.right"></el-input>
+        <el-select v-if="isRating(filter.left)" v-model="filter.right" placeholder="Value">
+          <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
+            <eval-circle :value="rating"></eval-circle>
+          </el-option>
+        </el-select>
+        <el-input style="width: 100px" placeholder="Value" v-model="filter.right" v-else></el-input>
 
         <el-button @click="filters.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
       </div>
@@ -37,9 +42,20 @@
 <script>
   import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 
+  import EvalCircle from '../EvalCircle.vue'
+
+  const getOperator = query => {
+    for (const op in query) {
+      return op
+    }
+  }
+
   export default {
     mixins: [moDialogVisibility],
-    props: ['visible', 'query', 'selectedColumns', 'colNameMap'],
+    components: {
+      'eval-circle': EvalCircle
+    },
+    props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colSpec'],
     data: () => ({
       ops: ['is', '>', '>=', '<', '<='],
       opMap: {
@@ -60,14 +76,14 @@
     }),
     created: function () {
       // Query -> Filters array
-      for (let c in this.query) {
-        // TODO: allow arb operators
-        this.filters.push({left: c, op: this.opMapRev['$eq'], right: this.query[c]['$eq']})
+      for (const field in this.query) {
+        const op = getOperator(this.query[field])
+        this.filters.push({left: field, op: this.opMapRev[op], right: this.query[field][op]})
       }
     },
     methods: {
       addFilter: function () {
-        this.filters.push({left: this.selectedColumns[0][0], op: 'is', right: ''})
+        this.filters.push({left: this.selectedColumns[0][0], op: this.ops[0], right: null})
       },
       mapFilters: function () {
         // Filters array -> Query
@@ -79,6 +95,12 @@
       onClose: function () {
         this.dismiss()
         this.$emit('close', this.mapFilters())
+      },
+      isRating: function (col) {
+        return this.colSpec[col] === 'rating'
+      },
+      isText: function (col) {
+        return this.colSpec[col] === 'text'
       }
     }
   }
@@ -101,7 +123,7 @@
   }
 
   .opSelect {
-    width: 60px;
+    width: 70px;
     margin-right: 5px;
   }
 </style>
