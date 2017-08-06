@@ -34,7 +34,7 @@
     </el-pagination>
 
     <table-legend @click="dialog['bgInfo'].visible = true"></table-legend>
-{{shareDialogVisible}}
+
     <div class="last-row">
       <el-button @click="dialog['customize'].visible = true">Customize Display</el-button>
       <el-button @click="shareDialogVisible = true">Share it</el-button>
@@ -44,13 +44,7 @@
     <share-dialog :visible.sync="shareDialogVisible"></share-dialog>
 
     <!-- Info Dialog -->
-    <el-dialog :visible.sync="dialog['info'].visible">
-      <span slot="title">Criteria this label has</span>
-      <pre>{{dialog['info'].props.value}}</pre>
-      <span slot="footer">
-        <el-button @click="hideInfoDialog">Close</el-button>
-      </span>
-    </el-dialog>
+    <info-dialog :visible.sync="infoDialogVisible" :label="infoDialogInput"></info-dialog>
 
     <!-- Bg Info Dialog -->
     <el-dialog :visible.sync="dialog['bgInfo'].visible">
@@ -103,6 +97,7 @@
   import TableLegend from './TableLegend.vue'
   import FiltersDialog from './FiltersDialog/FiltersDialog.vue'
   import ShareDialog from './ShareDialog/ShareDialog.vue'
+  import InfoDialog from './InfoDialog/InfoDialog.vue'
 
   export default {
     mixins: [moLocalTable],
@@ -112,7 +107,8 @@
       'eval-circle': EvalCircle,
       'table-legend': TableLegend,
       'filters-dialog': FiltersDialog,
-      'share-dialog': ShareDialog
+      'share-dialog': ShareDialog,
+      'info-dialog': InfoDialog
     },
     data: () => ({
       limit: 5,
@@ -151,14 +147,9 @@
       },
       filtersDialogVisible: false,
       shareDialogVisible: false,
+      infoDialogVisible: false,
+      infoDialogInput: {},
       dialog: {
-        'info': {
-          visible: false,
-          props: {
-            value: null
-          },
-          data: {}
-        },
         'bgInfo': {
           visible: false,
           data: {}
@@ -183,12 +174,8 @@
         this.page = page
       },
       showInfoDialog: function (row, col) {
-        this.dialog['info'].props.value = {row, col}
-        this.dialog['info'].visible = true
-      },
-      hideInfoDialog: function () {
-        this.dialog['info'].visible = false
-        this.dialog['info'].props.value = null
+        this.infoDialogInput = {row, col}
+        this.infoDialogVisible = true
       },
       projectColumns: function (cols) {
         this.selected = this.selectable.filter(col => cols.find(c => c === col[0]) !== undefined)
