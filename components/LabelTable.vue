@@ -3,7 +3,7 @@
     <div>
       <el-button @click="filtersDialogVisible = true">Filters</el-button>
 
-      <el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input>
+      <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="serializeSearch"></el-input>
 
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
@@ -185,6 +185,9 @@
       }, 200),
       pageChange: function (page) {
         this.routerPush(this.assembleQuery({page}))
+      },
+      serializeSearch: function () {
+        this.routerPush(this.assembleQuery({search: this.search}))
       }
     },
     computed: {
