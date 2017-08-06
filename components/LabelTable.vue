@@ -40,8 +40,10 @@
       <el-button @click="shareDialogVisible = true">Share it</el-button>
     </div>
 
-    <!-- Share Dialog -->
-    <share-dialog :visible.sync="shareDialogVisible"></share-dialog>
+    <!-- Filters Dialog -->
+    <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
+      :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colSpec="colSpec">
+    </filters-dialog>
 
     <!-- Info Dialog -->
     <info-dialog :visible.sync="infoDialogVisible" :label="infoDialogInput"></info-dialog>
@@ -49,20 +51,17 @@
     <!-- Bg Info Dialog -->
     <bginfo-dialog :visible.sync="bginfoDialogVisible"></bginfo-dialog>
 
+    <!-- Share Dialog -->
+    <share-dialog :visible.sync="shareDialogVisible"></share-dialog>
+
     <!-- Customize Display Dialog -->
     <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
       :selectableColumns="selectable" :selectedColumns="selected" :colNameMap="colNameMap">
     </customize-dialog>
-
-    <!-- Filters Dialog -->
-    <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
-      :query="query" :selectedColumns="selected" :colNameMap="colNameMap" :colSpec="colSpec">
-    </filters-dialog>
   </div>
 </template>
 
 <script>
-  import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
   import LangSelect from './LangSelect.vue'
@@ -87,73 +86,62 @@
       'bginfo-dialog': BgInfoDialog,
       'customize-dialog': CustomizeDialog
     },
-    data: () => ({
-      limit: 5,
-      page: 1,
-      search: '',
-      filterQuery: {},
-      lang: 'English',
-      columns: ['Label', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
-      selectable: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
-      selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
-      colNameMap: {
-        'label': 'Label',
-        'govTrans': 'Governance& Transparency',
-        'envImpact': 'Environmental impact',
-        'scoImpact': 'Social impact'
-      },
-      colValMap: {
-        'label': row => row.label.name,
-        'govTrans': row => row.govTrans,
-        'envImpact': row => row.envImpact,
-        'scoImpact': row => row.scoImpact
-      },
-      colPathMap: {
-        'label': 'label.name',
-        'govTrans': 'govTrans',
-        'envImpact': 'envImpact',
-        'scoImpact': 'scoImpact'
-      },
-      colHasInfo: {
-        'label': true
-      },
-      colIsRating: {
-        'govTrans': true,
-        'envImpact': true,
-        'scoImpact': true
-      },
-      colSpec: {
-        'label': 'text',
-        'govTrans': 'rating',
-        'envImpact': 'rating',
-        'scoImpact': 'rating'
-      },
-      filtersDialogVisible: false,
-      shareDialogVisible: false,
-      infoDialogVisible: false,
-      infoDialogInput: {},
-      bginfoDialogVisible: false,
-      customizeDialogVisible: false
-    }),
-    created: function () {
+    data () {
       const query = this.$route.query
-      console.log(`====> INIT : ${JSON.stringify(query)}`)
-
+      const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
+      let selected = selectable
       if (query.select !== undefined) {
         const cols = query.select.split(',')
-        this.selected = this.selectable.filter(s => cols.find(c => c === s[0]))
+        selected = selectable.filter(s => cols.find(c => c === s[0]))
       }
 
-      if (query.search !== undefined) {
-        this.search = query.search
-      }
-
-      if (query.page !== undefined) {
-        this.page = parseInt(query.page)
-      }
-
-      if (query.limit !== undefined) {
-        this.limit = parseInt(query.limit)
+      return {
+        limit: query.limit === undefined ? 5 : parseInt(query.limit),
+        page: query.page === undefined ? 1 : parseInt(query.page),
+        search: query.search === undefined ? '' : query.search,
+        selectable,
+        selected,
+        filterQuery: {},
+        lang: 'English',
+        columns: ['Label', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
+        colNameMap: {
+          'label': 'Label',
+          'govTrans': 'Governance& Transparency',
+          'envImpact': 'Environmental impact',
+          'scoImpact': 'Social impact'
+        },
+        colValMap: {
+          'label': row => row.label.name,
+          'govTrans': row => row.govTrans,
+          'envImpact': row => row.envImpact,
+          'scoImpact': row => row.scoImpact
+        },
+        colPathMap: {
+          'label': 'label.name',
+          'govTrans': 'govTrans',
+          'envImpact': 'envImpact',
+          'scoImpact': 'scoImpact'
+        },
+        colHasInfo: {
+          'label': true
+        },
+        colIsRating: {
+          'govTrans': true,
+          'envImpact': true,
+          'scoImpact': true
+        },
+        colSpec: {
+          'label': 'text',
+          'govTrans': 'rating',
+          'envImpact': 'rating',
+          'scoImpact': 'rating'
+        },
+        filtersDialogVisible: false,
+        shareDialogVisible: false,
+        infoDialogVisible: false,
+        infoDialogInput: {},
+        bginfoDialogVisible: false,
+        customizeDialogVisible: false
       }
     },
     methods: {
@@ -166,9 +154,6 @@
       },
       customizeDialogResult: function (projected) {
         this.selected = projected
-      },
-      execQuery: function () {
-        this.moSetWhereState(this.query)
       }
     },
     computed: {
@@ -185,7 +170,7 @@
           }
         }
 
-        return Object.assign({}, this.filterQuery, this.search.length > 0 ? searchQuery : {})
+        return Object.assign({}, this.search.length > 0 ? searchQuery : {}, this.filterQuery)
       }
     },
     watch: {
@@ -209,9 +194,12 @@
         },
         immediate: true
       },
-      query: debounce(function () {
-        this.execQuery()
-      }, 200)
+      query: {
+        handler: function () {
+          this.moSetWhereState(this.query)
+        },
+        immediate: true
+      }
     }
   }
 </script>
