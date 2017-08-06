@@ -12,13 +12,13 @@
           </el-option>
         </el-select>
 
-        <el-select class="opSelect" v-model="filter.op" placeholder="Operator" disabled>
+        <el-select class="opSelect" v-model="filter.op" placeholder="Operator">
           <el-option v-for="(op, index) in ops" :key="index" :label="op" :value="op"></el-option>
         </el-select>
 
-        <el-input class="rightInput" placeholder="Value" v-model="filter.right"></el-input>
+        <el-input style="width: 100px" placeholder="Value" v-model="filter.right"></el-input>
 
-        <el-button @click="filters.splice(index, 1)"><i class="el-icon-close"></i></el-button>
+        <el-button @click="filters.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
       </div>
       <!-- BUG: v-else not working here -->
       <div v-if="filters.length === 0" class="emptyState">
@@ -35,41 +35,53 @@
 </template>
 
 <script>
-import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
+  import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 
-export default {
-  mixins: [moDialogVisibility],
-  props: ['visible', 'query', 'selectedColumns', 'colNameMap'],
-  data: () => ({
-    ops: ['is'],
-    opMap: {'is': '$eq'},
-    opMapRev: {'$eq': 'is'},
-    filters: []
-  }),
-  created: function () {
-    // Query -> Filters array
-    for (let c in this.query) {
-      // TODO: allow arb operators
-      this.filters.push({left: c, op: this.opMapRev['$eq'], right: this.query[c]['$eq']})
-    }
-  },
-  methods: {
-    addFilter: function () {
-      this.filters.push({left: this.selectedColumns[0][0], op: 'is', right: ''})
+  export default {
+    mixins: [moDialogVisibility],
+    props: ['visible', 'query', 'selectedColumns', 'colNameMap'],
+    data: () => ({
+      ops: ['is', '>', '>=', '<', '<='],
+      opMap: {
+        'is': '$eq',
+        '>': '$gt',
+        '>=': '$gte',
+        '<': '$lt',
+        '<=': '$lte'
+      },
+      opMapRev: {
+        '$eq': 'is',
+        '$gt': '>',
+        '$gte': '>=',
+        '$lt': '<',
+        '$lte': '<='
+      },
+      filters: []
+    }),
+    created: function () {
+      // Query -> Filters array
+      for (let c in this.query) {
+        // TODO: allow arb operators
+        this.filters.push({left: c, op: this.opMapRev['$eq'], right: this.query[c]['$eq']})
+      }
     },
-    mapFilters: function () {
-      // Filters array -> Query
-      return this.filters.reduce((accum, filter) => {
-        accum[filter.left] = {[this.opMap[filter.op]]: parseInt(filter.right)}
-        return accum
-      }, {})
-    },
-    onClose: function () {
-      this.dismiss()
-      this.$emit('close', this.mapFilters())
+    methods: {
+      addFilter: function () {
+        this.filters.push({left: this.selectedColumns[0][0], op: 'is', right: ''})
+      },
+      mapFilters: function () {
+        // Filters array -> Query
+        return this.filters.reduce((accum, filter) => {
+          accum[filter.left] = {[this.opMap[filter.op]]: parseInt(filter.right)}
+          return accum
+        }, {})
+      },
+      onClose: function () {
+        this.dismiss()
+        this.$emit('close', this.mapFilters())
+      }
     }
   }
-}
 </script>
 
 <style>
@@ -88,12 +100,8 @@ export default {
     margin-right: 5px;
   }
 
-  .rightInput.el-input {
-    width: 150px;
-  }
-
   .opSelect {
-    width: 100px;
+    width: 60px;
     margin-right: 5px;
   }
 </style>
