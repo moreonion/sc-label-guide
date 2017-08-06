@@ -5,6 +5,7 @@
   "description": "More Onion - Label Guide",
   "author": "Onur Dogangönül <contact@dinony.com>",
   "dependencies": {
+    "axios": "^0.16.2",
     "element-ui": "^1.4.1",
     "lodash.debounce": "^4.0.8",
     "mo-vue-table": ">= 0.1.1 < 1",

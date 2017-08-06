@@ -1,0 +1,1802 @@
+[
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 1,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 1,
+    "envImpact": 3,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 3
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 2,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 1,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "Fairtrade",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 3,
+    "scoImpact": 1
+  },
+  {
+    "label": {
+      "name": "RSPO",
+      "img": null
+    },
+    "govTrans": 2,
+    "envImpact": 2,
+    "scoImpact": 2
+  },
+  {
+    "label": {
+      "name": "EU Organic",
+      "img": null
+    },
+    "govTrans": 3,
+    "envImpact": 3,
+    "scoImpact": 1
+  }
+]

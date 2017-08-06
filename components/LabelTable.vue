@@ -187,7 +187,7 @@
         this.routerPush(this.assembleQuery({page}))
       },
       serializeSearch: function () {
-        this.routerPush(this.assembleQuery({search: this.search}))
+        this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       }
     },
     computed: {
