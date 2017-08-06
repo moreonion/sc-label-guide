@@ -3,7 +3,7 @@
     <div>
       <el-button @click="filtersDialogVisible = true">Filters</el-button>
 
-      <el-input class="search-input" icon="search" v-model="search"></el-input>
+      <el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input>
 
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
@@ -30,7 +30,8 @@
     <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div>
 
     <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
-     :total="moQueried.length" :current-page.sync="page" :page-size="limit">
+     :total="moQueried.length" :current-page="page" :page-size="limit"
+     @current-change="pageChange">
     </el-pagination>
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
@@ -62,6 +63,7 @@
 </template>
 
 <script>
+  import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
   import LangSelect from './LangSelect.vue'
@@ -145,6 +147,29 @@
       }
     },
     methods: {
+      routerPush: function (query) {
+        this.$router.push({name: 'index', query})
+      },
+      serializeArray: function (arr, f) {
+        return arr.map(f).join(',')
+      },
+      serializeColumns: function (cols) {
+        return this.serializeArray(cols, c => c[0])
+      },
+      assembleQuery: function (query) {
+        const prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
+          if (this[val]) {
+            accum[val] = this[val]
+          }
+          return accum
+        }, {})
+
+        if (this.selected.length !== this.selectable.length) {
+          prepQuery.select = this.serializeColumns(this.selected)
+        }
+
+        return Object.assign({}, prepQuery, query)
+      },
       showInfoDialog: function (row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
@@ -153,7 +178,13 @@
         this.filterQuery = newQuery
       },
       customizeDialogResult: function (projected) {
-        this.selected = projected
+        this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}))
+      },
+      searchChange: debounce(function (search) {
+        this.search = search
+      }, 200),
+      pageChange: function (page) {
+        this.routerPush(this.assembleQuery({page}))
       }
     },
     computed: {
@@ -188,9 +219,7 @@
       },
       selected: {
         handler: function () {
-          if (this.selected !== null) {
-            this.moSetSelectState(this.selected)
-          }
+          this.moSetSelectState(this.selected)
         },
         immediate: true
       },
