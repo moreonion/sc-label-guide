@@ -34,20 +34,14 @@
     </el-pagination>
 
     <table-legend @click="dialog['bgInfo'].visible = true"></table-legend>
-
+{{shareDialogVisible}}
     <div class="last-row">
-      <el-button @click="dialog['customize'].visible = true"><i class="el-icon-setting"></i> Customize Display</el-button>
-      <el-button v-on:click="dialog['share'].visible = true"><i class="el-icon-share"></i> Share it</el-button>
+      <el-button @click="dialog['customize'].visible = true">Customize Display</el-button>
+      <el-button @click="shareDialogVisible = true">Share it</el-button>
     </div>
 
     <!-- Share Dialog -->
-    <el-dialog :visible.sync="dialog['share'].visible">
-      <span slot="title">Embed this label guide on your website</span>
-      <el-input readonly type="textarea" :rows="15" v-model="dialog['share'].data.shareSnippet"></el-input>
-      <span slot="footer">
-        <el-button @click="dialog['share'].visible = false">Close</el-button>
-      </span>
-    </el-dialog>
+    <share-dialog :visible.sync="shareDialogVisible"></share-dialog>
 
     <!-- Info Dialog -->
     <el-dialog :visible.sync="dialog['info'].visible">
@@ -108,6 +102,7 @@
   import EvalCircle from './EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
   import FiltersDialog from './FiltersDialog/FiltersDialog.vue'
+  import ShareDialog from './ShareDialog/ShareDialog.vue'
 
   export default {
     mixins: [moLocalTable],
@@ -116,7 +111,8 @@
       'lang-select': LangSelect,
       'eval-circle': EvalCircle,
       'table-legend': TableLegend,
-      'filters-dialog': FiltersDialog
+      'filters-dialog': FiltersDialog,
+      'share-dialog': ShareDialog
     },
     data: () => ({
       limit: 5,
@@ -154,6 +150,7 @@
         'scoImpact': true
       },
       filtersDialogVisible: false,
+      shareDialogVisible: false,
       dialog: {
         'info': {
           visible: false,
@@ -165,12 +162,6 @@
         'bgInfo': {
           visible: false,
           data: {}
-        },
-        'share': {
-          visible: false,
-          data: {
-            shareSnippet: '<<< TODO: Coming Soon! >>>'
-          }
         },
         'customize': {
           visible: false,

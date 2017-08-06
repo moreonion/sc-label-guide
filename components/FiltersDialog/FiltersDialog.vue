@@ -35,7 +35,10 @@
 </template>
 
 <script>
+import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
+
 export default {
+  mixins: [moDialogVisibility],
   props: ['visible', 'query', 'selectedColumns', 'colNameMap'],
   data: () => ({
     ops: ['is'],
@@ -60,15 +63,6 @@ export default {
         accum[filter.left] = {[this.opMap[filter.op]]: parseInt(filter.right)}
         return accum
       }, {})
-    },
-    updateVisible: function (val) {
-      this.emitUpdate(val)
-    },
-    dismiss: function () {
-      this.emitUpdate(false)
-    },
-    emitUpdate: function (val) {
-      this.$emit('update:visible', val)
     },
     onClose: function () {
       this.dismiss()
