@@ -27,7 +27,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="noResults" v-else>No results found for specified filters!</div>
+    <div class="noResults" v-else>No results found for specified filters or search term!</div>
 
     <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
       :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange">
