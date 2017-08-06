@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <table v-if="moDisplayed.length > 0">
+    <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
           <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]"
@@ -27,10 +27,10 @@
         </tr>
       </tbody>
     </table>
-    <div class="noResults" v-else>No results found for specified filters or search term!</div>
+    <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div>
 
     <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
-      :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange">
+     :total="moQueried.length" :current-page.sync="page" :page-size="limit">
     </el-pagination>
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
@@ -144,14 +144,19 @@
         this.selected = this.selectable.filter(s => cols.find(c => c === s[0]))
       }
 
-      // Init table state
-      this.moSetSelectState(this.selected)
-      this.moSetLimit(this.limit)
+      if (query.search !== undefined) {
+        this.search = query.search
+      }
+
+      if (query.page !== undefined) {
+        this.page = parseInt(query.page)
+      }
+
+      if (query.limit !== undefined) {
+        this.limit = parseInt(query.limit)
+      }
     },
     methods: {
-      pageChange: function (page) {
-        this.page = page
-      },
       showInfoDialog: function (row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
@@ -161,6 +166,9 @@
       },
       customizeDialogResult: function (projected) {
         this.selected = projected
+      },
+      execQuery: function () {
+        this.moSetWhereState(this.query)
       }
     },
     computed: {
@@ -187,11 +195,22 @@
         },
         immediate: true
       },
-      selected: function () {
-        this.moSetSelectState(this.selected)
+      limit: {
+        handler: function () {
+          this.moSetLimit(this.limit)
+        },
+        immediate: true
+      },
+      selected: {
+        handler: function () {
+          if (this.selected !== null) {
+            this.moSetSelectState(this.selected)
+          }
+        },
+        immediate: true
       },
       query: debounce(function () {
-        this.moSetWhereState(this.query)
+        this.execQuery()
       }, 200)
     }
   }
