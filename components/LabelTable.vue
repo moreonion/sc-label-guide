@@ -152,7 +152,7 @@
       offset: function () {
         return (this.page - 1) * this.limit
       },
-      query: function() {
+      query: function () {
         // Perform case insenstive search on label name
         const searchQuery = {
           'label.name': {
