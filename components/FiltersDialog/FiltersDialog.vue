@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="visible" @close="onClose" size="large">
+  <el-dialog :visible="visible" @update:visible="updateVisible" @close="onClose" size="large">
     <span slot="title">Filters</span>
 
     <div>
@@ -61,8 +61,14 @@ export default {
         return accum
       }, {})
     },
+    updateVisible: function (val) {
+      this.emitUpdate(val)
+    },
     dismiss: function () {
-      this.$emit('update:visible', false)
+      this.emitUpdate(false)
+    },
+    emitUpdate: function (val) {
+      this.$emit('update:visible', val)
     },
     onClose: function () {
       this.dismiss()
