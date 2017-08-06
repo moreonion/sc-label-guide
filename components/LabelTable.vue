@@ -3,7 +3,7 @@
     <div>
       <el-button @click="filtersDialogVisible = true">Filters</el-button>
 
-      <search-input class="search-input" :search.sync="search"></search-input>
+      <el-input class="search-input" icon="search" v-model="search"></el-input>
 
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
@@ -64,10 +64,10 @@
 <script>
   import {moLocalTable} from 'mo-vue-table'
 
-  import SearchInput from './SearchInput.vue'
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
+
   import FiltersDialog from './FiltersDialog/FiltersDialog.vue'
   import ShareDialog from './ShareDialog/ShareDialog.vue'
   import InfoDialog from './InfoDialog/InfoDialog.vue'
@@ -77,7 +77,6 @@
   export default {
     mixins: [moLocalTable],
     components: {
-      'search-input': SearchInput,
       'lang-select': LangSelect,
       'eval-circle': EvalCircle,
       'table-legend': TableLegend,
@@ -91,13 +90,13 @@
       limit: 5,
       page: 1,
       search: '',
-      query: {},
+      filterQuery: {},
       lang: 'English',
-      columns: ['Labels', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
+      columns: ['Label', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
       selectable: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
       selected: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]],
       colNameMap: {
-        'label': 'Labels',
+        'label': 'Label',
         'govTrans': 'Governance& Transparency',
         'envImpact': 'Environmental impact',
         'scoImpact': 'Social impact'
@@ -143,7 +142,7 @@
         this.infoDialogVisible = true
       },
       filtersDialogResult: function (newQuery) {
-        this.query = newQuery
+        this.filterQuery = newQuery
       },
       customizeDialogResult: function (projected) {
         this.selected = projected
@@ -152,6 +151,18 @@
     computed: {
       offset: function () {
         return (this.page - 1) * this.limit
+      },
+      query: function() {
+        // Perform case insenstive search on label name
+        const searchQuery = {
+          'label.name': {
+            $text: {
+              $search: this.search
+            }
+          }
+        }
+
+        return Object.assign({}, this.filterQuery, this.search.length > 0 ? searchQuery : {})
       }
     },
     watch: {
