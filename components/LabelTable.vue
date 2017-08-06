@@ -56,7 +56,7 @@
 
     <!-- Filters Dialog -->
     <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
-      :query="query" :selectedColumns="selected" :colNameMap="colNameMap">
+      :query="query" :selectedColumns="selected" :colNameMap="colNameMap" :colSpec="colSpec">
     </filters-dialog>
   </div>
 </template>
@@ -121,6 +121,12 @@
         'govTrans': true,
         'envImpact': true,
         'scoImpact': true
+      },
+      colSpec: {
+        'label': 'text',
+        'govTrans': 'rating',
+        'envImpact': 'rating',
+        'scoImpact': 'rating'
       },
       filtersDialogVisible: false,
       shareDialogVisible: false,
