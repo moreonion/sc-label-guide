@@ -136,6 +136,14 @@
       customizeDialogVisible: false
     }),
     created: function () {
+      const query = this.$route.query
+      console.log(`====> INIT : ${JSON.stringify(query)}`)
+
+      if (query.select !== undefined) {
+        const cols = query.select.split(',')
+        this.selected = this.selectable.filter(s => cols.find(c => c === s[0]))
+      }
+
       // Init table state
       this.moSetSelectState(this.selected)
       this.moSetLimit(this.limit)
