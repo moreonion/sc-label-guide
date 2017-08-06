@@ -36,7 +36,7 @@
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
 
     <div class="last-row">
-      <el-button @click="dialog['customize'].visible = true">Customize Display</el-button>
+      <el-button @click="customizeDialogVisible = true">Customize Display</el-button>
       <el-button @click="shareDialogVisible = true">Share it</el-button>
     </div>
 
@@ -50,16 +50,9 @@
     <bginfo-dialog :visible.sync="bginfoDialogVisible"></bginfo-dialog>
 
     <!-- Customize Display Dialog -->
-    <el-dialog :visible.sync="dialog['customize'].visible">
-      <span slot="title">Columns to show</span>
-      <el-checkbox-group v-model="dialog['customize'].data.columns" :min="1">
-        <el-checkbox class="checkbox" :key="column[1]" v-for="column in selectable" :label="column[0]">{{colNameMap[column[0]]}}</el-checkbox>
-      </el-checkbox-group>
-      <span slot="footer">
-        <el-button @click="dialog['customize'].visible = false">Close</el-button>
-        <el-button @click="projectColumns(dialog['customize'].data.columns)" type="primary">Apply</el-button>
-      </span>
-    </el-dialog>
+    <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
+      :selectableColumns="selectable" :selectedColumns="selected" :colNameMap="colNameMap">
+    </customize-dialog>
 
     <!-- Filters Dialog -->
     <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
@@ -79,6 +72,7 @@
   import ShareDialog from './ShareDialog/ShareDialog.vue'
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
+  import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
 
   export default {
     mixins: [moLocalTable],
@@ -90,7 +84,8 @@
       'filters-dialog': FiltersDialog,
       'share-dialog': ShareDialog,
       'info-dialog': InfoDialog,
-      'bginfo-dialog': BgInfoDialog
+      'bginfo-dialog': BgInfoDialog,
+      'customize-dialog': CustomizeDialog
     },
     data: () => ({
       limit: 5,
@@ -132,21 +127,12 @@
       infoDialogVisible: false,
       infoDialogInput: {},
       bginfoDialogVisible: false,
-      dialog: {
-        'customize': {
-          visible: false,
-          data: {
-            columns: []
-          }
-        }
-      }
+      customizeDialogVisible: false
     }),
     created: function () {
       // Init table state
       this.moSetSelectState(this.selected)
       this.moSetLimit(this.limit)
-
-      this.selected.forEach(c => this.dialog['customize'].data.columns.push(c[0]))
     },
     methods: {
       pageChange: function (page) {
@@ -156,12 +142,11 @@
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
       },
-      projectColumns: function (cols) {
-        this.selected = this.selectable.filter(col => cols.find(c => c === col[0]) !== undefined)
-        this.dialog['customize'].visible = false
-      },
       filtersDialogResult: function (newQuery) {
         this.query = newQuery
+      },
+      customizeDialogResult: function (projected) {
+        this.selected = projected
       }
     },
     computed: {
@@ -172,7 +157,6 @@
     watch: {
       offset: {
         handler: function () {
-          console.log('Set offset')
           this.moSetOffset(this.offset)
         },
         immediate: true
