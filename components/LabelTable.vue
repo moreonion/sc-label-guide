@@ -33,7 +33,7 @@
       :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange">
     </el-pagination>
 
-    <table-legend @click="dialog['bgInfo'].visible = true"></table-legend>
+    <table-legend @click="bginfoDialogVisible = true"></table-legend>
 
     <div class="last-row">
       <el-button @click="dialog['customize'].visible = true">Customize Display</el-button>
@@ -47,27 +47,7 @@
     <info-dialog :visible.sync="infoDialogVisible" :label="infoDialogInput"></info-dialog>
 
     <!-- Bg Info Dialog -->
-    <el-dialog :visible.sync="dialog['bgInfo'].visible">
-      <span slot="title">How does the scoring work?</span>
-      <h1>Header</h1>
-      <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-         tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-         vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-         no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-         consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-         dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
-        dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
-        ipsum dolor sit amet.</p>
-      <h2>Subheader</h2>
-      <p>
-        Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus.
-
-        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-      </p>
-      <span slot="footer">
-        <el-button @click="dialog['bgInfo'].visible = false">Close</el-button>
-      </span>
-    </el-dialog>
+    <bginfo-dialog :visible.sync="bginfoDialogVisible"></bginfo-dialog>
 
     <!-- Customize Display Dialog -->
     <el-dialog :visible.sync="dialog['customize'].visible">
@@ -98,6 +78,7 @@
   import FiltersDialog from './FiltersDialog/FiltersDialog.vue'
   import ShareDialog from './ShareDialog/ShareDialog.vue'
   import InfoDialog from './InfoDialog/InfoDialog.vue'
+  import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
 
   export default {
     mixins: [moLocalTable],
@@ -108,7 +89,8 @@
       'table-legend': TableLegend,
       'filters-dialog': FiltersDialog,
       'share-dialog': ShareDialog,
-      'info-dialog': InfoDialog
+      'info-dialog': InfoDialog,
+      'bginfo-dialog': BgInfoDialog
     },
     data: () => ({
       limit: 5,
@@ -149,11 +131,8 @@
       shareDialogVisible: false,
       infoDialogVisible: false,
       infoDialogInput: {},
+      bginfoDialogVisible: false,
       dialog: {
-        'bgInfo': {
-          visible: false,
-          data: {}
-        },
         'customize': {
           visible: false,
           data: {
