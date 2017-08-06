@@ -62,6 +62,7 @@
 </template>
 
 <script>
+  import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
   import LangSelect from './LangSelect.vue'
@@ -175,9 +176,9 @@
       selected: function () {
         this.moSetSelectState(this.selected)
       },
-      query: function () {
+      query: debounce(function () {
         this.moSetWhereState(this.query)
-      }
+      }, 200)
     }
   }
 </script>
