@@ -1,14 +1,14 @@
 <template>
   <div class="cont">
     <div>
-      <el-button @click="showFilterDialog">Filters</el-button>
+      <el-button @click="filtersDialogVisible = true">Filters</el-button>
 
       <search-input class="search-input" :search.sync="search"></search-input>
 
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <table>
+    <table v-if="moDisplayed.length > 0">
       <thead>
         <tr>
           <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]"
@@ -27,8 +27,9 @@
         </tr>
       </tbody>
     </table>
+    <div class="noResults" v-else>No results found for specified filters!</div>
 
-    <el-pagination small layout="prev, pager, next"
+    <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
       :page-size="limit" :total="moQueried.length" v-on:current-change="pageChange">
     </el-pagination>
 
@@ -93,28 +94,9 @@
     </el-dialog>
 
     <!-- Filters Dialog -->
-    <el-dialog :visible.sync="dialog['filter'].visible">
-      <span slot="title">Filter</span>
-      <el-button @click="dialog['filter'].data.filters.push({left: columns[0], op: 'is', right: ''})" type="primary">Add new filter</el-button>
-
-      <div class="filter-cont" :key="index" v-for="(filter, index) in dialog['filter'].data.filters">
-        <el-select class="leftSelect" v-model="filter.left" placeholder="Column">
-          <el-option v-for="column in selected" :key="column[1]" :label="colNameMap[column[0]]" :value="column[0]"></el-option>
-        </el-select>
-
-        <el-select class="opSelect" v-model="filter.op" placeholder="Operator" disabled>
-          <el-option v-for="(op, index) in ops" :key="index" :label="op" :value="op"></el-option>
-        </el-select>
-
-        <el-input class="rightInput" placeholder="Value" v-model="filter.right"></el-input>
-
-        <el-button @click="dialog['filter'].data.filters.slice(index, 1)"><i class="el-icon-close"></i></el-button>
-      </div>
-      <span slot="footer">
-        <el-button @click="dialog['filter'].visible = false">Close</el-button>
-        <el-button @click="applyQuery(dialog['filter'].data.filters)" type="primary">Apply</el-button>
-      </span>
-    </el-dialog>
+    <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
+      :query="query" :selectedColumns="selected" :colNameMap="colNameMap">
+    </filters-dialog>
   </div>
 </template>
 
@@ -125,6 +107,7 @@
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
+  import FiltersDialog from './FiltersDialog/FiltersDialog.vue'
 
   export default {
     mixins: [moLocalTable],
@@ -132,7 +115,8 @@
       'search-input': SearchInput,
       'lang-select': LangSelect,
       'eval-circle': EvalCircle,
-      'table-legend': TableLegend
+      'table-legend': TableLegend,
+      'filters-dialog': FiltersDialog
     },
     data: () => ({
       limit: 5,
@@ -169,6 +153,7 @@
         'envImpact': true,
         'scoImpact': true
       },
+      filtersDialogVisible: false,
       dialog: {
         'info': {
           visible: false,
@@ -192,15 +177,8 @@
           data: {
             columns: []
           }
-        },
-        'filter': {
-          visible: false,
-          data: {filters: []}
         }
-      },
-      ops: ['is'],
-      opMap: {'is': '$eq'},
-      opMapRev: {'$eq': 'is'}
+      }
     }),
     created: function () {
       // Init table state
@@ -225,23 +203,8 @@
         this.selected = this.selectable.filter(col => cols.find(c => c === col[0]) !== undefined)
         this.dialog['customize'].visible = false
       },
-      showFilterDialog: function () {
-        // Init props
-        this.dialog['filter'].data.filters = []
-        for (let c in this.query) {
-          // TODO: allow arb operators
-          this.dialog['filter'].data.filters.push({left: c, op: this.opMapRev['$eq'], right: this.query[c]['$eq']})
-        }
-
-        this.dialog['filter'].visible = true
-      },
-      applyQuery: function (filters) {
-        this.query = filters.reduce((accum, filter) => {
-          accum[filter.left] = {[this.opMap[filter.op]]: parseInt(filter.right)}
-          return accum
-        }, {})
-
-        this.dialog['filter'].visible = false
+      filtersDialogResult: function (newQuery) {
+        this.query = newQuery
       }
     },
     computed: {
@@ -341,6 +304,10 @@
     font-size: 9px;
   }
 
+  .noResults {
+    padding: 20px;
+  }
+
   .el-pagination {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -358,25 +325,5 @@
     display: block;
     margin-left: 0px;
     margin-bottom: 10px;
-  }
-
-  .filter-cont {
-    border: 1px solid #CFD0D1;
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-
-  .leftSelect {
-    width: 150px;
-    margin-right: 5px;
-  }
-
-  .rightInput.el-input {
-    width: 150px;
-  }
-
-  .opSelect {
-    width: 100px;
-    margin-right: 5px;
   }
 </style>
