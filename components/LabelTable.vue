@@ -217,8 +217,32 @@
       serializeColumns: function (cols) {
         return this.serializeArray(cols, c => c[0])
       },
+      serializeQuery: function (query) {
+        const mapOp = {
+          '$eq': 'eq',
+          '$gte': 'gte',
+          '$gt': 'gt',
+          '$lte': 'lte',
+          '$lt': 'lt'
+        }
+
+        const getOperator = _query => {
+          for (const c in _query) {
+            return c
+          }
+        }
+
+        const filters = {}
+        for (const field in query) {
+          const op = getOperator(query[field])
+          const val = query[field][op]
+          filters[mapOp[op]] = `${field}-${val}`
+        }
+
+        return filters
+      },
       assembleQuery: function (query) {
-        const prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
+        let prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
           if (this[val]) {
             accum[val] = this[val]
           }
@@ -229,35 +253,19 @@
           prepQuery.select = this.serializeColumns(this.selected)
         }
 
-        return Object.assign({}, prepQuery, query)
+        if (this.filterQuery) {
+          prepQuery = Object.assign(this.serializeQuery(this.filterQuery), prepQuery)
+        }
+
+        return Object.assign(prepQuery, query)
       },
       showInfoDialog: function (row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
       },
       filtersDialogResult: function (newQuery) {
-        const mapOp = {
-          '$eq': 'eq',
-          '$gte': 'gte',
-          '$gt': 'gt',
-          '$lte': 'lte',
-          '$lt': 'lt'
-        }
-
-        const getOperator = query => {
-          for (const c in query) {
-            return c
-          }
-        }
-
-        const filters = {}
-        for (const field in newQuery) {
-          const op = getOperator(newQuery[field])
-          const val = newQuery[field][op]
-          filters[mapOp[op]] = `${field}-${val}`
-        }
-
-        this.routerPush(this.assembleQuery(filters))
+        console.log('FILTER DIALOG result')
+        this.routerPush(this.serializeQuery(newQuery))
       },
       customizeDialogResult: function (projected) {
         this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}))
