@@ -8,6 +8,14 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
+    <div class="queryList">
+      <div class="queryStr" v-for="query in queryList">
+        <div class="queryItem">{{colNameMap[colPathMapRev[query.left]]}} </div> <div class="queryItem">{{opMapRev[query.op]}} </div>
+        <eval-circle class="queryItem" :value="query.right" v-if="colSpec[query.left] === 'rating'"></eval-circle>
+        <div class="queryItem" v-else>{{query.right}}</div>
+      </div>
+    </div>
+
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
@@ -80,6 +88,12 @@
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
+
+  const getOperator = _query => {
+    for (const c in _query) {
+      return c
+    }
+  }
 
   export default {
     mixins: [moLocalTable],
@@ -211,6 +225,13 @@
           'scoImpact': true
         },
         colSpec,
+        opMapRev: {
+          '$eq': 'is',
+          '$gt': '>',
+          '$gte': '>=',
+          '$lt': '<',
+          '$lte': '<='
+        },
         filtersDialogVisible: false,
         shareDialogVisible: false,
         infoDialogVisible: false,
@@ -246,12 +267,6 @@
           '$gt': 'gt',
           '$lte': 'lte',
           '$lt': 'lt'
-        }
-
-        const getOperator = _query => {
-          for (const c in _query) {
-            return c
-          }
         }
 
         const filters = {}
@@ -336,6 +351,17 @@
         }
 
         return Object.assign({}, this.search.length > 0 ? searchQuery : {}, this.filterQuery)
+      },
+      queryList () {
+        const res = []
+        for (const c in this.query) {
+          const op = getOperator(this.query[c])
+          if (op !== '$text') {
+            res.push({left: c, op, right: this.query[c][op]})
+          }
+        }
+
+        return res
       }
     },
     watch: {
@@ -397,6 +423,21 @@
     float: right;
     margin-right: 0px;
     max-width: 100px;
+  }
+
+  .queryList {
+    transform: scale(0.8);
+    transform-origin: top left;
+  }
+
+  .queryStr {
+    display: flex;
+    align-items: center;
+  }
+
+  .queryItem {
+    margin-left: 2px;
+    margin-right: 2px;
   }
 
   table {
