@@ -56,32 +56,39 @@
       'eval-circle': EvalCircle
     },
     props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colPathMap', 'colSpec'],
-    data: () => ({
-      ops: ['is', '>', '>=', '<', '<='],
-      opMap: {
-        'is': '$eq',
-        '>': '$gt',
-        '>=': '$gte',
-        '<': '$lt',
-        '<=': '$lte'
-      },
-      opMapRev: {
-        '$eq': 'is',
-        '$gt': '>',
-        '$gte': '>=',
-        '$lt': '<',
-        '$lte': '<='
-      },
-      filters: []
-    }),
-    created: function () {
-      // Query -> Filters array
-      for (const field in this.query) {
-        const op = getOperator(this.query[field])
-        this.filters.push({left: field, op: this.opMapRev[op], right: this.query[field][op]})
+    data () {
+      return {
+        ops: ['is', '>', '>=', '<', '<='],
+        opMap: {
+          'is': '$eq',
+          '>': '$gt',
+          '>=': '$gte',
+          '<': '$lt',
+          '<=': '$lte'
+        },
+        opMapRev: {
+          '$eq': 'is',
+          '$gt': '>',
+          '$gte': '>=',
+          '$lt': '<',
+          '$lte': '<='
+        },
+        filters: []
       }
     },
     methods: {
+      updateVisible (val) {
+        if (val) {
+          this.filters = []
+          // Query -> Filters array
+          for (const field in this.query) {
+            const op = getOperator(this.query[field])
+            this.filters.push({left: field, op: this.opMapRev[op], right: this.query[field][op]})
+          }
+        }
+
+        this.$emit('update:visible', val)
+      },
       addFilter: function () {
         this.filters.push({left: this.colPathMap[this.selectedColumns[0][0]], op: this.ops[0], right: null})
       },
