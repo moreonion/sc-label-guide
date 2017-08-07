@@ -71,6 +71,11 @@
   import zip from 'lodash.zip'
   import {moLocalTable} from 'mo-vue-table'
 
+  import {
+    deserializeOrderBy,
+    deserializeFilterFactory
+  } from '../lib/deserialize.js'
+
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
@@ -94,7 +99,7 @@
       'customize-dialog': CustomizeDialog
     },
     data () {
-      const query = this.$route.query
+      const {orderBy, orderDir} = this.$route.query
       const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
       let selected = selectable
       if (query.select !== undefined) {
@@ -102,17 +107,9 @@
         selected = selectable.filter(s => cols.find(c => c === s[0]))
       }
 
-      let orderBy = {}
-      if (query.orderBy !== undefined && query.orderDir !== undefined) {
-        const cols = query.orderBy.split(',')
-        const dirs = query.orderDir.split(',')
-
-        const zipped = zip(cols, dirs)
-
-        orderBy = zipped.reduce((accum, [col, dir], index) => {
-          accum[col] = [dir, index]
-          return accum
-        }, {})
+      let _orderBy = {}
+      if (orderBy !== undefined && orderDir !== undefined && orderBy.length === orderDir.length) {
+        _orderBy = deserializeOrderBy(orderBy, oderDir)
       }
 
       const colPathMap = {
@@ -120,14 +117,6 @@
         'govTrans': 'govTrans',
         'envImpact': 'envImpact',
         'scoImpact': 'scoImpact'
-      }
-
-      const deserializeFilter = (query, op, mapOp, parseFunc) => {
-        const exprs = query[op].split(',')
-        return exprs.map(expr => expr.split('-')).reduce((accum, [field, val]) => {
-          accum[colPathMap[field]] = {[mapOp]: parseFunc(colPathMap[field], val)}
-          return accum
-        }, {})
       }
 
       let eq = {}
@@ -143,16 +132,20 @@
         'scoImpact': 'rating'
       }
 
-      const parseFunc = (field, val) => {
-        if (colSpec[field] === 'rating') {
-          return parseInt(val)
-        } else {
-          return val
-        }
+      const serOpMap = {
+        'eq': '$eq',
+        'gt': '$gt',
+        'gte': '$gte',
+        'lt': '$lt',
+        'lte': '$lte'
       }
 
+      const parseFunc = (field, val) => colSpec[field] === 'rating' ? val
+
+      const derserializeFilterFunc = deserializeFilterFactory(serOpMap, colPathMap, parseFunc)
+
       if (query.eq !== undefined) {
-        eq = deserializeFilter(query, 'eq', '$eq', parseFunc)
+        eq = derserializeFilterFunc(query, 'eq')
       }
 
       if (query.gt !== undefined) {
