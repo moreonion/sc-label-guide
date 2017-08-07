@@ -236,7 +236,13 @@
         for (const field in query) {
           const op = getOperator(query[field])
           const val = query[field][op]
-          filters[mapOp[op]] = `${field}-${val}`
+          const mOp = mapOp[op]
+
+          if (filters[mOp]) {
+            filters[mOp] = `${filters[mOp]},${field}-${val}`
+          } else {
+            filters[mOp] = `${field}-${val}`
+          }
         }
 
         return filters
@@ -254,7 +260,8 @@
         }
 
         if (this.filterQuery) {
-          prepQuery = Object.assign(this.serializeQuery(this.filterQuery), prepQuery)
+          const t = this.serializeQuery(this.filterQuery)
+          prepQuery = Object.assign(t, prepQuery)
         }
 
         return Object.assign(prepQuery, query)
@@ -264,8 +271,7 @@
         this.infoDialogVisible = true
       },
       filtersDialogResult: function (newQuery) {
-        console.log('FILTER DIALOG result')
-        this.routerPush(this.serializeQuery(newQuery))
+        this.routerPush(this.assembleQuery(this.serializeQuery(newQuery)))
       },
       customizeDialogResult: function (projected) {
         this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}))
