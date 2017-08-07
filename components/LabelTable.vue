@@ -301,12 +301,14 @@
         this.infoDialogVisible = true
       },
       filtersDialogResult: function (newQuery) {
-        this.routerPush(this.assembleQuery(this.serializeQuery(newQuery), {query: false}))
+        const q = Object.assign(this.serializeQuery(newQuery), {page: 1})
+        this.routerPush(this.assembleQuery(q, {query: false}))
       },
       customizeDialogResult: function (projected) {
         this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}, {select: false}))
       },
       searchChange: debounce(function (search) {
+        this.page = 1
         this.search = search
       }, 200),
       pageChange: function (page) {
