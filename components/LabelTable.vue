@@ -111,6 +111,57 @@
         }, {})
       }
 
+      const deserializeFilter = (query, op, mapOp, parseFunc) => {
+        const exprs = query[op].split(',')
+        return exprs.map(expr => expr.split('-')).reduce((accum, [field, val]) => {
+          accum[field] = {[mapOp]: parseFunc(field, val)}
+          return accum
+        }, {})
+      }
+
+      let eq = {}
+      let gt = {}
+      let gte = {}
+      let lt = {}
+      let lte = {}
+
+      const colSpec = {
+        'label': 'text',
+        'govTrans': 'rating',
+        'envImpact': 'rating',
+        'scoImpact': 'rating'
+      }
+
+      const parseFunc = (field, val) => {
+        if (colSpec[field] === 'rating') {
+          return parseInt(val)
+        } else {
+          return val
+        }
+      }
+
+      if (query.eq !== undefined) {
+        eq = deserializeFilter(query, 'eq', '$eq', parseFunc)
+      }
+
+      if (query.gt !== undefined) {
+        gt = deserializeFilter(query, 'gt', '$gt', parseFunc)
+      }
+
+      if (query.gte !== undefined) {
+        gte = deserializeFilter(query, 'gte', '$gte', parseFunc)
+      }
+
+      if (query.lt !== undefined) {
+        lt = deserializeFilter(query, 'lt', '$lt', parseFunc)
+      }
+
+      if (query.lte !== undefined) {
+        lte = deserializeFilter(query, 'lte', '$lte', parseFunc)
+      }
+
+      const filterQuery = Object.assign({}, eq, gt, gte, lt, lte)
+
       return {
         limit: query.limit === undefined ? 5 : parseInt(query.limit),
         page: query.page === undefined ? 1 : parseInt(query.page),
@@ -118,7 +169,7 @@
         selectable,
         selected,
         orderBy,
-        filterQuery: {},
+        filterQuery,
         lang: 'English',
         columns: ['Label', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
         colNameMap: {
@@ -147,12 +198,7 @@
           'envImpact': true,
           'scoImpact': true
         },
-        colSpec: {
-          'label': 'text',
-          'govTrans': 'rating',
-          'envImpact': 'rating',
-          'scoImpact': 'rating'
-        },
+        colSpec,
         filtersDialogVisible: false,
         shareDialogVisible: false,
         infoDialogVisible: false,
@@ -190,7 +236,28 @@
         this.infoDialogVisible = true
       },
       filtersDialogResult: function (newQuery) {
-        this.filterQuery = newQuery
+        const mapOp = {
+          '$eq': 'eq',
+          '$gte': 'gte',
+          '$gt': 'gt',
+          '$lte': 'lte',
+          '$lt': 'lt'
+        }
+
+        const getOperator = query => {
+          for (const c in query) {
+            return c
+          }
+        }
+
+        const filters = {}
+        for (const field in newQuery) {
+          const op = getOperator(newQuery[field])
+          const val = newQuery[field][op]
+          filters[mapOp[op]] = `${field}-${val}`
+        }
+
+        this.routerPush(this.assembleQuery(filters))
       },
       customizeDialogResult: function (projected) {
         this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}))
