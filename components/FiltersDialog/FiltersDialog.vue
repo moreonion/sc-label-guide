@@ -16,12 +16,12 @@
           <el-option v-for="(op, index) in ops" :key="index" :label="op" :value="op"></el-option>
         </el-select>
 
-        <el-select v-if="isRating(filter.left)" v-model="filter.right" placeholder="Value">
+        <el-select class="valInput" v-if="isRating(filter.left)" v-model="filter.right" placeholder="Value">
           <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
             <eval-circle :value="rating"></eval-circle>
           </el-option>
         </el-select>
-        <el-input style="width: 100px" placeholder="Value" v-model="filter.right" v-else></el-input>
+        <el-input class="valInput" placeholder="Value" v-model="filter.right" v-else></el-input>
 
         <el-button @click="filters.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
       </div>
@@ -125,5 +125,9 @@
   .opSelect {
     width: 70px;
     margin-right: 5px;
+  }
+
+  .valInput {
+    width: 100px;
   }
 </style>
