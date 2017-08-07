@@ -3,7 +3,7 @@
     <span slot="title">Columns to show</span>
     <el-checkbox-group v-model="columns" :min="1">
       <el-checkbox class="checkbox" v-for="column in selectableColumns"
-       :key="column[1]" :label="column[0]">
+       :key="column[1]" :label="column[0]" :disabled="mandatoryColumns[column[0]]">
        {{colNameMap[column[0]]}}
      </el-checkbox>
     </el-checkbox-group>
@@ -20,7 +20,14 @@ import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 export default {
   mixins: [moDialogVisibility],
   props: ['visible', 'selectableColumns', 'selectedColumns', 'colNameMap'],
-  data: () => ({columns: []}),
+  data () {
+    return {
+      columns: [],
+      mandatoryColumns: {
+        'label': true
+      }
+    }
+  },
   created: function () {
     this.$on('update:visible', val => {
       if (val) {
