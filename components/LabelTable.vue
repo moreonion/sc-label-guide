@@ -217,6 +217,16 @@
       serializeColumns: function (cols) {
         return this.serializeArray(cols, c => c[0])
       },
+      serializeOrderby: function () {
+        if (this.moOrder.length > 0) {
+          const orderBy = this.moOrder[0]
+          const dir = this.moOrder[1]
+
+          return {orderBy: orderBy.join(','), orderDir: dir.join(',')}
+        } else {
+          return {}
+        }
+      },
       serializeQuery: function (query) {
         const mapOp = {
           '$eq': 'eq',
@@ -257,7 +267,11 @@
 
         if (this.selected.length !== this.selectable.length) {
           prepQuery.select = this.serializeColumns(this.selected)
+        } else {
+          delete prepQuery['select']
         }
+
+        prepQuery = Object.assign(this.serializeOrderby(), prepQuery)
 
         if (this.filterQuery) {
           const t = this.serializeQuery(this.filterQuery)
@@ -285,10 +299,8 @@
       serializeSearch: function () {
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       },
-      serializeOrderby: function () {
-        const orderBy = this.moOrder[0]
-        const dir = this.moOrder[1]
-        this.routerPush(this.assembleQuery({orderBy: orderBy.join(','), orderDir: dir.join(',')}))
+      orderByChange: function () {
+        this.routerPush(this.assembleQuery(this.serializeOrderby()))
       }
     },
     computed: {
@@ -340,7 +352,7 @@
         immediate: true
       },
       moOrder: function () {
-        this.serializeOrderby()
+        this.orderByChange()
       }
     }
   }
