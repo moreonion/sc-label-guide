@@ -8,7 +8,7 @@
       <div v-if="filters.length > 0" class="filter-cont" :key="index" v-for="(filter, index) in filters">
         <el-select class="leftSelect" v-model="filter.left" placeholder="Column">
           <el-option v-for="column in selectedColumns" :key="column[1]"
-            :label="colNameMap[column[0]]" :value="column[0]">
+            :label="colNameMap[column[0]]" :value="colPathMap[column[0]]">
           </el-option>
         </el-select>
 
@@ -55,7 +55,7 @@
     components: {
       'eval-circle': EvalCircle
     },
-    props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colSpec'],
+    props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colPathMap', 'colPathMapRev', 'colSpec'],
     data: () => ({
       ops: ['is', '>', '>=', '<', '<='],
       opMap: {
@@ -83,12 +83,12 @@
     },
     methods: {
       addFilter: function () {
-        this.filters.push({left: this.selectedColumns[0][0], op: this.ops[0], right: null})
+        this.filters.push({left: this.colPathMap[this.selectedColumns[0][0]], op: this.ops[0], right: null})
       },
       mapFilters: function () {
         // Filters array -> Query
         return this.filters.reduce((accum, filter) => {
-          accum[filter.left] = {[this.opMap[filter.op]]: parseInt(filter.right)}
+          accum[this.colPathMapRev[filter.left]] = {[this.opMap[filter.op]]: filter.right}
           return accum
         }, {})
       },

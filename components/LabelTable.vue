@@ -43,7 +43,8 @@
 
     <!-- Filters Dialog -->
     <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
-      :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colSpec="colSpec">
+      :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
+      :colPathMapRev="colPathMapRev" :colSpec="colSpec">
     </filters-dialog>
 
     <!-- Info Dialog -->
@@ -111,10 +112,17 @@
         }, {})
       }
 
+      const colPathMap = {
+        'label': 'label.name',
+        'govTrans': 'govTrans',
+        'envImpact': 'envImpact',
+        'scoImpact': 'scoImpact'
+      }
+
       const deserializeFilter = (query, op, mapOp, parseFunc) => {
         const exprs = query[op].split(',')
         return exprs.map(expr => expr.split('-')).reduce((accum, [field, val]) => {
-          accum[field] = {[mapOp]: parseFunc(field, val)}
+          accum[colPathMap[field]] = {[mapOp]: parseFunc(field, val)}
           return accum
         }, {})
       }
@@ -184,8 +192,9 @@
           'envImpact': row => row.envImpact,
           'scoImpact': row => row.scoImpact
         },
-        colPathMap: {
-          'label': 'label.name',
+        colPathMap,
+        colPathMapRev: {
+          'label.name': 'label',
           'govTrans': 'govTrans',
           'envImpact': 'envImpact',
           'scoImpact': 'scoImpact'
@@ -249,15 +258,15 @@
           const mOp = mapOp[op]
 
           if (filters[mOp]) {
-            filters[mOp] = `${filters[mOp]},${field}-${val}`
+            filters[mOp] = `${filters[mOp]},${this.colPathMapRev[field]}-${val}`
           } else {
-            filters[mOp] = `${field}-${val}`
+            filters[mOp] = `${this.colPathMapRev[field]}-${val}`
           }
         }
 
         return filters
       },
-      assembleQuery: function (query) {
+      assembleQuery: function (query, config = {}) {
         let prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
           if (this[val]) {
             accum[val] = this[val]
@@ -265,15 +274,19 @@
           return accum
         }, {})
 
-        if (this.selected.length !== this.selectable.length) {
-          prepQuery.select = this.serializeColumns(this.selected)
-        } else {
-          delete prepQuery['select']
+        if (config.select === undefined) {
+          if (this.selected.length !== this.selectable.length) {
+            prepQuery.select = this.serializeColumns(this.selected)
+          } else {
+            delete prepQuery['select']
+          }
         }
 
-        prepQuery = Object.assign(this.serializeOrderby(), prepQuery)
+        if (config.oderBy === undefined) {
+          prepQuery = Object.assign(this.serializeOrderby(), prepQuery)
+        }
 
-        if (this.filterQuery) {
+        if (config.query === undefined) {
           const t = this.serializeQuery(this.filterQuery)
           prepQuery = Object.assign(t, prepQuery)
         }
@@ -285,10 +298,10 @@
         this.infoDialogVisible = true
       },
       filtersDialogResult: function (newQuery) {
-        this.routerPush(this.assembleQuery(this.serializeQuery(newQuery)))
+        this.routerPush(this.assembleQuery(this.serializeQuery(newQuery), {query: false}))
       },
       customizeDialogResult: function (projected) {
-        this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}))
+        this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}, {select: false}))
       },
       searchChange: debounce(function (search) {
         this.search = search
@@ -300,7 +313,7 @@
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       },
       orderByChange: function () {
-        this.routerPush(this.assembleQuery(this.serializeOrderby()))
+        this.routerPush(this.assembleQuery(this.serializeOrderby(), {orderBy: false}))
       }
     },
     computed: {
