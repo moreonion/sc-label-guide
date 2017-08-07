@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible="visible" @update:visible="updateVisible" @close="onClose" size="large">
+  <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
 
     <div>
