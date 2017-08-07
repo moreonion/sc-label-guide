@@ -21,7 +21,10 @@
         <tr v-for="row in moDisplayed">
           <td v-for="column in moSelectedColumns">
             <eval-circle v-if="colIsRating[column[0]]" :value="colValMap[column[0]](row)"></eval-circle>
-            <span class="pointable" v-else-if="colHasInfo[column[0]]" @click="showInfoDialog(row, column[0])">{{colValMap[column[0]](row)}}</span>
+            <span class="pointable" v-else-if="colHasInfo[column[0]]" @click="showInfoDialog(row, column[0])">
+              <img class="logoImg" :src="row[column[0]].img">
+              {{colValMap[column[0]](row)}}
+            </span>
             <span v-else>{{colValMap[column[0]](row)}}</span>
           </td>
         </tr>
@@ -425,6 +428,7 @@
     padding: 20px;
     text-align: center;
     border-bottom: 1px solid #D9DADB;
+    height: 100px;
   }
 
   table tr:last-child td {
@@ -460,6 +464,12 @@
 
   .pointable {
     cursor: pointer;
+  }
+
+  .logoImg {
+    max-width: 50px;
+    vertical-align: middle;
+    margin-right: 10px;
   }
 
   .checkbox.el-checkbox {
