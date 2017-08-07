@@ -44,7 +44,7 @@
     <!-- Filters Dialog -->
     <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
       :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
-      :colPathMapRev="colPathMapRev" :colSpec="colSpec">
+      :colSpec="colSpec">
     </filters-dialog>
 
     <!-- Info Dialog -->
@@ -122,7 +122,7 @@
       const deserializeFilter = (query, op, mapOp, parseFunc) => {
         const exprs = query[op].split(',')
         return exprs.map(expr => expr.split('-')).reduce((accum, [field, val]) => {
-          accum[colPathMap[field]] = {[mapOp]: parseFunc(field, val)}
+          accum[colPathMap[field]] = {[mapOp]: parseFunc(colPathMap[field], val)}
           return accum
         }, {})
       }

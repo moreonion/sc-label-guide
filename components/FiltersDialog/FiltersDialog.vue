@@ -55,7 +55,7 @@
     components: {
       'eval-circle': EvalCircle
     },
-    props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colPathMap', 'colPathMapRev', 'colSpec'],
+    props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colPathMap', 'colSpec'],
     data: () => ({
       ops: ['is', '>', '>=', '<', '<='],
       opMap: {
@@ -88,7 +88,7 @@
       mapFilters: function () {
         // Filters array -> Query
         return this.filters.reduce((accum, filter) => {
-          accum[this.colPathMapRev[filter.left]] = {[this.opMap[filter.op]]: filter.right}
+          accum[filter.left] = {[this.opMap[filter.op]]: filter.right}
           return accum
         }, {})
       },
