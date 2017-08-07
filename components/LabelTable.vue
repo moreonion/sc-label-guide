@@ -444,7 +444,7 @@
     width: 100%;
     border-spacing: 0px;
     border: 1px solid #D9DADB;
-    margin-top: 15px;
+    margin-top: 5px;
   }
 
   table thead {
