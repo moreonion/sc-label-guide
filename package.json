@@ -8,6 +8,7 @@
     "axios": "^0.16.2",
     "element-ui": "^1.4.1",
     "lodash.debounce": "^4.0.8",
+    "lodash.zip": "^4.2.0",
     "mo-vue-table": ">= 0.1.1 < 1",
     "nuxt": "latest"
   },

@@ -64,6 +64,7 @@
 
 <script>
   import debounce from 'lodash.debounce'
+  import zip from 'lodash.zip'
   import {moLocalTable} from 'mo-vue-table'
 
   import LangSelect from './LangSelect.vue'
@@ -97,12 +98,26 @@
         selected = selectable.filter(s => cols.find(c => c === s[0]))
       }
 
+      let orderBy = {}
+      if (query.orderBy !== undefined && query.orderDir !== undefined) {
+        const cols = query.orderBy.split(',')
+        const dirs = query.orderDir.split(',')
+
+        const zipped = zip(cols, dirs)
+
+        orderBy = zipped.reduce((accum, [col, dir], index) => {
+          accum[col] = [dir, index]
+          return accum
+        }, {})
+      }
+
       return {
         limit: query.limit === undefined ? 5 : parseInt(query.limit),
         page: query.page === undefined ? 1 : parseInt(query.page),
         search: query.search === undefined ? '' : query.search,
         selectable,
         selected,
+        orderBy,
         filterQuery: {},
         lang: 'English',
         columns: ['Label', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
@@ -188,6 +203,11 @@
       },
       serializeSearch: function () {
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
+      },
+      serializeOrderby: function () {
+        const orderBy = this.moOrder[0]
+        const dir = this.moOrder[1]
+        this.routerPush(this.assembleQuery({orderBy: orderBy.join(','), orderDir: dir.join(',')}))
       }
     },
     computed: {
@@ -231,6 +251,15 @@
           this.moSetWhereState(this.query)
         },
         immediate: true
+      },
+      orderBy: {
+        handler: function () {
+          this.moTable.orderBy = this.orderBy
+        },
+        immediate: true
+      },
+      moOrder: function () {
+        this.serializeOrderby()
       }
     }
   }
