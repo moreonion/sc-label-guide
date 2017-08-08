@@ -20,7 +20,7 @@ import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 export default {
   mixins: [moDialogVisibility],
   props: ['visible', 'selectableColumns', 'selectedColumns', 'colNameMap'],
-  data () {
+  data() {
     return {
       columns: [],
       mandatoryColumns: {
@@ -28,9 +28,9 @@ export default {
       }
     }
   },
-  created: function () {
+  created: function() {
     this.$on('update:visible', val => {
-      if (val) {
+      if(val) {
         this.selectedColumns.forEach(s => {
           this.columns.push(s[0])
         })
@@ -38,10 +38,10 @@ export default {
     })
   },
   methods: {
-    projectColumns: function () {
+    projectColumns: function() {
       return this.selectableColumns.filter(col => this.columns.find(c => c === col[0]) !== undefined)
     },
-    onClose: function () {
+    onClose: function() {
       this.dismiss()
       this.$emit('close', this.projectColumns())
     }

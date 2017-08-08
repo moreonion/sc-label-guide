@@ -15,10 +15,10 @@ export default {
   },
   props: ['value'],
   computed: {
-    color: function () {
-      if (this.value <= 1) {
+    color: function() {
+      if(this.value <= 1) {
         return _RED_
-      } else if (this.value <= 2) {
+      } else if(this.value <= 2) {
         return _ORANGE_
       } else {
         return _GREEN_

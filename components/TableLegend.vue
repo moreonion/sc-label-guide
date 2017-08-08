@@ -30,7 +30,7 @@ export default {
     'eval-circle': EvalCircle
   },
   methods: {
-    onClick: function () {
+    onClick: function() {
       this.$emit('click')
     }
   }

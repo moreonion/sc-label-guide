@@ -8,7 +8,7 @@
 
   export default {
     components: {LabelTable},
-    async asyncData ({isServer, req, isDev, route}) {
+    async asyncData({isServer, req, isDev, route}) {
       const protocol = isDev ? 'http' : 'https'
       let res = {data: []}
 

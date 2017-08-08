@@ -1,12 +1,12 @@
 export const moDialogVisibility = {
   methods: {
-    updateVisible: function (val) {
+    updateVisible: function(val) {
       this.emitUpdate(val)
     },
-    dismiss: function () {
+    dismiss: function() {
       this.emitUpdate(false)
     },
-    emitUpdate: function (val) {
+    emitUpdate: function(val) {
       this.$emit('update:visible', val)
     }
   }

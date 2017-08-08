@@ -8,10 +8,10 @@
 export default {
   props: ['width', 'height', 'radius', 'color'],
   computed: {
-    cx: function () {
+    cx: function() {
       return this.width / 2
     },
-    cy: function () {
+    cy: function() {
       return this.height / 2
     }
   }

@@ -18,7 +18,7 @@ export default {
     shareSnippet: '<<< TODO: Coming Soon! >>>'
   }),
   methods: {
-    onClose: function () {
+    onClose: function() {
       this.dismiss()
     }
   }

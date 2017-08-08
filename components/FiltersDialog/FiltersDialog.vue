@@ -45,7 +45,7 @@
   import EvalCircle from '../EvalCircle.vue'
 
   const getOperator = query => {
-    for (const op in query) {
+    for(const op in query) {
       return op
     }
   }
@@ -56,7 +56,7 @@
       'eval-circle': EvalCircle
     },
     props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colPathMap', 'colSpec'],
-    data () {
+    data() {
       return {
         ops: ['is', '>', '>=', '<', '<='],
         opMap: {
@@ -77,11 +77,11 @@
       }
     },
     methods: {
-      updateVisible (val) {
-        if (val) {
+      updateVisible(val) {
+        if(val) {
           this.filters = []
           // Query -> Filters array
-          for (const field in this.query) {
+          for(const field in this.query) {
             const op = getOperator(this.query[field])
             this.filters.push({left: field, op: this.opMapRev[op], right: this.query[field][op]})
           }
@@ -89,24 +89,24 @@
 
         this.$emit('update:visible', val)
       },
-      addFilter: function () {
+      addFilter: function() {
         this.filters.push({left: this.colPathMap[this.selectedColumns[0][0]], op: this.ops[0], right: null})
       },
-      mapFilters: function () {
+      mapFilters: function() {
         // Filters array -> Query
         return this.filters.reduce((accum, filter) => {
           accum[filter.left] = {[this.opMap[filter.op]]: filter.right}
           return accum
         }, {})
       },
-      onClose: function () {
+      onClose: function() {
         this.dismiss()
         this.$emit('close', this.mapFilters())
       },
-      isRating: function (col) {
+      isRating: function(col) {
         return this.colSpec[col] === 'rating'
       },
-      isText: function (col) {
+      isText: function(col) {
         return this.colSpec[col] === 'text'
       }
     }

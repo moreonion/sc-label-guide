@@ -76,7 +76,6 @@
 
 <script>
   import debounce from 'lodash.debounce'
-  import zip from 'lodash.zip'
   import {moLocalTable} from 'mo-vue-table'
 
   import {
@@ -96,7 +95,7 @@
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
 
   const getOperator = _query => {
-    for (const c in _query) {
+    for(const c in _query) {
       return c
     }
   }
@@ -113,7 +112,7 @@
       'bginfo-dialog': BgInfoDialog,
       'customize-dialog': CustomizeDialog
     },
-    data () {
+    data() {
       // Deserialize route query parameters
       const {
         select: _serSelect,
@@ -132,16 +131,14 @@
       // Given the selectable columns, deserialize selected columns from query parameters
       const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
       let selected = selectable
-      if (_serSelect) {
+
+      if(_serSelect) {
         const queryColumns = deserializeArray(_serSelect)
         selected = selectable.filter(selCol => queryColumns.find(col => col === selCol[0]))
       }
 
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
-      let orderBy = []
-      if (_serOrderBy && _serOrderDir) {
-        orderBy = deserializeOrderBy(_serOrderBy, _serOrderDir, 'asc')
-      }
+      const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, 'asc') : []
 
       const serOpMap = {
         'eq': '$eq',
@@ -180,8 +177,8 @@
 
       return {
         limit: _serLimit ? parseInt(_serLimit) : 5,
-        page: _serPage ? parseInt(_setPage) : 1,
-        search: _serSearch ? _serSearch : '',
+        page: _serPage ? parseInt(_serPage) : 1,
+        search: _serSearch || '',
         selectable,
         selected,
         orderBy,
@@ -232,17 +229,17 @@
       }
     },
     methods: {
-      routerPush: function (query) {
+      routerPush: function(query) {
         this.$router.push({name: 'index', query})
       },
-      serializeArray: function (arr, f) {
+      serializeArray: function(arr, f) {
         return arr.map(f).join(',')
       },
-      serializeColumns: function (cols) {
+      serializeColumns: function(cols) {
         return this.serializeArray(cols, c => c[0])
       },
-      serializeOrderby: function () {
-        if (this.moOrder.length > 0) {
+      serializeOrderby: function() {
+        if(this.moOrder.length > 0) {
           const orderBy = this.moOrder[0]
           const dir = this.moOrder[1]
 
@@ -251,7 +248,7 @@
           return {}
         }
       },
-      serializeQuery: function (query) {
+      serializeQuery: function(query) {
         const mapOp = {
           '$eq': 'eq',
           '$gte': 'gte',
@@ -261,12 +258,12 @@
         }
 
         const filters = {}
-        for (const field in query) {
+        for(const field in query) {
           const op = getOperator(query[field])
           const val = query[field][op]
           const mOp = mapOp[op]
 
-          if (filters[mOp]) {
+          if(filters[mOp]) {
             filters[mOp] = `${filters[mOp]},${this.colPathMapRev[field]}-${val}`
           } else {
             filters[mOp] = `${this.colPathMapRev[field]}-${val}`
@@ -275,63 +272,63 @@
 
         return filters
       },
-      assembleQuery: function (query, config = {}) {
+      assembleQuery: function(query, config = {}) {
         let prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
-          if (this[val]) {
+          if(this[val]) {
             accum[val] = this[val]
           }
           return accum
         }, {})
 
-        if (config.select === undefined) {
-          if (this.selected.length !== this.selectable.length) {
+        if(config.select === undefined) {
+          if(this.selected.length !== this.selectable.length) {
             prepQuery.select = this.serializeColumns(this.selected)
           } else {
             delete prepQuery['select']
           }
         }
 
-        if (config.oderBy === undefined) {
+        if(config.oderBy === undefined) {
           prepQuery = Object.assign(this.serializeOrderby(), prepQuery)
         }
 
-        if (config.query === undefined) {
+        if(config.query === undefined) {
           const t = this.serializeQuery(this.filterQuery)
           prepQuery = Object.assign(t, prepQuery)
         }
 
         return Object.assign(prepQuery, query)
       },
-      showInfoDialog: function (row, col) {
+      showInfoDialog: function(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
       },
-      filtersDialogResult: function (newQuery) {
+      filtersDialogResult: function(newQuery) {
         const q = Object.assign(this.serializeQuery(newQuery), {page: 1})
         this.routerPush(this.assembleQuery(q, {query: false}))
       },
-      customizeDialogResult: function (projected) {
+      customizeDialogResult: function(projected) {
         this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}, {select: false}))
       },
-      searchChange: debounce(function (search) {
+      searchChange: debounce(function(search) {
         this.page = 1
         this.search = search
       }, 200),
-      pageChange: function (page) {
+      pageChange: function(page) {
         this.routerPush(this.assembleQuery({page}))
       },
-      serializeSearch: function () {
+      serializeSearch: function() {
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       },
-      orderByChange: function () {
+      orderByChange: function() {
         this.routerPush(this.assembleQuery(this.serializeOrderby(), {orderBy: false}))
       }
     },
     computed: {
-      offset: function () {
+      offset: function() {
         return (this.page - 1) * this.limit
       },
-      query: function () {
+      query: function() {
         // Perform case insenstive search on label name
         const searchQuery = {
           'label.name': {
@@ -343,11 +340,11 @@
 
         return Object.assign({}, this.search.length > 0 ? searchQuery : {}, this.filterQuery)
       },
-      queryList () {
+      queryList() {
         const res = []
-        for (const c in this.query) {
+        for(const c in this.query) {
           const op = getOperator(this.query[c])
-          if (op !== '$text') {
+          if(op !== '$text') {
             res.push({left: c, op, right: this.query[c][op]})
           }
         }
@@ -357,36 +354,36 @@
     },
     watch: {
       offset: {
-        handler: function () {
+        handler: function() {
           this.moSetOffset(this.offset)
         },
         immediate: true
       },
       limit: {
-        handler: function () {
+        handler: function() {
           this.moSetLimit(this.limit)
         },
         immediate: true
       },
       selected: {
-        handler: function () {
+        handler: function() {
           this.moSetSelectState(this.selected)
         },
         immediate: true
       },
       query: {
-        handler: function () {
+        handler: function() {
           this.moSetWhereState(this.query)
         },
         immediate: true
       },
       orderBy: {
-        handler: function () {
+        handler: function() {
           this.moTable.orderBy = this.orderBy
         },
         immediate: true
       },
-      moOrder: function () {
+      moOrder: function() {
         this.orderByChange()
       }
     }

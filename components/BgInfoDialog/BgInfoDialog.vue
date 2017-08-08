@@ -29,7 +29,7 @@ export default {
   mixins: [moDialogVisibility],
   props: ['visible'],
   methods: {
-    onClose: function () {
+    onClose: function() {
       this.dismiss()
     }
   }
