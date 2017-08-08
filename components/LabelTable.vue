@@ -22,7 +22,7 @@
       <thead>
         <tr>
           <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]"
-            :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">
+            :class="moColumnOrder(colPathMap[column[0]]) !== null ? 'mo-' + moColumnOrder(colPathMap[column[0]]) : ''">
             {{colNameMap[column[0]]}}
           </th>
         </tr>
@@ -146,15 +146,15 @@
         selected = selectable.filter(selCol => queryColumns.find(col => col === selCol[0]))
       }
 
-      // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
-      const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, 'asc') : []
-
       const colPathMap = {
         'label': 'label.name',
         'govTrans': 'govTrans',
         'envImpact': 'envImpact',
         'scoImpact': 'scoImpact'
       }
+
+      // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
+      const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, field => colPathMap[field], 'asc') : []
 
       const serOpMap = {
         'eq': '$eq',
@@ -247,33 +247,48 @@
       }
     },
     methods: {
+      handleSerOrderBy() {
+        return this.moOrder.length > 0
+          ? serializeOrderBy([
+            this.moOrder[0].map(field => this.colPathMapRev[field]),
+            this.moOrder[1]]) : {}
+      },
       routerPush(query) {
         this.$router.push({name: 'index', query})
       },
       assembleQuery(query, config = {}) {
-        let prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
-          if(this[val]) {
-            accum[val] = this[val]
-          }
-          return accum
-        }, {})
+        let prepQuery = {}
 
-        if(config.select === undefined) {
-          if(this.selected.length !== this.selectable.length) {
-            prepQuery.select = this.serializeColumns(this.selected)
-          } else {
-            delete prepQuery['select']
-          }
+        if(!config.page) {
+          prepQuery.page = this.page
         }
 
-        if(config.oderBy === undefined) {
-          prepQuery = Object.assign(this.serializeOrderby(), prepQuery)
+        if(!config.limit) {
+          prepQuery.limit = this.limit
         }
 
-        if(config.query === undefined) {
-          const t = this.serializeQuery(this.filterQuery)
-          prepQuery = Object.assign(t, prepQuery)
+        if(!config.search && this.search.length > 0) {
+          prepQuery.search = this.search
         }
+
+        if(!config.oderBy) {
+          prepQuery = Object.assign(this.handleSerOrderBy(), prepQuery)
+        }
+
+        // if(config.select === undefined) {
+        //   if(this.selected.length !== this.selectable.length) {
+        //     prepQuery.select = this.serializeColumns(this.selected)
+        //   } else {
+        //     delete prepQuery['select']
+        //   }
+        // }
+        //
+
+        //
+        // if(config.query === undefined) {
+        //   const t = this.serializeQuery(this.filterQuery)
+        //   prepQuery = Object.assign(t, prepQuery)
+        // }
 
         return Object.assign(prepQuery, query)
       },
@@ -305,8 +320,7 @@
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       },
       orderByChange() {
-        const serOrderBy = this.moOrder.length > 0 ? serializeOrderBy(this.moOrder) : {}
-        this.routerPush(this.assembleQuery(serOrderBy, {orderBy: false}))
+        this.routerPush(this.assembleQuery(this.handleSerOrderBy(), {orderBy: false}))
       }
     },
     computed: {
