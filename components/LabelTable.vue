@@ -80,6 +80,7 @@
   import {moLocalTable} from 'mo-vue-table'
 
   import {
+    deserializeArray,
     deserializeOrderBy,
     deserializeFilterFactory
   } from '../lib/deserialize.js'
@@ -113,37 +114,33 @@
       'customize-dialog': CustomizeDialog
     },
     data () {
-      const {orderBy, orderDir} = this.$route.query
+      // Deserialize route query parameters
+      const {
+        select: _serSelect,
+        orderBy: _serOrderBy,
+        orderDir: _serOrderDir,
+        limit: _serLimit,
+        page: _serPage,
+        search: _serSearch,
+        eq: _serEq,
+        gt: _serGt,
+        gte: _serGte,
+        lt: _serLt,
+        lte: _serLte
+      } = this.$route.query
+
+      // Given the selectable columns, deserialize selected columns from query parameters
       const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
       let selected = selectable
-      if (query.select !== undefined) {
-        const cols = query.select.split(',')
-        selected = selectable.filter(s => cols.find(c => c === s[0]))
+      if (_serSelect) {
+        const queryColumns = deserializeArray(_serSelect)
+        selected = selectable.filter(selCol => queryColumns.find(col => col === selCol[0]))
       }
 
-      let _orderBy = {}
-      if (orderBy !== undefined && orderDir !== undefined && orderBy.length === orderDir.length) {
-        _orderBy = deserializeOrderBy(orderBy, oderDir)
-      }
-
-      const colPathMap = {
-        'label': 'label.name',
-        'govTrans': 'govTrans',
-        'envImpact': 'envImpact',
-        'scoImpact': 'scoImpact'
-      }
-
-      let eq = {}
-      let gt = {}
-      let gte = {}
-      let lt = {}
-      let lte = {}
-
-      const colSpec = {
-        'label': 'text',
-        'govTrans': 'rating',
-        'envImpact': 'rating',
-        'scoImpact': 'rating'
+      // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
+      let orderBy = []
+      if (_serOrderBy && _serOrderDir) {
+        orderBy = deserializeOrderBy(_serOrderBy, _serOrderDir, 'asc')
       }
 
       const serOpMap = {
@@ -154,36 +151,37 @@
         'lte': '$lte'
       }
 
-      const parseFunc = (field, val) => colSpec[field] === 'rating' ? val
-
-      const derserializeFilterFunc = deserializeFilterFactory(serOpMap, colPathMap, parseFunc)
-
-      if (query.eq !== undefined) {
-        eq = derserializeFilterFunc(query, 'eq')
+      const colPathMap = {
+        'label': 'label.name',
+        'govTrans': 'govTrans',
+        'envImpact': 'envImpact',
+        'scoImpact': 'scoImpact'
       }
 
-      if (query.gt !== undefined) {
-        gt = deserializeFilter(query, 'gt', '$gt', parseFunc)
+      const colSpec = {
+        'label': 'text',
+        'govTrans': 'rating',
+        'envImpact': 'rating',
+        'scoImpact': 'rating'
       }
 
-      if (query.gte !== undefined) {
-        gte = deserializeFilter(query, 'gte', '$gte', parseFunc)
-      }
+      const derserializeFilter = deserializeFilterFactory(
+        serOp => serOpMap[serOp],
+        serField => colPathMap[serField],
+        (field, val) => colSpec[field] === 'rating' ? parseInt(val) : val)
 
-      if (query.lt !== undefined) {
-        lt = deserializeFilter(query, 'lt', '$lt', parseFunc)
-      }
-
-      if (query.lte !== undefined) {
-        lte = deserializeFilter(query, 'lte', '$lte', parseFunc)
-      }
+      const eq = _serEq ? derserializeFilter(_serEq, 'eq') : {}
+      const gt = _serGt ? derserializeFilter(_serGt, 'gt') : {}
+      const gte = _serGte ? derserializeFilter(_serGte, 'gte') : {}
+      const lt = _serLt ? derserializeFilter(_serLt, 'lt') : {}
+      const lte = _serLte ? derserializeFilter(_serLte, 'lte') : {}
 
       const filterQuery = Object.assign({}, eq, gt, gte, lt, lte)
 
       return {
-        limit: query.limit === undefined ? 5 : parseInt(query.limit),
-        page: query.page === undefined ? 1 : parseInt(query.page),
-        search: query.search === undefined ? '' : query.search,
+        limit: _serLimit ? parseInt(_serLimit) : 5,
+        page: _serPage ? parseInt(_setPage) : 1,
+        search: _serSearch ? _serSearch : '',
         selectable,
         selected,
         orderBy,
