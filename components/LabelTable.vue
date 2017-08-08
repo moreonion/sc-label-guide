@@ -232,16 +232,16 @@
       }
     },
     methods: {
-      routerPush: function(query) {
+      routerPush(query) {
         this.$router.push({name: 'index', query})
       },
-      serializeArray: function(arr, f) {
+      serializeArray(arr, f) {
         return arr.map(f).join(',')
       },
-      serializeColumns: function(cols) {
+      serializeColumns(cols) {
         return this.serializeArray(cols, c => c[0])
       },
-      serializeOrderby: function() {
+      serializeOrderby() {
         if(this.moOrder.length > 0) {
           const orderBy = this.moOrder[0]
           const dir = this.moOrder[1]
@@ -251,7 +251,7 @@
           return {}
         }
       },
-      serializeQuery: function(query) {
+      serializeQuery(query) {
         const mapOp = {
           '$eq': 'eq',
           '$gte': 'gte',
@@ -275,7 +275,7 @@
 
         return filters
       },
-      assembleQuery: function(query, config = {}) {
+      assembleQuery(query, config = {}) {
         let prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
           if(this[val]) {
             accum[val] = this[val]
@@ -302,36 +302,36 @@
 
         return Object.assign(prepQuery, query)
       },
-      showInfoDialog: function(row, col) {
+      showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
       },
-      filtersDialogResult: function(newQuery) {
+      filtersDialogResult(newQuery) {
         const q = Object.assign(this.serializeQuery(newQuery), {page: 1})
         this.routerPush(this.assembleQuery(q, {query: false}))
       },
-      customizeDialogResult: function(projected) {
+      customizeDialogResult(projected) {
         this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}, {select: false}))
       },
       searchChange: debounce(function(search) {
         this.page = 1
         this.search = search
       }, 200),
-      pageChange: function(page) {
+      pageChange(page) {
         this.routerPush(this.assembleQuery({page}))
       },
-      serializeSearch: function() {
+      serializeSearch() {
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       },
-      orderByChange: function() {
+      orderByChange() {
         this.routerPush(this.assembleQuery(this.serializeOrderby(), {orderBy: false}))
       }
     },
     computed: {
-      offset: function() {
+      offset() {
         return (this.page - 1) * this.limit
       },
-      query: function() {
+      query() {
         // Perform case insenstive search on label name
         const searchQuery = {
           'label.name': {
@@ -357,37 +357,36 @@
     },
     watch: {
       offset: {
-        handler: function() {
+        handler() {
           this.moSetOffset(this.offset)
         },
         immediate: true
       },
       limit: {
-        handler: function() {
+        handler() {
           this.moSetLimit(this.limit)
         },
         immediate: true
       },
       selected: {
-        handler: function() {
+        handler() {
           this.moSetSelectState(this.selected)
         },
         immediate: true
       },
       query: {
-        handler: function() {
+        handler() {
           this.moSetWhereState(this.query)
         },
         immediate: true
       },
       orderBy: {
-        handler: function() {
+        handler() {
           this.moTable.orderBy = this.orderBy
-          // this.$set(this.moTable, 'orderBy', this.orderBy)
         },
         immediate: true
       },
-      moOrder: function() {
+      moOrder() {
         this.orderByChange()
       }
     }
