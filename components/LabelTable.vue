@@ -16,6 +16,8 @@
       </div>
     </div>
 
+    <pre>{{moOrder}}</pre>
+
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
@@ -83,6 +85,12 @@
     deserializeOrderBy,
     deserializeFilterFactory
   } from '../lib/deserialize.js'
+
+  import {
+    serializeArray,
+    serializeOrderBy,
+    serializeQueryFactory
+  } from '../lib/serialize.js'
 
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
@@ -222,6 +230,13 @@
           '$lt': '<',
           '$lte': '<='
         },
+        serOpMapRev: {
+          '$eq': 'eq',
+          '$gte': 'gte',
+          '$gt': 'gt',
+          '$lte': 'lte',
+          '$lt': 'lt'
+        },
         // Dialog visibility and data
         filtersDialogVisible: false,
         shareDialogVisible: false,
@@ -234,46 +249,6 @@
     methods: {
       routerPush(query) {
         this.$router.push({name: 'index', query})
-      },
-      serializeArray(arr, f) {
-        return arr.map(f).join(',')
-      },
-      serializeColumns(cols) {
-        return this.serializeArray(cols, c => c[0])
-      },
-      serializeOrderby() {
-        if(this.moOrder.length > 0) {
-          const orderBy = this.moOrder[0]
-          const dir = this.moOrder[1]
-
-          return {orderBy: orderBy.join(','), orderDir: dir.join(',')}
-        } else {
-          return {}
-        }
-      },
-      serializeQuery(query) {
-        const mapOp = {
-          '$eq': 'eq',
-          '$gte': 'gte',
-          '$gt': 'gt',
-          '$lte': 'lte',
-          '$lt': 'lt'
-        }
-
-        const filters = {}
-        for(const field in query) {
-          const op = getOperator(query[field])
-          const val = query[field][op]
-          const mOp = mapOp[op]
-
-          if(filters[mOp]) {
-            filters[mOp] = `${filters[mOp]},${this.colPathMapRev[field]}-${val}`
-          } else {
-            filters[mOp] = `${this.colPathMapRev[field]}-${val}`
-          }
-        }
-
-        return filters
       },
       assembleQuery(query, config = {}) {
         let prepQuery = ['page', 'limit', 'search'].reduce((accum, val) => {
@@ -307,11 +282,16 @@
         this.infoDialogVisible = true
       },
       filtersDialogResult(newQuery) {
-        const q = Object.assign(this.serializeQuery(newQuery), {page: 1})
-        this.routerPush(this.assembleQuery(q, {query: false}))
+        const serializeQuery = serializeQueryFactory(
+          field => this.colPathMapRev[field],
+          op => this.serOpMapRev[op])
+
+        const serQuery = serializeQuery(newQuery)
+        this.routerPush(this.assembleQuery(Object.assign(serQuery, {page: 1}), {query: false}))
       },
       customizeDialogResult(projected) {
-        this.routerPush(this.assembleQuery({select: this.serializeColumns(projected)}, {select: false}))
+        const serSelect = {select: serializeArray(projected.map(c => c[0]))}
+        this.routerPush(this.assembleQuery(serSelect, {select: false}))
       },
       searchChange: debounce(function(search) {
         this.page = 1
@@ -321,10 +301,12 @@
         this.routerPush(this.assembleQuery({page}))
       },
       serializeSearch() {
+        // TODO: why not: search= ? Since search default value is ''
         this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
       },
       orderByChange() {
-        this.routerPush(this.assembleQuery(this.serializeOrderby(), {orderBy: false}))
+        const serOrderBy = this.moOrder.length > 0 ? serializeOrderBy(this.moOrder) : {}
+        this.routerPush(this.assembleQuery(serOrderBy, {orderBy: false}))
       }
     },
     computed: {
@@ -341,7 +323,7 @@
           }
         }
 
-        return Object.assign({}, this.search.length > 0 ? searchQuery : {}, this.filterQuery)
+        return Object.assign(this.search.length > 0 ? searchQuery : {}, this.filterQuery)
       },
       queryList() {
         const res = []

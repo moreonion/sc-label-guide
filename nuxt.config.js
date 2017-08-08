@@ -22,7 +22,7 @@ module.exports = {
   */
   plugins: ['~plugins/mo-vue-table', '~plugins/element-ui'],
   build: {
-    vendor: ['axios', 'element-ui', 'lodash.debounce', 'lodash.zip', 'mo-vue-table'],
+    vendor: ['axios', 'element-ui', 'mo-vue-table', 'lodash.debounce', 'lodash.zip', 'lodash.reduce'],
     /*
     ** Run ESLINT on save
     */
