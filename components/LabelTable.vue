@@ -247,42 +247,40 @@
       }
     },
     methods: {
+      handleSerSelect(selected) {
+        return selected.length !== this.selectable.length ? serializeArray(selected.map(col => col[0])) : undefined
+      },
       handleSerOrderBy() {
         return this.moOrder.length > 0
           ? serializeOrderBy([
             this.moOrder[0].map(field => this.colPathMapRev[field]),
             this.moOrder[1]]) : {}
       },
-      routerPush(query) {
-        this.$router.push({name: 'index', query})
+      routerPush(queryParams, ignore) {
+        this.$router.push({name: 'index', query: this.assembleQuery(queryParams, ignore)})
       },
-      assembleQuery(query, config = {}) {
+      assembleQuery(queryParams, ignore = {}) {
         let prepQuery = {}
 
-        if(!config.page) {
+        if(!ignore.page) {
           prepQuery.page = this.page
         }
 
-        if(!config.limit) {
+        if(!ignore.limit) {
           prepQuery.limit = this.limit
         }
 
-        if(!config.search && this.search.length > 0) {
+        if(!ignore.search && this.search.length > 0) {
           prepQuery.search = this.search
         }
 
-        if(!config.oderBy) {
+        if(!ignore.oderBy) {
           prepQuery = Object.assign(this.handleSerOrderBy(), prepQuery)
         }
 
-        // if(config.select === undefined) {
-        //   if(this.selected.length !== this.selectable.length) {
-        //     prepQuery.select = this.serializeColumns(this.selected)
-        //   } else {
-        //     delete prepQuery['select']
-        //   }
-        // }
-        //
+        if(!ignore.select) {
+          prepQuery.select = this.handleSerSelect()
+        }
 
         //
         // if(config.query === undefined) {
@@ -290,11 +288,7 @@
         //   prepQuery = Object.assign(t, prepQuery)
         // }
 
-        return Object.assign(prepQuery, query)
-      },
-      showInfoDialog(row, col) {
-        this.infoDialogInput = {row, col}
-        this.infoDialogVisible = true
+        return Object.assign(prepQuery, queryParams)
       },
       filtersDialogResult(newQuery) {
         const serializeQuery = serializeQueryFactory(
@@ -304,42 +298,31 @@
         const serQuery = serializeQuery(newQuery)
         this.routerPush(this.assembleQuery(Object.assign(serQuery, {page: 1}), {query: false}))
       },
-      customizeDialogResult(projected) {
-        const serSelect = {select: serializeArray(projected.map(c => c[0]))}
-        this.routerPush(this.assembleQuery(serSelect, {select: false}))
+      customizeDialogResult(selected) {
+        const serSelect = this.handleSerSelect(selected)
+        this.routerPush(serSelect, {select: true})
       },
       searchChange: debounce(function(search) {
         this.page = 1
         this.search = search
       }, 200),
-      pageChange(page) {
-        this.routerPush(this.assembleQuery({page}))
+      pageChange(page) { this.routerPush({page}) },
+      serializeSearch() { this.routerPush({}) },
+      orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
+      showInfoDialog(row, col) {
+        this.infoDialogInput = {row, col}
+        this.infoDialogVisible = true
       },
-      serializeSearch() {
-        // TODO: why not: search= ? Since search default value is ''
-        this.routerPush(this.assembleQuery({search: this.search ? this.search : undefined}))
-      },
-      orderByChange() {
-        this.routerPush(this.assembleQuery(this.handleSerOrderBy(), {orderBy: false}))
-      }
     },
     computed: {
-      offset() {
-        return (this.page - 1) * this.limit
-      },
+      offset() { return (this.page - 1) * this.limit },
       query() {
         // Perform case insenstive search on label name
-        const searchQuery = {
-          'label.name': {
-            $text: {
-              $search: this.search
-            }
-          }
-        }
-
+        const searchQuery = { 'label.name': { $text: { $search: this.search } } }
         return Object.assign(this.search.length > 0 ? searchQuery : {}, this.filterQuery)
       },
       queryList() {
+        // TODO: as lib function
         const res = []
         for(const c in this.query) {
           const op = getOperator(this.query[c])
@@ -352,39 +335,12 @@
       }
     },
     watch: {
-      offset: {
-        handler() {
-          this.moSetOffset(this.offset)
-        },
-        immediate: true
-      },
-      limit: {
-        handler() {
-          this.moSetLimit(this.limit)
-        },
-        immediate: true
-      },
-      selected: {
-        handler() {
-          this.moSetSelectState(this.selected)
-        },
-        immediate: true
-      },
-      query: {
-        handler() {
-          this.moSetWhereState(this.query)
-        },
-        immediate: true
-      },
-      orderBy: {
-        handler() {
-          this.moTable.orderBy = this.orderBy
-        },
-        immediate: true
-      },
-      moOrder() {
-        this.orderByChange()
-      }
+      offset: { handler() { this.moSetOffset(this.offset) }, immediate: true },
+      limit: { handler() { this.moSetLimit(this.limit) }, immediate: true },
+      selected: { handler() { this.moSetSelectState(this.selected) }, immediate: true },
+      query: { handler() { this.moSetWhereState(this.query) }, immediate: true },
+      orderBy: { handler() { this.moTable.orderBy = this.orderBy }, immediate: true },
+      moOrder() { this.orderByChange() }
     }
   }
 </script>
