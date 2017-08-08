@@ -20,7 +20,7 @@
       <thead>
         <tr>
           <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]"
-            :class="moColumnOrder(colPathMap[column[0]]) !== null ? 'mo-' + moColumnOrder(colPathMap[column[0]]) : ''">
+            :class="moColumnOrder(column[0]) !== null ? 'mo-' + moColumnOrder(column[0]) : ''">
             {{colNameMap[column[0]]}}
           </th>
         </tr>
@@ -130,6 +130,7 @@
 
       // Given the selectable columns, deserialize selected columns from query parameters
       const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
+
       let selected = selectable
 
       if(_serSelect) {
@@ -140,19 +141,19 @@
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
       const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, 'asc') : []
 
+      const colPathMap = {
+        'label': 'label.name',
+        'govTrans': 'govTrans',
+        'envImpact': 'envImpact',
+        'scoImpact': 'scoImpact'
+      }
+
       const serOpMap = {
         'eq': '$eq',
         'gt': '$gt',
         'gte': '$gte',
         'lt': '$lt',
         'lte': '$lte'
-      }
-
-      const colPathMap = {
-        'label': 'label.name',
-        'govTrans': 'govTrans',
-        'envImpact': 'envImpact',
-        'scoImpact': 'scoImpact'
       }
 
       const colSpec = {
@@ -173,18 +174,28 @@
       const lt = _serLt ? derserializeFilter(_serLt, 'lt') : {}
       const lte = _serLte ? derserializeFilter(_serLte, 'lte') : {}
 
-      const filterQuery = Object.assign({}, eq, gt, gte, lt, lte)
-
       return {
+        // Basic table data
+        lang: 'English',
+        selectable,
+        // Paramterizable by router query
         limit: _serLimit ? parseInt(_serLimit) : 5,
         page: _serPage ? parseInt(_serPage) : 1,
-        search: _serSearch || '',
-        selectable,
-        selected,
         orderBy,
-        filterQuery,
-        lang: 'English',
-        columns: ['Label', 'Governance& Transparency', 'Environmental impact', 'Social impact'],
+        search: _serSearch || '',
+        filterQuery: Object.assign(eq, gt, gte, lt, lte),
+        selected,
+        // Column meta data
+        colHasInfo: {
+          'label': true
+        },
+        colIsRating: {
+          'govTrans': true,
+          'envImpact': true,
+          'scoImpact': true
+        },
+        colSpec,
+        // Mapping data
         colNameMap: {
           'label': 'Label',
           'govTrans': 'Governance& Transparency',
@@ -204,15 +215,6 @@
           'envImpact': 'envImpact',
           'scoImpact': 'scoImpact'
         },
-        colHasInfo: {
-          'label': true
-        },
-        colIsRating: {
-          'govTrans': true,
-          'envImpact': true,
-          'scoImpact': true
-        },
-        colSpec,
         opMapRev: {
           '$eq': 'is',
           '$gt': '>',
@@ -220,6 +222,7 @@
           '$lt': '<',
           '$lte': '<='
         },
+        // Dialog visibility and data
         filtersDialogVisible: false,
         shareDialogVisible: false,
         infoDialogVisible: false,
@@ -380,6 +383,7 @@
       orderBy: {
         handler: function() {
           this.moTable.orderBy = this.orderBy
+          // this.$set(this.moTable, 'orderBy', this.orderBy)
         },
         immediate: true
       },
