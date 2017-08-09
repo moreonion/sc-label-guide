@@ -52,10 +52,10 @@
     </div>
 
     <!-- Filters Dialog -->
-    <filters-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
+    <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
       :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
       :colSpec="colSpec">
-    </filters-dialog>
+    </query-dialog>
 
     <!-- Info Dialog -->
     <info-dialog :visible.sync="infoDialogVisible" :label="infoDialogInput"></info-dialog>
@@ -95,7 +95,7 @@
   import EvalCircle from './EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
 
-  import FiltersDialog from './FiltersDialog/FiltersDialog.vue'
+  import QueryDialog from './QueryDialog/QueryDialog.vue'
   import ShareDialog from './ShareDialog/ShareDialog.vue'
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
@@ -107,7 +107,7 @@
       'lang-select': LangSelect,
       'eval-circle': EvalCircle,
       'table-legend': TableLegend,
-      'filters-dialog': FiltersDialog,
+      'query-dialog': QueryDialog,
       'share-dialog': ShareDialog,
       'info-dialog': InfoDialog,
       'bginfo-dialog': BgInfoDialog,
