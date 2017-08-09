@@ -16,8 +16,6 @@
       </div>
     </div>
 
-    <pre>{{moOrder}}</pre>
-
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
@@ -257,7 +255,7 @@
             this.moOrder[1]]) : {}
       },
       routerPush(queryParams, ignore) {
-        this.$router.push({name: 'index', query: this.assembleQuery(queryParams, ignore)})
+        this.$router.replace({name: 'index', query: this.assembleQuery(queryParams, ignore)})
       },
       assembleQuery(queryParams, ignore = {}) {
         let prepQuery = {}
@@ -279,7 +277,7 @@
         }
 
         if(!ignore.select) {
-          prepQuery.select = this.handleSerSelect()
+          prepQuery.select = this.handleSerSelect(this.selected)
         }
 
         //
@@ -299,7 +297,7 @@
         this.routerPush(this.assembleQuery(Object.assign(serQuery, {page: 1}), {query: false}))
       },
       customizeDialogResult(selected) {
-        const serSelect = this.handleSerSelect(selected)
+        const serSelect = {select: this.handleSerSelect(selected)}
         this.routerPush(serSelect, {select: true})
       },
       searchChange: debounce(function(search) {
@@ -312,7 +310,7 @@
       showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
-      },
+      }
     },
     computed: {
       offset() { return (this.page - 1) * this.limit },
