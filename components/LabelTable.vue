@@ -8,10 +8,12 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
+    <pre>{{mappedSelectedColumns}}</pre>
+
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
         <div class="queryItem">{{colNameMap[qlItem.left]}} </div> <div class="queryItem">{{qlItem.op}} </div>
-        <eval-circle class="queryItem" :value="qlItem.right" v-if="colSpec[qlItem.left] === 'rating'"></eval-circle>
+        <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
         <div class="queryItem" v-else>{{qlItem.right}}</div>
       </div>
     </div>
@@ -19,18 +21,18 @@
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
-          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="columnMap[column[0]]" :key="column[1]" :class="columnClass(column[0])">
+          <th v-for="column in mappedSelectedColumns" v-mo-toggle-orderby="column[0]" :key="column[1]" :class="columnClass(column[0])">
             {{colNameMap[column[0]]}}
           </th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="row in moDisplayed">
-          <td v-for="column in moSelectedColumns">
-            <eval-circle v-if="colIsRating[column[0]]" :value="colValMap[column[0]](row)"></eval-circle>
-            <span class="pointable" v-else-if="colHasInfo[column[0]]" @click="showInfoDialog(row, column[0])">
-              <img class="logoImg" :src="row[column[0]].img">
-              {{colValMap[column[0]](row)}}
+          <td v-for="column in mappedSelectedColumns">
+            <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
+            <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
+              <img class="logoImg" :src="row[columnMapRev[column[0]]].img">
+              {{columnValue(row, column[0])}}
             </span>
             <span v-else>{{colValMap[column[0]](row)}}</span>
           </td>
@@ -53,8 +55,8 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-      :query="query" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="columnMap"
-      :colSpec="colSpec">
+      :queryObj="query" :selectedColumns="selected" :colNameMap="colNameMap" :columnMap="columnMap"
+      :columnMeta="columnMeta">
     </query-dialog>
 
     <!-- Info Dialog -->
@@ -76,6 +78,8 @@
 <script>
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
+
+  import {id} from '../lib/fp.js'
 
   import {
     deserializeArray,
@@ -132,13 +136,6 @@
       // Given the selectable columns, deserialize selected columns from query parameters
       const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
 
-      let selected = selectable
-
-      if(_serSelect) {
-        const queryColumns = deserializeArray(_serSelect)
-        selected = selectable.filter(selCol => queryColumns.find(col => col === selCol[0]))
-      }
-
       const columnMap = {
         'label': 'label.name',
         'govTrans': 'govTrans',
@@ -146,8 +143,16 @@
         'scoImpact': 'scoImpact'
       }
 
+      let selected = selectable
+
+      if(_serSelect) {
+        const queryColumns = deserializeArray(_serSelect)
+        selected = selectable.filter(selCol => queryColumns.find(col => columnMap[col] === selCol[0]))
+      }
+
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
-      const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, field => columnMap[field], 'asc') : []
+      const orderBy = (_serOrderBy && _serOrderDir)
+        ? deserializeOrderBy(_serOrderBy, _serOrderDir, column => columnMap[column], 'asc') : []
 
       const serOpMap = {
         'eq': '$eq',
@@ -157,17 +162,17 @@
         'lte': '$lte'
       }
 
-      const colSpec = {
-        'label': 'text',
-        'govTrans': 'rating',
-        'envImpact': 'rating',
-        'scoImpact': 'rating'
+      const columnMeta = {
+        'label.name': {type: 'text', hasInfo: true},
+        'govTrans': {type: 'rating'},
+        'envImpact': {type: 'rating'},
+        'scoImpact': {type: 'rating'}
       }
 
       const deserializeQuery = deserializeQueryFactory(
         serOp => serOpMap[serOp],
-        serField => columnMap[serField],
-        (field, val) => colSpec[field] === 'rating' ? parseInt(val) : val)
+        serColumn => columnMap[serColumn],
+        (column, val) => columnMeta[column].type === 'rating' ? parseInt(val) : val)
 
       const eq = _serEq ? deserializeQuery(_serEq, 'eq') : {}
       const gt = _serGt ? deserializeQuery(_serGt, 'gt') : {}
@@ -187,30 +192,22 @@
         query: Object.assign(eq, gt, gte, lt, lte),
         selected,
         // Column meta data
-        colHasInfo: {
-          'label': true
-        },
-        colIsRating: {
-          'govTrans': true,
-          'envImpact': true,
-          'scoImpact': true
-        },
-        colSpec,
+        columnMeta,
         // Mapping data
         colNameMap: {
-          'label': 'Label',
+          'label.name': 'Label',
           'govTrans': 'Governance& Transparency',
           'envImpact': 'Environmental impact',
           'scoImpact': 'Social impact'
         },
         colValMap: {
-          'label': row => row.label.name,
+          'label.name': row => row.label.name,
           'govTrans': row => row.govTrans,
           'envImpact': row => row.envImpact,
           'scoImpact': row => row.scoImpact
         },
         columnMap,
-        colPathMapRev: {
+        columnMapRev: {
           'label.name': 'label',
           'govTrans': 'govTrans',
           'envImpact': 'envImpact',
@@ -248,11 +245,12 @@
         return this.search.length > 0 ? Object.assign(searchQuery, this.query) : this.query
       },
       queryList() {
-        const queryArr = queryObjToArr(this.completeQuery,
-          field => this.colPathMapRev[field],
-          op => this.opMapRev[op])
+        const queryArr = queryObjToArr(this.completeQuery, id, op => this.opMapRev[op])
 
         return queryArr.filter(q => q.op !== '$text')
+      },
+      mappedSelectedColumns() {
+        return this.moSelectedColumns.map(([col, colIndx]) => [this.columnMap[col], colIndx])
       }
     },
     watch: {
@@ -264,6 +262,19 @@
       moOrder() { this.orderByChange() }
     },
     methods: {
+      columnClass(column) {
+        const dir = this.moColumnOrder(column)
+        return dir !== null ? [`mo-${dir}`] : []
+      },
+      columnValue(row, column) {
+        return this.colValMap[column](row)
+      },
+      columnIsRating(column) {
+        return this.columnMeta[column].type === 'rating'
+      },
+      columnHasInfo(column) {
+        return this.columnMeta[column].hasInfo
+      },
       showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
@@ -281,7 +292,7 @@
       handleSerOrderBy() {
         return this.moOrder.length > 0
           ? serializeOrderBy([
-            this.moOrder[0].map(field => this.colPathMapRev[field]),
+            this.moOrder[0].map(field => this.columnMapRev[field]),
             this.moOrder[1]]) : {}
       },
       queryDialogResult(newQuery) {
@@ -289,7 +300,7 @@
       },
       handleSerQuery(query) {
         const serializeQuery = serializeQueryFactory(
-          field => this.colPathMapRev[field],
+          field => this.columnMapRev[field],
           op => this.serOpMapRev[op])
 
         return serializeQuery(query)
@@ -320,10 +331,6 @@
         if(!ignore.query) { Object.assign(prepQuery, this.handleSerQuery(this.query)) }
 
         return Object.assign(prepQuery, queryParams)
-      },
-      columnClass(column) {
-        const dir = this.moColumnOrder(this.columnMap[column])
-        return dir !== null ? [`mo-${dir}`] : []
       }
     }
   }

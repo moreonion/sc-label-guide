@@ -2,31 +2,33 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
 
-    <div>
-      <el-button @click="addFilter" type="primary">Add filter</el-button>
+    <pre>{{queryArr}}</pre>
 
-      <div v-if="filters.length > 0" class="filter-cont" :key="index" v-for="(filter, index) in filters">
-        <el-select class="leftSelect" v-model="filter.left" placeholder="Column">
+    <div>
+      <el-button @click="addQuery" type="primary">Add filter</el-button>
+
+      <div v-if="queryArr.length > 0" class="query-cont" :key="index" v-for="(query, index) in queryArr">
+        <el-select class="leftSelect" v-model="query.left" placeholder="Column">
           <el-option v-for="column in selectedColumns" :key="column[1]"
-            :label="colNameMap[column[0]]" :value="colPathMap[column[0]]">
+            :label="colNameMap[column[0]]" :value="columnMap[column[0]]">
           </el-option>
         </el-select>
 
-        <el-select class="opSelect" v-model="filter.op" placeholder="Operator">
+        <el-select class="opSelect" v-model="query.op" placeholder="Operator">
           <el-option v-for="(op, index) in ops" :key="index" :label="op" :value="op"></el-option>
         </el-select>
 
-        <el-select class="valInput" v-if="isRating(filter.left)" v-model="filter.right" placeholder="Value">
+        <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
           <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
             <eval-circle :value="rating"></eval-circle>
           </el-option>
         </el-select>
-        <el-input class="valInput" placeholder="Value" v-model="filter.right" v-else></el-input>
+        <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
 
-        <el-button @click="filters.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
+        <el-button @click="queryArr.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
       </div>
       <!-- BUG: v-else not working here -->
-      <div v-if="filters.length === 0" class="emptyState">
+      <div v-if="queryArr.length === 0" class="emptyState">
         Add new filters to get more precise search results.
       </div>
 
@@ -40,22 +42,15 @@
 </template>
 
 <script>
+  import {queryObjToArr, queryArrToObj} from '../../lib/queryTransform.js'
   import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 
   import EvalCircle from '../EvalCircle.vue'
 
-  const getOperator = query => {
-    for(const op in query) {
-      return op
-    }
-  }
-
   export default {
     mixins: [moDialogVisibility],
-    components: {
-      'eval-circle': EvalCircle
-    },
-    props: ['visible', 'query', 'selectedColumns', 'colNameMap', 'colPathMap', 'colSpec'],
+    components: {'eval-circle': EvalCircle},
+    props: ['visible', 'queryObj', 'selectedColumns', 'colNameMap', 'columnMap', 'columnMeta'],
     data() {
       return {
         ops: ['is', '>', '>=', '<', '<='],
@@ -73,48 +68,39 @@
           '$lt': '<',
           '$lte': '<='
         },
-        filters: []
+        queryArr: []
       }
     },
     methods: {
       updateVisible(val) {
         if(val) {
-          this.filters = []
           // Query -> Filters array
-          for(const field in this.query) {
-            const op = getOperator(this.query[field])
-            this.filters.push({left: field, op: this.opMapRev[op], right: this.query[field][op]})
-          }
+          this.queryArr = queryObjToArr(this.queryObj, column => this.columnMap[column], op => this.opMapRev[op])
         }
 
         this.$emit('update:visible', val)
       },
-      addFilter: function() {
-        this.filters.push({left: this.colPathMap[this.selectedColumns[0][0]], op: this.ops[0], right: null})
+      addQuery: function() {
+        const firstColumn = this.selectedColumns[0]
+        this.queryArr.push({left: this.columnMap[firstColumn[0]], op: this.ops[0], right: null})
       },
-      mapFilters: function() {
+      transformQuery: function() {
         // Filters array -> Query
-        return this.filters.reduce((accum, filter) => {
-          accum[filter.left] = {[this.opMap[filter.op]]: filter.right}
-          return accum
-        }, {})
+        return queryArrToObj(this.queryArr)
       },
       onClose: function() {
         this.dismiss()
-        this.$emit('close', this.mapFilters())
+        this.$emit('close', this.transformQuery())
       },
       isRating: function(col) {
-        return this.colSpec[col] === 'rating'
-      },
-      isText: function(col) {
-        return this.colSpec[col] === 'text'
+        return this.columnMeta[col].type === 'rating'
       }
     }
   }
 </script>
 
 <style>
-  .filter-cont {
+  .query-cont {
     border: 1px solid #CFD0D1;
     padding: 10px;
     margin-bottom: 20px;
