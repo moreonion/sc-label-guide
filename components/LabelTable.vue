@@ -9,10 +9,10 @@
     </div>
 
     <div class="queryList">
-      <div class="queryStr" v-for="query in queryList">
-        <div class="queryItem">{{colNameMap[colPathMapRev[query.left]]}} </div> <div class="queryItem">{{opMapRev[query.op]}} </div>
-        <eval-circle class="queryItem" :value="query.right" v-if="colSpec[query.left] === 'rating'"></eval-circle>
-        <div class="queryItem" v-else>{{query.right}}</div>
+      <div class="queryStr" v-for="ql in queryList">
+        <div class="queryItem">{{colNameMap[ql.left]}} </div> <div class="queryItem">{{ql.op}} </div>
+        <eval-circle class="queryItem" :value="ql.right" v-if="colSpec[ql.left] === 'rating'"></eval-circle>
+        <div class="queryItem" v-else>{{ql.right}}</div>
       </div>
     </div>
 
@@ -90,6 +90,8 @@
     serializeQueryFactory
   } from '../lib/serialize.js'
 
+  import {queryObjToArr} from '../lib/queryTransform.js'
+
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
@@ -99,12 +101,6 @@
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
-
-  const getOperator = _query => {
-    for(const c in _query) {
-      return c
-    }
-  }
 
   export default {
     mixins: [moLocalTable],
@@ -226,7 +222,8 @@
           '$gt': '>',
           '$gte': '>=',
           '$lt': '<',
-          '$lte': '<='
+          '$lte': '<=',
+          '$text': '$text'
         },
         serOpMapRev: {
           '$eq': 'eq',
@@ -252,16 +249,11 @@
         return this.search.length > 0 ? Object.assign(searchQuery, this.filterQuery) : this.filterQuery
       },
       queryList() {
-        // TODO: as lib function
-        const res = []
-        for(const c in this.query) {
-          const op = getOperator(this.query[c])
-          if(op !== '$text') {
-            res.push({left: c, op, right: this.query[c][op]})
-          }
-        }
+        const queryArr = queryObjToArr(this.query,
+          field => this.colPathMapRev[field],
+          op => this.opMapRev[op])
 
-        return res
+        return queryArr.filter(q => q.op !== '$text')
       }
     },
     watch: {
