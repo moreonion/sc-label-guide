@@ -253,7 +253,10 @@
         this.page = 1
         this.search = search
       }, 200),
-      searchBlur() { this.routerPush({search: this.search.length > 0 ? this.search : undefined}, {search: true}) },
+      searchBlur() { this.routerPush(this.handleSerSearch(), {search: true}) },
+      handleSerSearch() {
+        return {search: this.search.length > 0 ? this.search : undefined}
+      },
       pageChange(page) { this.routerPush({page}, {page: true}) },
       orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
       handleSerOrderBy() {
@@ -268,7 +271,7 @@
           op => this.serOpMapRev[op])
 
         const serQuery = serializeQuery(newQuery)
-        this.routerPush(Object.assign(serQuery, {page: 1}), {query: false})
+        this.routerPush(Object.assign(serQuery, {page: 1}), {query: true})
       },
       customizeDialogResult(selected) {
         this.routerPush(this.handleSerSelect(selected), {select: true})
@@ -286,7 +289,7 @@
 
         if(!ignore.limit) { prepQuery.limit = this.limit }
 
-        if(!ignore.search && this.search.length > 0) { prepQuery.search = this.search }
+        if(!ignore.search) { Object.assign(prepQuery, this.handleSerSearch()) }
 
         if(!ignore.oderBy) { Object.assign(prepQuery, this.handleSerOrderBy()) }
 
