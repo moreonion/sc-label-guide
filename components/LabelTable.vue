@@ -303,7 +303,8 @@
       routerPush(queryParams, ignore) {
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
-      assembleQueryParams(queryParams, ignore = {}) {
+      assembleQueryParams(queryParams, ignore={}) {
+        // Serialize state as route query params
         const prepQuery = {}
 
         if(!ignore.page) { prepQuery.page = this.page }
