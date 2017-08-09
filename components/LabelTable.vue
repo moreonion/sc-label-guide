@@ -19,7 +19,7 @@
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
-          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]" :class="columnClass(column[0])">
+          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="columnMap[column[0]]" :key="column[1]" :class="columnClass(column[0])">
             {{colNameMap[column[0]]}}
           </th>
         </tr>
@@ -53,7 +53,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-      :query="query" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
+      :query="query" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="columnMap"
       :colSpec="colSpec">
     </query-dialog>
 
@@ -139,7 +139,7 @@
         selected = selectable.filter(selCol => queryColumns.find(col => col === selCol[0]))
       }
 
-      const colPathMap = {
+      const columnMap = {
         'label': 'label.name',
         'govTrans': 'govTrans',
         'envImpact': 'envImpact',
@@ -147,7 +147,7 @@
       }
 
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
-      const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, field => colPathMap[field], 'asc') : []
+      const orderBy = (_serOrderBy && _serOrderDir) ? deserializeOrderBy(_serOrderBy, _serOrderDir, field => columnMap[field], 'asc') : []
 
       const serOpMap = {
         'eq': '$eq',
@@ -166,7 +166,7 @@
 
       const deserializeQuery = deserializeQueryFactory(
         serOp => serOpMap[serOp],
-        serField => colPathMap[serField],
+        serField => columnMap[serField],
         (field, val) => colSpec[field] === 'rating' ? parseInt(val) : val)
 
       const eq = _serEq ? deserializeQuery(_serEq, 'eq') : {}
@@ -209,7 +209,7 @@
           'envImpact': row => row.envImpact,
           'scoImpact': row => row.scoImpact
         },
-        colPathMap,
+        columnMap,
         colPathMapRev: {
           'label.name': 'label',
           'govTrans': 'govTrans',
@@ -322,7 +322,7 @@
         return Object.assign(prepQuery, queryParams)
       },
       columnClass(column) {
-        const dir = this.moColumnOrder(this.colPathMap[column])
+        const dir = this.moColumnOrder(this.columnMap[column])
         return dir !== null ? [`mo-${dir}`] : []
       }
     }
