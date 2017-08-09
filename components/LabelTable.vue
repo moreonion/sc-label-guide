@@ -9,10 +9,10 @@
     </div>
 
     <div class="queryList">
-      <div class="queryStr" v-for="ql in queryList">
-        <div class="queryItem">{{colNameMap[ql.left]}} </div> <div class="queryItem">{{ql.op}} </div>
-        <eval-circle class="queryItem" :value="ql.right" v-if="colSpec[ql.left] === 'rating'"></eval-circle>
-        <div class="queryItem" v-else>{{ql.right}}</div>
+      <div class="queryStr" v-for="qlItem in queryList">
+        <div class="queryItem">{{colNameMap[qlItem.left]}} </div> <div class="queryItem">{{qlItem.op}} </div>
+        <eval-circle class="queryItem" :value="qlItem.right" v-if="colSpec[qlItem.left] === 'rating'"></eval-circle>
+        <div class="queryItem" v-else>{{qlItem.right}}</div>
       </div>
     </div>
 
