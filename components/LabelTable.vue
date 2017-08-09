@@ -266,12 +266,14 @@
             this.moOrder[1]]) : {}
       },
       filtersDialogResult(newQuery) {
+        this.routerPush(Object.assign(this.handleSerQuery(newQuery), {page: 1}), {query: true})
+      },
+      handleSerQuery(query) {
         const serializeQuery = serializeQueryFactory(
           field => this.colPathMapRev[field],
           op => this.serOpMapRev[op])
 
-        const serQuery = serializeQuery(newQuery)
-        this.routerPush(Object.assign(serQuery, {page: 1}), {query: true})
+        return serializeQuery(query)
       },
       customizeDialogResult(selected) {
         this.routerPush(this.handleSerSelect(selected), {select: true})
@@ -295,11 +297,7 @@
 
         if(!ignore.select) { Object.assign(prepQuery, this.handleSerSelect(this.selected)) }
 
-        //
-        // if(config.query === undefined) {
-        //   const t = this.serializeQuery(this.filterQuery)
-        //   prepQuery = Object.assign(t, prepQuery)
-        // }
+        if(!ignore.query) { Object.assign(prepQuery, this.handleSerQuery(this.filterQuery)) }
 
         return Object.assign(prepQuery, queryParams)
       }
