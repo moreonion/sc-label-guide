@@ -301,7 +301,7 @@
         return selected.length !== this.selectable.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
       },
       routerPush(queryParams, ignore) {
-        this.$router.replace({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
+        this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
       assembleQueryParams(queryParams, ignore = {}) {
         const prepQuery = {}
