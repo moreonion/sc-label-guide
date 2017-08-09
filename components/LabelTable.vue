@@ -19,8 +19,7 @@
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
-          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]"
-            :class="moColumnOrder(colPathMap[column[0]]) !== null ? 'mo-' + moColumnOrder(colPathMap[column[0]]) : ''">
+          <th v-for="column in moSelectedColumns" v-mo-toggle-orderby="colPathMap[column[0]]" :key="column[1]" :class="columnClass(column[0])">
             {{colNameMap[column[0]]}}
           </th>
         </tr>
@@ -320,6 +319,10 @@
         if(!ignore.query) { Object.assign(prepQuery, this.handleSerQuery(this.filterQuery)) }
 
         return Object.assign(prepQuery, queryParams)
+      },
+      columnClass(column) {
+        const dir = this.moColumnOrder(this.colPathMap[column])
+        return dir !== null ? [`mo-${dir}`] : []
       }
     }
   }
