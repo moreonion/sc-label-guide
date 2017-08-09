@@ -3,7 +3,7 @@
     <div>
       <el-button @click="filtersDialogVisible = true">Filters</el-button>
 
-      <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="serializeSearch"></el-input>
+      <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="searchBlur"></el-input>
 
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
@@ -245,40 +245,52 @@
       }
     },
     methods: {
-      handleSerSelect(selected) {
-        return selected.length !== this.selectable.length ? serializeArray(selected.map(col => col[0])) : undefined
+      showInfoDialog(row, col) {
+        this.infoDialogInput = {row, col}
+        this.infoDialogVisible = true
       },
+      searchChange: debounce(function(search) {
+        this.page = 1
+        this.search = search
+      }, 200),
+      searchBlur() { this.routerPush({search: this.search.length > 0 ? this.search : undefined}, {search: true}) },
+      pageChange(page) { this.routerPush({page}, {page: true}) },
+      orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
       handleSerOrderBy() {
         return this.moOrder.length > 0
           ? serializeOrderBy([
             this.moOrder[0].map(field => this.colPathMapRev[field]),
             this.moOrder[1]]) : {}
       },
-      routerPush(queryParams, ignore) {
-        this.$router.replace({name: 'index', query: this.assembleQuery(queryParams, ignore)})
+      filtersDialogResult(newQuery) {
+        const serializeQuery = serializeQueryFactory(
+          field => this.colPathMapRev[field],
+          op => this.serOpMapRev[op])
+
+        const serQuery = serializeQuery(newQuery)
+        this.routerPush(Object.assign(serQuery, {page: 1}), {query: false})
       },
-      assembleQuery(queryParams, ignore = {}) {
-        let prepQuery = {}
+      customizeDialogResult(selected) {
+        this.routerPush(this.handleSerSelect(selected), {select: true})
+      },
+      handleSerSelect(selected) {
+        return selected.length !== this.selectable.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
+      },
+      routerPush(queryParams, ignore) {
+        this.$router.replace({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
+      },
+      assembleQueryParams(queryParams, ignore = {}) {
+        const prepQuery = {}
 
-        if(!ignore.page) {
-          prepQuery.page = this.page
-        }
+        if(!ignore.page) { prepQuery.page = this.page }
 
-        if(!ignore.limit) {
-          prepQuery.limit = this.limit
-        }
+        if(!ignore.limit) { prepQuery.limit = this.limit }
 
-        if(!ignore.search && this.search.length > 0) {
-          prepQuery.search = this.search
-        }
+        if(!ignore.search && this.search.length > 0) { prepQuery.search = this.search }
 
-        if(!ignore.oderBy) {
-          prepQuery = Object.assign(this.handleSerOrderBy(), prepQuery)
-        }
+        if(!ignore.oderBy) { Object.assign(prepQuery, this.handleSerOrderBy()) }
 
-        if(!ignore.select) {
-          prepQuery.select = this.handleSerSelect(this.selected)
-        }
+        if(!ignore.select) { Object.assign(prepQuery, this.handleSerSelect(this.selected)) }
 
         //
         // if(config.query === undefined) {
@@ -287,29 +299,6 @@
         // }
 
         return Object.assign(prepQuery, queryParams)
-      },
-      filtersDialogResult(newQuery) {
-        const serializeQuery = serializeQueryFactory(
-          field => this.colPathMapRev[field],
-          op => this.serOpMapRev[op])
-
-        const serQuery = serializeQuery(newQuery)
-        this.routerPush(this.assembleQuery(Object.assign(serQuery, {page: 1}), {query: false}))
-      },
-      customizeDialogResult(selected) {
-        const serSelect = {select: this.handleSerSelect(selected)}
-        this.routerPush(serSelect, {select: true})
-      },
-      searchChange: debounce(function(search) {
-        this.page = 1
-        this.search = search
-      }, 200),
-      pageChange(page) { this.routerPush({page}) },
-      serializeSearch() { this.routerPush({}) },
-      orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
-      showInfoDialog(row, col) {
-        this.infoDialogInput = {row, col}
-        this.infoDialogVisible = true
       }
     },
     computed: {
