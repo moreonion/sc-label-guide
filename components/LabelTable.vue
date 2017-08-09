@@ -242,13 +242,13 @@
     },
     computed: {
       offset() { return (this.page - 1) * this.limit },
-      query() {
+      completeQuery() {
         // Perform case insenstive search on label name
         const searchQuery = {'label.name': {$text: {$search: this.search}}}
         return this.search.length > 0 ? Object.assign(searchQuery, this.filterQuery) : this.filterQuery
       },
       queryList() {
-        const queryArr = queryObjToArr(this.query,
+        const queryArr = queryObjToArr(this.completeQuery,
           field => this.colPathMapRev[field],
           op => this.opMapRev[op])
 
@@ -259,7 +259,7 @@
       offset: { handler() { this.moSetOffset(this.offset) }, immediate: true },
       limit: { handler() { this.moSetLimit(this.limit) }, immediate: true },
       selected: { handler() { this.moSetSelectState(this.selected) }, immediate: true },
-      query: { handler() { this.moSetWhereState(this.query) }, immediate: true },
+      completeQuery: { handler() { this.moSetWhereState(this.completeQuery) }, immediate: true },
       orderBy: { handler() { this.moTable.orderBy = this.orderBy }, immediate: true },
       moOrder() { this.orderByChange() }
     },
