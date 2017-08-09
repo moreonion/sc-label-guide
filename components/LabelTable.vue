@@ -53,7 +53,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-      :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
+      :query="query" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
       :colSpec="colSpec">
     </query-dialog>
 
@@ -184,7 +184,7 @@
         page: _serPage ? parseInt(_serPage) : 1,
         orderBy,
         search: _serSearch || '',
-        filterQuery: Object.assign(eq, gt, gte, lt, lte),
+        query: Object.assign(eq, gt, gte, lt, lte),
         selected,
         // Column meta data
         colHasInfo: {
@@ -245,7 +245,7 @@
       completeQuery() {
         // Perform case insenstive search on label name
         const searchQuery = {'label.name': {$text: {$search: this.search}}}
-        return this.search.length > 0 ? Object.assign(searchQuery, this.filterQuery) : this.filterQuery
+        return this.search.length > 0 ? Object.assign(searchQuery, this.query) : this.query
       },
       queryList() {
         const queryArr = queryObjToArr(this.completeQuery,
@@ -317,7 +317,7 @@
 
         if(!ignore.select) { Object.assign(prepQuery, this.handleSerSelect(this.selected)) }
 
-        if(!ignore.query) { Object.assign(prepQuery, this.handleSerQuery(this.filterQuery)) }
+        if(!ignore.query) { Object.assign(prepQuery, this.handleSerQuery(this.query)) }
 
         return Object.assign(prepQuery, queryParams)
       },
