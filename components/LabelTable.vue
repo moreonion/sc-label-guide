@@ -1,7 +1,7 @@
 <template>
   <div class="cont">
     <div>
-      <el-button @click="filtersDialogVisible = true">Filters</el-button>
+      <el-button @click="queryDialogVisible = true">Filters</el-button>
 
       <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="searchBlur"></el-input>
 
@@ -53,7 +53,7 @@
     </div>
 
     <!-- Filters Dialog -->
-    <filters-dialog :visible.sync="filtersDialogVisible" @close="filtersDialogResult"
+    <filters-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
       :query="filterQuery" :selectedColumns="selected" :colNameMap="colNameMap" :colPathMap="colPathMap"
       :colSpec="colSpec">
     </filters-dialog>
@@ -81,7 +81,7 @@
   import {
     deserializeArray,
     deserializeOrderBy,
-    deserializeFilterFactory
+    deserializeQueryFactory
   } from '../lib/deserialize.js'
 
   import {
@@ -169,16 +169,16 @@
         'scoImpact': 'rating'
       }
 
-      const derserializeFilter = deserializeFilterFactory(
+      const deserializeQuery = deserializeQueryFactory(
         serOp => serOpMap[serOp],
         serField => colPathMap[serField],
         (field, val) => colSpec[field] === 'rating' ? parseInt(val) : val)
 
-      const eq = _serEq ? derserializeFilter(_serEq, 'eq') : {}
-      const gt = _serGt ? derserializeFilter(_serGt, 'gt') : {}
-      const gte = _serGte ? derserializeFilter(_serGte, 'gte') : {}
-      const lt = _serLt ? derserializeFilter(_serLt, 'lt') : {}
-      const lte = _serLte ? derserializeFilter(_serLte, 'lte') : {}
+      const eq = _serEq ? deserializeQuery(_serEq, 'eq') : {}
+      const gt = _serGt ? deserializeQuery(_serGt, 'gt') : {}
+      const gte = _serGte ? deserializeQuery(_serGte, 'gte') : {}
+      const lt = _serLt ? deserializeQuery(_serLt, 'lt') : {}
+      const lte = _serLte ? deserializeQuery(_serLte, 'lte') : {}
 
       return {
         // Basic table data
@@ -236,13 +236,41 @@
           '$lt': 'lt'
         },
         // Dialog visibility and data
-        filtersDialogVisible: false,
+        queryDialogVisible: false,
         shareDialogVisible: false,
         infoDialogVisible: false,
         infoDialogInput: {},
         bginfoDialogVisible: false,
         customizeDialogVisible: false
       }
+    },
+    computed: {
+      offset() { return (this.page - 1) * this.limit },
+      query() {
+        // Perform case insenstive search on label name
+        const searchQuery = {'label.name': {$text: {$search: this.search}}}
+        return this.search.length > 0 ? Object.assign(searchQuery, this.filterQuery) : this.filterQuery
+      },
+      queryList() {
+        // TODO: as lib function
+        const res = []
+        for(const c in this.query) {
+          const op = getOperator(this.query[c])
+          if(op !== '$text') {
+            res.push({left: c, op, right: this.query[c][op]})
+          }
+        }
+
+        return res
+      }
+    },
+    watch: {
+      offset: { handler() { this.moSetOffset(this.offset) }, immediate: true },
+      limit: { handler() { this.moSetLimit(this.limit) }, immediate: true },
+      selected: { handler() { this.moSetSelectState(this.selected) }, immediate: true },
+      query: { handler() { this.moSetWhereState(this.query) }, immediate: true },
+      orderBy: { handler() { this.moTable.orderBy = this.orderBy }, immediate: true },
+      moOrder() { this.orderByChange() }
     },
     methods: {
       showInfoDialog(row, col) {
@@ -265,7 +293,7 @@
             this.moOrder[0].map(field => this.colPathMapRev[field]),
             this.moOrder[1]]) : {}
       },
-      filtersDialogResult(newQuery) {
+      queryDialogResult(newQuery) {
         this.routerPush(Object.assign(this.handleSerQuery(newQuery), {page: 1}), {query: true})
       },
       handleSerQuery(query) {
@@ -301,34 +329,6 @@
 
         return Object.assign(prepQuery, queryParams)
       }
-    },
-    computed: {
-      offset() { return (this.page - 1) * this.limit },
-      query() {
-        // Perform case insenstive search on label name
-        const searchQuery = { 'label.name': { $text: { $search: this.search } } }
-        return Object.assign(this.search.length > 0 ? searchQuery : {}, this.filterQuery)
-      },
-      queryList() {
-        // TODO: as lib function
-        const res = []
-        for(const c in this.query) {
-          const op = getOperator(this.query[c])
-          if(op !== '$text') {
-            res.push({left: c, op, right: this.query[c][op]})
-          }
-        }
-
-        return res
-      }
-    },
-    watch: {
-      offset: { handler() { this.moSetOffset(this.offset) }, immediate: true },
-      limit: { handler() { this.moSetLimit(this.limit) }, immediate: true },
-      selected: { handler() { this.moSetSelectState(this.selected) }, immediate: true },
-      query: { handler() { this.moSetWhereState(this.query) }, immediate: true },
-      orderBy: { handler() { this.moTable.orderBy = this.orderBy }, immediate: true },
-      moOrder() { this.orderByChange() }
     }
   }
 </script>
