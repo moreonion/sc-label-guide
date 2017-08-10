@@ -19,8 +19,8 @@
     <table v-show="moDisplayed.length > 0">
       <thead>
         <tr>
-          <th v-for="column in mappedSelectedColumns" v-mo-toggle-orderby="column[0]" :key="column[1]" :class="columnClass(column[0])">
-            {{colNameMap[column[0]]}}
+          <th v-for="column in mappedSelectedColumns" :key="column[1]" :class="columnClass(column[0])"
+            v-mo-toggle-orderby="column[0]">{{colNameMap[column[0]]}}
           </th>
         </tr>
       </thead>
@@ -132,13 +132,13 @@
       } = this.$route.query
 
       // Given the selectable columns, deserialize selected columns from query parameters
-      const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['scoImpact', 3]]
+      const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['socImpact', 3]]
 
       const columnMap = {
         'label': 'label.name',
         'govTrans': 'govTrans',
         'envImpact': 'envImpact',
-        'scoImpact': 'scoImpact'
+        'socImpact': 'socImpact'
       }
 
       let selected = selectable
@@ -164,7 +164,7 @@
         'label.name': {type: 'text', hasInfo: true},
         'govTrans': {type: 'rating'},
         'envImpact': {type: 'rating'},
-        'scoImpact': {type: 'rating'}
+        'socImpact': {type: 'rating'}
       }
 
       const deserializeQuery = deserializeQueryFactory(
@@ -196,20 +196,20 @@
           'label.name': 'Label',
           'govTrans': 'Governance& Transparency',
           'envImpact': 'Environmental impact',
-          'scoImpact': 'Social impact'
+          'socImpact': 'Social impact'
         },
         colValMap: {
           'label.name': row => row.label.name,
           'govTrans': row => row.govTrans,
           'envImpact': row => row.envImpact,
-          'scoImpact': row => row.scoImpact
+          'socImpact': row => row.socImpact
         },
         columnMap,
         columnMapRev: {
           'label.name': 'label',
           'govTrans': 'govTrans',
           'envImpact': 'envImpact',
-          'scoImpact': 'scoImpact'
+          'socImpact': 'socImpact'
         },
         opMapRev: {
           '$eq': 'is',
