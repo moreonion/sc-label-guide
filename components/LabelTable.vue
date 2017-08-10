@@ -8,6 +8,8 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
+    <pre>{{queryList}}</pre>
+
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
         <div class="queryItem">{{colNameMap[qlItem.left]}} </div> <div class="queryItem">{{qlItem.op}} </div>
@@ -53,7 +55,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-      :queryObj="query" :selectedColumns="selected" :colNameMap="colNameMap" :columnMap="columnMap"
+      :queryObj="query" :selectedColumns="mappedSelectedColumns" :colNameMap="colNameMap"
       :columnMeta="columnMeta">
     </query-dialog>
 

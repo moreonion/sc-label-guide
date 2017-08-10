@@ -10,7 +10,7 @@
       <div v-if="queryArr.length > 0" class="query-cont" :key="index" v-for="(query, index) in queryArr">
         <el-select class="leftSelect" v-model="query.left" placeholder="Column">
           <el-option v-for="column in selectedColumns" :key="column[1]"
-            :label="colNameMap[column[0]]" :value="columnMap[column[0]]">
+            :label="colNameMap[column[0]]" :value="column[0]">
           </el-option>
         </el-select>
 
@@ -42,6 +42,7 @@
 </template>
 
 <script>
+  import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/queryTransform.js'
   import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 
@@ -50,23 +51,23 @@
   export default {
     mixins: [moDialogVisibility],
     components: {'eval-circle': EvalCircle},
-    props: ['visible', 'queryObj', 'selectedColumns', 'colNameMap', 'columnMap', 'columnMeta'],
+    props: ['visible', 'queryObj', 'selectedColumns', 'colNameMap', 'columnMeta'],
     data() {
       return {
         ops: ['is', '>', '>=', '<', '<='],
         opMap: {
-          'is': '$eq',
-          '>': '$gt',
-          '>=': '$gte',
-          '<': '$lt',
-          '<=': '$lte'
-        },
-        opMapRev: {
           '$eq': 'is',
           '$gt': '>',
           '$gte': '>=',
           '$lt': '<',
           '$lte': '<='
+        },
+        opMapRev: {
+          'is': '$eq',
+          '>': '$gt',
+          '>=': '$gte',
+          '<': '$lt',
+          '<=': '$lte'
         },
         queryArr: []
       }
@@ -75,18 +76,18 @@
       updateVisible(val) {
         if(val) {
           // Query -> Filters array
-          this.queryArr = queryObjToArr(this.queryObj, column => this.columnMap[column], op => this.opMapRev[op])
+          this.queryArr = queryObjToArr(this.queryObj, column => column, op => this.opMap[op])
         }
 
         this.$emit('update:visible', val)
       },
       addQuery: function() {
         const firstColumn = this.selectedColumns[0]
-        this.queryArr.push({left: this.columnMap[firstColumn[0]], op: this.ops[0], right: null})
+        this.queryArr.push({left: firstColumn[0], op: this.ops[0], right: null})
       },
       transformQuery: function() {
         // Filters array -> Query
-        return queryArrToObj(this.queryArr)
+        return queryArrToObj(this.queryArr, id, op => this.opMapRev[op])
       },
       onClose: function() {
         this.dismiss()
