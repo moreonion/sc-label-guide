@@ -8,8 +8,6 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <pre>{{queryList}}</pre>
-
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
         <div class="queryItem">{{colNameMap[qlItem.left]}} </div> <div class="queryItem">{{qlItem.op}} </div>
@@ -34,7 +32,7 @@
               <img class="logoImg" :src="row[columnMapRev[column[0]]].img">
               {{columnValue(row, column[0])}}
             </span>
-            <span v-else>{{colValMap[column[0]](row)}}</span>
+            <span v-else>{{columnValue(row, column[0])}}</span>
           </td>
         </tr>
       </tbody>
@@ -42,8 +40,7 @@
     <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div>
 
     <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
-     :total="moQueried.length" :current-page="page" :page-size="limit"
-     @current-change="pageChange">
+     :total="moQueried.length" :current-page="page" :page-size="limit" @current-change="pageChange">
     </el-pagination>
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
@@ -246,7 +243,6 @@
       },
       queryList() {
         const queryArr = queryObjToArr(this.completeQuery, id, op => this.opMapRev[op])
-
         return queryArr.filter(q => q.op !== '$text')
       },
       mappedSelectedColumns() {
