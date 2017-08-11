@@ -13,6 +13,12 @@ export const _COLUMNS_ = {
     'envImpact': 'envImpact',
     'socImpact': 'socImpact'
   },
+  columnValueMapRev: {
+    'label.name': 'label',
+    'govTrans': 'govTrans',
+    'envImpact': 'envImpact',
+    'socImpact': 'socImpact'
+  },
   columnValFuncMap: {
     'label.name': row => row.label.name,
     'govTrans': row => row.govTrans,

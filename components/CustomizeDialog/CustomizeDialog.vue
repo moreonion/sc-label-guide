@@ -28,13 +28,10 @@ export default {
   methods: {
     updateVisible(val) {
       if(val) {
-        console.log('JAAA')
         this.columns = []
         this.selectedColumns.forEach(column => {
           this.columns.push(column[0])
         })
-
-        console.log(JSON.stringify(this.columns))
       }
 
       this.$emit('update:visible', val)
