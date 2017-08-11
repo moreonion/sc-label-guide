@@ -2,9 +2,9 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Columns to show</span>
     <el-checkbox-group v-model="columns" :min="1">
-      <el-checkbox class="checkbox" v-for="column in selectableColumns"
-       :key="column[1]" :label="column[0]" :disabled="mandatoryColumns[column[0]]">
-       {{colNameMap[column[0]]}}
+      <el-checkbox class="checkbox" v-for="column in availableColumns" :key="column[1]"
+        :label="column[0]" :disabled="isMandadory(column[0])">
+       {{columnName(column[0])}}
      </el-checkbox>
     </el-checkbox-group>
     <span slot="footer">
@@ -15,31 +15,34 @@
 </template>
 
 <script>
+import {_COLUMNS_} from '../../config/config.js'
 import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
 
 export default {
   mixins: [moDialogVisibility],
-  props: ['visible', 'selectableColumns', 'selectedColumns', 'colNameMap'],
-  data() {
-    return {
-      columns: [],
-      mandatoryColumns: {
-        'label': true
-      }
-    }
-  },
-  created: function() {
-    this.$on('update:visible', val => {
-      if(val) {
-        this.selectedColumns.forEach(s => {
-          this.columns.push(s[0])
-        })
-      }
-    })
+  props: ['visible', 'selectedColumns'],
+  data: () => ({columns: []}),
+  computed: {
+    availableColumns: () => _COLUMNS_.columns
   },
   methods: {
+    updateVisible(val) {
+      if(val) {
+        console.log('JAAA')
+        this.columns = []
+        this.selectedColumns.forEach(column => {
+          this.columns.push(column[0])
+        })
+
+        console.log(JSON.stringify(this.columns))
+      }
+
+      this.$emit('update:visible', val)
+    },
+    columnName: column => _COLUMNS_.columnLabelMap[_COLUMNS_.columnValueMap[column]],
+    isMandadory: column => _COLUMNS_.columnMeta[_COLUMNS_.columnValueMap[column]].mandatory,
     projectColumns: function() {
-      return this.selectableColumns.filter(col => this.columns.find(c => c === col[0]) !== undefined)
+      return this.availableColumns.filter(col => this.columns.find(c => c === col[0]) !== undefined)
     },
     onClose: function() {
       this.dismiss()
