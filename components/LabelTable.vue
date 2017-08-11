@@ -226,7 +226,7 @@
       handleSerOrderBy() {
         return this.moOrder.length > 0
           ? serializeOrderBy([
-            this.moOrder[0].map(field => _COLUMNS_.columnValueMapRev[field]),
+            this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
             this.moOrder[1]]) : {}
       },
       queryDialogResult(newQuery) {
@@ -234,7 +234,7 @@
       },
       handleSerQuery(query) {
         const serializeQuery = serializeQueryFactory(
-          field => _COLUMNS_.columnValueMapRev[field],
+          column => _COLUMNS_.columnValueMapRev[column],
           op => _OPERATORS_.opSerMap[op])
 
         return serializeQuery(query)
