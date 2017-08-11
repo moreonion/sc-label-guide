@@ -93,7 +93,7 @@
     serializeQueryFactory
   } from '../lib/serialize.js'
 
-  import {queryObjToArr} from '../lib/queryTransform.js'
+  import {queryObjToArr} from '../lib/transformQuery.js'
 
   import LangSelect from './LangSelect.vue'
   import EvalCircle from './EvalCircle.vue'
