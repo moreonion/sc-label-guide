@@ -213,21 +213,11 @@
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
       },
-      searchChange: debounce(function(search) {
-        this.page = 1
-        this.search = search
-      }, 200),
-      searchBlur() { this.routerPush(this.handleSerSearch(), {search: true}) },
-      handleSerSearch() {
-        return {search: this.search.length > 0 ? this.search : undefined}
+      customizeDialogResult(selected) {
+        this.routerPush(this.handleSerSelect(selected), {select: true})
       },
-      pageChange(page) { this.routerPush({page}, {page: true}) },
-      orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
-      handleSerOrderBy() {
-        return this.moOrder.length > 0
-          ? serializeOrderBy([
-            this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
-            this.moOrder[1]]) : {}
+      handleSerSelect(selected) {
+        return selected.length !== this.selectableColumns.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
       },
       queryDialogResult(newQuery) {
         this.routerPush(Object.assign(this.handleSerQuery(newQuery), {page: 1}), {query: true})
@@ -239,12 +229,22 @@
 
         return serializeQuery(query)
       },
-      customizeDialogResult(selected) {
-        this.routerPush(this.handleSerSelect(selected), {select: true})
+      searchChange: debounce(function(search) {
+        this.page = 1
+        this.search = search
+      }, 200),
+      searchBlur() { this.routerPush(this.handleSerSearch(), {search: true}) },
+      handleSerSearch() {
+        return {search: this.search.length > 0 ? this.search : undefined}
       },
-      handleSerSelect(selected) {
-        return selected.length !== this.selectableColumns.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
+      orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
+      handleSerOrderBy() {
+        return this.moOrder.length > 0
+          ? serializeOrderBy([
+            this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
+            this.moOrder[1]]) : {}
       },
+      pageChange(page) { this.routerPush({page}, {page: true}) },
       routerPush(queryParams, ignore) {
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
