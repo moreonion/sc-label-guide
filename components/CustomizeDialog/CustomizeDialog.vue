@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Columns to show</span>
-    <el-checkbox-group v-model="columns" :min="1">
+    <el-checkbox-group v-model="columns" :min="2">
       <el-checkbox class="checkbox" v-for="column in availableColumns" :key="column[1]"
         :label="column[0]" :disabled="isMandadory(column[0])">
        {{columnName(column[0])}}
