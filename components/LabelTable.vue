@@ -76,7 +76,7 @@
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
-  import {LabelTableConfig} from '../config/config.js'
+  import {_OPERATORS_} from '../config/config.js'
 
   import {id} from '../lib/fp.js'
 
@@ -103,9 +103,6 @@
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
-
-  const _CONFIG_ = LabelTableConfig
-  const _OPERATORS_ = _CONFIG_.Operators
 
   export default {
     mixins: [moLocalTable],
