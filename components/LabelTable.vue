@@ -52,8 +52,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-      :queryObj="query" :selectedColumns="mappedSelectedColumns" :colNameMap="colNameMap"
-      :columnMeta="columnMeta">
+     :queryObj="query" :selectedColumns="mappedSelectedColumns">
     </query-dialog>
 
     <!-- Info Dialog -->

@@ -8,7 +8,7 @@
       <div v-if="queryArr.length > 0" class="query-cont" :key="index" v-for="(query, index) in queryArr">
         <el-select class="leftSelect" v-model="query.left" placeholder="Column">
           <el-option v-for="column in selectedColumns" :key="column[1]"
-            :label="colNameMap[column[0]]" :value="column[0]">
+            :label="columnLabel(column[0])" :value="column[0]">
           </el-option>
         </el-select>
 
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import {_OPERATORS_} from '../../config/config.js'
+  import {_OPERATORS_, _COLUMNS_} from '../../config/config.js'
   import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/queryTransform.js'
   import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
@@ -50,12 +50,8 @@
   export default {
     mixins: [moDialogVisibility],
     components: {'eval-circle': EvalCircle},
-    props: ['visible', 'queryObj', 'selectedColumns', 'colNameMap', 'columnMeta'],
-    data() {
-      return {
-        queryArr: []
-      }
-    },
+    props: ['visible', 'queryObj', 'selectedColumns'],
+    data: () => ({queryArr: []}),
     computed: {
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o])
     },
@@ -80,9 +76,8 @@
         this.dismiss()
         this.$emit('close', this.transformQuery())
       },
-      isRating: function(col) {
-        return this.columnMeta[col].type === 'rating'
-      }
+      isRating: col => _COLUMNS_.columnMeta[col].type === _COLUMNS_.types.RATING,
+      columnLabel: column => _COLUMNS_.columnLabelMap[column]
     }
   }
 </script>
