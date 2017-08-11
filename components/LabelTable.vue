@@ -143,15 +143,15 @@
       let selected = selectable
 
       if(_serSelect) {
-        const queryColumns = deserializeArray(_serSelect)
-        selected = selectable.filter(selCol => queryColumns.find(col => columnMap[col] === selCol[0]))
+        const _queryColumns = deserializeArray(_serSelect)
+        selected = selectable.filter(selCol => _queryColumns.find(col => columnMap[col] === selCol[0]))
       }
 
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
       const orderBy = (_serOrderBy && _serOrderDir)
         ? deserializeOrderBy(_serOrderBy, _serOrderDir, column => columnMap[column], 'asc') : []
 
-      const serOpMap = {
+      const _serOpMap = {
         'eq': '$eq',
         'gt': '$gt',
         'gte': '$gte',
@@ -166,16 +166,16 @@
         'socImpact': {type: 'rating'}
       }
 
-      const deserializeQuery = deserializeQueryFactory(
-        serOp => serOpMap[serOp],
+      const _deserializeQuery = deserializeQueryFactory(
+        serOp => _serOpMap[serOp],
         serColumn => columnMap[serColumn],
         (column, val) => columnMeta[column].type === 'rating' ? parseInt(val) : val)
 
-      const eq = _serEq ? deserializeQuery(_serEq, 'eq') : {}
-      const gt = _serGt ? deserializeQuery(_serGt, 'gt') : {}
-      const gte = _serGte ? deserializeQuery(_serGte, 'gte') : {}
-      const lt = _serLt ? deserializeQuery(_serLt, 'lt') : {}
-      const lte = _serLte ? deserializeQuery(_serLte, 'lte') : {}
+      const _eq = _serEq ? _deserializeQuery(_serEq, 'eq') : {}
+      const _gt = _serGt ? _deserializeQuery(_serGt, 'gt') : {}
+      const _gte = _serGte ? _deserializeQuery(_serGte, 'gte') : {}
+      const _lt = _serLt ? _deserializeQuery(_serLt, 'lt') : {}
+      const _lte = _serLte ? _deserializeQuery(_serLte, 'lte') : {}
 
       return {
         // Basic table data
@@ -186,7 +186,7 @@
         page: _serPage ? parseInt(_serPage) : 1,
         orderBy,
         search: _serSearch || '',
-        query: Object.assign(eq, gt, gte, lt, lte),
+        query: Object.assign(_eq, _gt, _gte, _lt, _lte),
         selected,
         // Column meta data
         columnMeta,
