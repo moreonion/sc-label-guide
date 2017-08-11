@@ -68,13 +68,15 @@
     <!-- Customize Display Dialog -->
     <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
       :selectableColumns="selectable" :selectedColumns="selected" :colNameMap="colNameMap">
-    </customize-dialog>
+    </customize-dialog>-->
   </div>
 </template>
 
 <script>
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
+
+  import {LabelTableConfig} from '../config/config.js'
 
   import {id} from '../lib/fp.js'
 
@@ -102,6 +104,9 @@
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
 
+  const _CONFIG_ = LabelTableConfig
+  const _OPERATORS_ = _CONFIG_.Operators
+
   export default {
     mixins: [moLocalTable],
     components: {
@@ -122,12 +127,8 @@
         orderDir: _serOrderDir,
         limit: _serLimit,
         page: _serPage,
-        search: _serSearch,
-        eq: _serEq,
-        gt: _serGt,
-        gte: _serGte,
-        lt: _serLt,
-        lte: _serLte
+        search: _serSearch
+        // eq, gt, gte,lt, lte - Serialized operators may also be attached
       } = this.$route.query
 
       // Given the selectable columns, deserialize selected columns from query parameters
@@ -151,14 +152,6 @@
       const orderBy = (_serOrderBy && _serOrderDir)
         ? deserializeOrderBy(_serOrderBy, _serOrderDir, column => columnMap[column], 'asc') : []
 
-      const _serOpMap = {
-        'eq': '$eq',
-        'gt': '$gt',
-        'gte': '$gte',
-        'lt': '$lt',
-        'lte': '$lte'
-      }
-
       const columnMeta = {
         'label.name': {type: 'text', hasInfo: true},
         'govTrans': {type: 'rating'},
@@ -167,15 +160,17 @@
       }
 
       const _deserializeQuery = deserializeQueryFactory(
-        serOp => _serOpMap[serOp],
+        serOp => _OPERATORS_.opSerMapRev[serOp],
         serColumn => columnMap[serColumn],
         (column, val) => columnMeta[column].type === 'rating' ? parseInt(val) : val)
 
-      const _eq = _serEq ? _deserializeQuery(_serEq, 'eq') : {}
-      const _gt = _serGt ? _deserializeQuery(_serGt, 'gt') : {}
-      const _gte = _serGte ? _deserializeQuery(_serGte, 'gte') : {}
-      const _lt = _serLt ? _deserializeQuery(_serLt, 'lt') : {}
-      const _lte = _serLte ? _deserializeQuery(_serLte, 'lte') : {}
+      const query = _OPERATORS_.ops.map(o => [o, _OPERATORS_.opSerMap[o]]).reduce((accum, [op, serOp]) => {
+        const serOpVal = this.$route.query[serOp]
+        if(serOpVal) {
+          Object.assign(accum, _deserializeQuery(serOpVal, serOp))
+        }
+        return accum
+      }, {})
 
       return {
         // Basic table data
@@ -186,7 +181,7 @@
         page: _serPage ? parseInt(_serPage) : 1,
         orderBy,
         search: _serSearch || '',
-        query: Object.assign(_eq, _gt, _gte, _lt, _lte),
+        query,
         selected,
         // Column meta data
         columnMeta,
@@ -210,21 +205,6 @@
           'envImpact': 'envImpact',
           'socImpact': 'socImpact'
         },
-        opMapRev: {
-          '$eq': 'is',
-          '$gt': '>',
-          '$gte': '>=',
-          '$lt': '<',
-          '$lte': '<=',
-          '$text': '$text'
-        },
-        serOpMapRev: {
-          '$eq': 'eq',
-          '$gte': 'gte',
-          '$gt': 'gt',
-          '$lte': 'lte',
-          '$lt': 'lt'
-        },
         // Dialog visibility and data
         queryDialogVisible: false,
         shareDialogVisible: false,
@@ -242,7 +222,7 @@
         return this.search.length > 0 ? Object.assign(searchQuery, this.query) : this.query
       },
       queryList() {
-        const queryArr = queryObjToArr(this.completeQuery, id, op => this.opMapRev[op])
+        const queryArr = queryObjToArr(this.completeQuery, id, op => _OPERATORS_.opLabelMap[op])
         return queryArr.filter(q => q.op !== '$text')
       },
       mappedSelectedColumns() {
@@ -297,7 +277,7 @@
       handleSerQuery(query) {
         const serializeQuery = serializeQueryFactory(
           field => this.columnMapRev[field],
-          op => this.serOpMapRev[op])
+          op => _OPERATORS_.opSerMap[op])
 
         return serializeQuery(query)
       },
