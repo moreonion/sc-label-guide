@@ -2,8 +2,6 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
 
-    <pre>{{queryArr}}</pre>
-
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
@@ -15,7 +13,7 @@
         </el-select>
 
         <el-select class="opSelect" v-model="query.op" placeholder="Operator">
-          <el-option v-for="(op, index) in ops" :key="index" :label="op" :value="op"></el-option>
+          <el-option v-for="(op, index) in operators" :key="index" :label="op" :value="op"></el-option>
         </el-select>
 
         <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
@@ -42,6 +40,7 @@
 </template>
 
 <script>
+  import {_OPERATORS_} from '../../config/config.js'
   import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/queryTransform.js'
   import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
@@ -54,40 +53,28 @@
     props: ['visible', 'queryObj', 'selectedColumns', 'colNameMap', 'columnMeta'],
     data() {
       return {
-        ops: ['is', '>', '>=', '<', '<='],
-        opMap: {
-          '$eq': 'is',
-          '$gt': '>',
-          '$gte': '>=',
-          '$lt': '<',
-          '$lte': '<='
-        },
-        opMapRev: {
-          'is': '$eq',
-          '>': '$gt',
-          '>=': '$gte',
-          '<': '$lt',
-          '<=': '$lte'
-        },
         queryArr: []
       }
+    },
+    computed: {
+      operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o])
     },
     methods: {
       updateVisible(val) {
         if(val) {
           // Query -> Filters array
-          this.queryArr = queryObjToArr(this.queryObj, column => column, op => this.opMap[op])
+          this.queryArr = queryObjToArr(this.queryObj, id, op => _OPERATORS_.opLabelMap[op])
         }
 
         this.$emit('update:visible', val)
       },
       addQuery: function() {
         const firstColumn = this.selectedColumns[0]
-        this.queryArr.push({left: firstColumn[0], op: this.ops[0], right: null})
+        this.queryArr.push({left: firstColumn[0], op: this.operators[0], right: null})
       },
       transformQuery: function() {
         // Filters array -> Query
-        return queryArrToObj(this.queryArr, id, op => this.opMapRev[op])
+        return queryArrToObj(this.queryArr, id, op => _OPERATORS_.opLabelMapRev[op])
       },
       onClose: function() {
         this.dismiss()
