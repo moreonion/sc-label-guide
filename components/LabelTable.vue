@@ -67,8 +67,8 @@
 
     <!-- Customize Display Dialog -->
     <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
-      :selectableColumns="selectable" :selectedColumns="selected" :colNameMap="colNameMap">
-    </customize-dialog>-->
+      :selectableColumns="selectableColumns" :selectedColumns="selected" :colNameMap="colNameMap">
+    </customize-dialog>
   </div>
 </template>
 
@@ -76,7 +76,7 @@
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
-  import {_OPERATORS_} from '../config/config.js'
+  import {_OPERATORS_, _COLUMNS_} from '../config/config.js'
 
   import {id} from '../lib/fp.js'
 
@@ -128,9 +128,6 @@
         // eq, gt, gte,lt, lte - Serialized operators may also be attached
       } = this.$route.query
 
-      // Given the selectable columns, deserialize selected columns from query parameters
-      const selectable = [['label', 0], ['govTrans', 1], ['envImpact', 2], ['socImpact', 3]]
-
       const columnMap = {
         'label': 'label.name',
         'govTrans': 'govTrans',
@@ -138,11 +135,12 @@
         'socImpact': 'socImpact'
       }
 
-      let selected = selectable
+      let selected = _COLUMNS_.columns
 
       if(_serSelect) {
+        // Given the selectable columns, deserialize selected columns from query parameters
         const _queryColumns = deserializeArray(_serSelect)
-        selected = selectable.filter(selCol => _queryColumns.find(col => columnMap[col] === selCol[0]))
+        selected = _COLUMNS_.columns.filter(selCol => _queryColumns.find(col => columnMap[col] === selCol[0]))
       }
 
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
@@ -172,7 +170,6 @@
       return {
         // Basic table data
         lang: 'English',
-        selectable,
         // Paramterizable by router query
         limit: _serLimit ? parseInt(_serLimit) : 5,
         page: _serPage ? parseInt(_serPage) : 1,
@@ -212,6 +209,7 @@
       }
     },
     computed: {
+      selectableColumns: () => _COLUMNS_.columns,
       offset() { return (this.page - 1) * this.limit },
       completeQuery() {
         // Perform case insenstive search on label name
@@ -282,7 +280,7 @@
         this.routerPush(this.handleSerSelect(selected), {select: true})
       },
       handleSerSelect(selected) {
-        return selected.length !== this.selectable.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
+        return selected.length !== this.selectableColumns.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
       },
       routerPush(queryParams, ignore) {
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
