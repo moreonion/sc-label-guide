@@ -1,4 +1,4 @@
-export const LabelTableConfig = {
+const LabelTableConfig = {
   Operators: {
     // Available operators
     ops: ['$eq', '$gt', '$gte', '$lt', '$lte'],
@@ -41,3 +41,6 @@ export const LabelTableConfig = {
 
   }
 }
+
+export const _CONFIG_ = LabelTableConfig
+export const _OPERATORS_ = _CONFIG_.Operators
