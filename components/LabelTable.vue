@@ -77,7 +77,7 @@
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
-  import {_OPERATORS_, _COLUMNS_} from '../config/config.js'
+  import {_OPERATORS_, _COLUMNS_, _ROUTE_} from '../config/config.js'
 
   import {id} from '../lib/fp.js'
 
@@ -135,18 +135,20 @@
 
       if(_serSelect) {
         // Given the selectable columns, deserialize selected columns from query parameters
-        const queryColumns = deserializeArray(_serSelect)
+        const queryColumns = deserializeArray(_serSelect, _ROUTE_.queryDelim)
         selected = _COLUMNS_.columns.filter(selCol => queryColumns.find(col => col === selCol[0]))
       }
 
       // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
       const orderBy = (_serOrderBy && _serOrderDir)
-        ? deserializeOrderBy(_serOrderBy, _serOrderDir, column => columnMap[column], 'asc') : []
+        ? deserializeOrderBy(_serOrderBy, _serOrderDir, column => columnMap[column], 'asc', _ROUTE_.queryDelim) : []
 
       const _deserializeQuery = deserializeQueryFactory(
         serOp => _OPERATORS_.opSerMapRev[serOp],
         serColumn => columnMap[serColumn],
-        (column, val) => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING ? parseInt(val) : val)
+        (column, val) => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING ? parseInt(val) : val,
+        _ROUTE_.queryDelim,
+        _ROUTE_.querySubDelim)
 
       const query = _OPERATORS_.ops.map(o => [o, _OPERATORS_.opSerMap[o]]).reduce((accum, [op, serOp]) => {
         const serOpVal = this.$route.query[serOp]
@@ -217,7 +219,7 @@
         this.routerPush(this.handleSerSelect(selected), {select: true})
       },
       handleSerSelect(selected) {
-        return selected.length !== this.selectableColumns.length ? {select: serializeArray(selected.map(col => col[0]))} : undefined
+        return selected.length !== this.selectableColumns.length ? {select: serializeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
       },
       queryDialogResult(newQuery) {
         this.routerPush(Object.assign(this.handleSerQuery(newQuery), {page: 1}), {query: true})
@@ -225,7 +227,9 @@
       handleSerQuery(query) {
         const serializeQuery = serializeQueryFactory(
           column => _COLUMNS_.columnValueMapRev[column],
-          op => _OPERATORS_.opSerMap[op])
+          op => _OPERATORS_.opSerMap[op],
+          _ROUTE_.queryDelim,
+          _ROUTE_.querySubDelim)
 
         return serializeQuery(query)
       },
@@ -242,7 +246,8 @@
         return this.moOrder.length > 0
           ? serializeOrderBy([
             this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
-            this.moOrder[1]]) : {}
+            this.moOrder[1]],
+            _ROUTE_.queryDelim) : {}
       },
       pageChange(page) { this.routerPush({page}, {page: true}) },
       routerPush(queryParams, ignore) {
