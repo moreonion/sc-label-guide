@@ -6,35 +6,35 @@ const types = {
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['label', 0], ['govTrans', 1], ['envImpact', 2], ['socImpact', 3]],
+  columns: [['name', 0], ['credibility', 1], ['environment', 2], ['social', 3]],
   columnValueMap: {
-    'label': 'label.name',
-    'govTrans': 'govTrans',
-    'envImpact': 'envImpact',
-    'socImpact': 'socImpact'
+    'name': 'name',
+    'credibility': 'details.score.credibility',
+    'environment': 'details.score.environment',
+    'social': 'details.score.social'
   },
   columnValueMapRev: {
-    'label.name': 'label',
-    'govTrans': 'govTrans',
-    'envImpact': 'envImpact',
-    'socImpact': 'socImpact'
+    'name': 'name',
+    'details.score.credibility': 'credibility',
+    'details.score.environment': 'environment',
+    'details.score.social': 'social'
   },
   columnValFuncMap: {
-    'label.name': row => row.label.name,
-    'govTrans': row => row.govTrans,
-    'envImpact': row => row.envImpact,
-    'socImpact': row => row.socImpact
+    'name': row => row.name,
+    'details.score.credibility': row => row.details.score.credibility || 0,
+    'details.score.environment': row => row.details.score.environment || 0,
+    'details.score.social': row => row.details.score.social || 0
   },
   columnLabelMap: {
-    'label.name': 'Label',
-    'govTrans': 'Governance& Transparency',
-    'envImpact': 'Environmental impact',
-    'socImpact': 'Social impact'
+    'name': 'Label',
+    'details.score.credibility': 'Governance& Transparency',
+    'details.score.environment': 'Environmental impact',
+    'details.score.social': 'Social impact'
   },
   columnMeta: {
-    'label.name': {type: types.TEXT, hasInfo: true, mandatory: true},
-    'govTrans': {type: types.RATING},
-    'envImpact': {type: types.RATING},
-    'socImpact': {type: types.RATING}
+    'name': {type: types.TEXT, hasInfo: true, mandatory: true},
+    'details.score.credibility': {type: types.RATING},
+    'details.score.environment': {type: types.RATING},
+    'details.score.social': {type: types.RATING}
   }
 }
