@@ -23,7 +23,7 @@ export const _COLUMNS_ = {
     'name': row => row.name,
     'details.score.credibility': row => row.details.score.credibility || 0,
     'details.score.environment': row => row.details.score.environment || 0,
-    'details.score.social': row => row.details.score.social || 0
+    'details.score.social': row => row.details.score.social || 0
   },
   columnLabelMap: {
     'name': 'Label',
