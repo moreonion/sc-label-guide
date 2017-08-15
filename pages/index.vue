@@ -66,7 +66,7 @@
       const qOrderBy = serializeApiOrderBy(orderBy, _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc)
       const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
 
-      const qSelect = 'name,details,description' // tmp select
+      const qSelect = 'name,details,description,meets_criteria' // tmp select
 
       // Async fetch labels data
       let resp = null
