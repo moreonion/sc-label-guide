@@ -34,5 +34,12 @@ export const _OPERATORS_ = {
     'gte': '$gte',
     'lt': '$lt',
     'lte': '$lte'
+  },
+  opSerApiMap: {
+    '$eq': '',
+    '$gte': '>=',
+    '$gt': '>',
+    '$lt': '<',
+    '$lte': '<='
   }
 }
