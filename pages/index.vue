@@ -64,7 +64,7 @@
       // Async fetch labels data
       let resp = null
       try {
-        resp = await LabelsRes.fetch()
+        resp = await LabelsRes.fetch({limit, page})
       } catch(err) {
         console.error(JSON.stringify(err.message))
       }
