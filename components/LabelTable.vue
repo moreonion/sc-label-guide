@@ -8,8 +8,6 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <!-- <pre>{{moData.items}}</pre> -->
-
     <table v-show="moData.items.length > 0">
       <thead>
         <tr>
@@ -23,7 +21,7 @@
           <td v-for="column in mappedSelectedColumns">
             <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
             <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
-              <img class="logoImg" :src="row[columnMapRev(column[0])].img">
+              <img v-if="row.logo" class="logoImg" :src="row.logo">
               {{columnValue(row, column[0])}}
             </span>
             <span v-else>{{columnValue(row, column[0])}}</span>
@@ -63,9 +61,9 @@
     </table>
     <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div> -->
 
-    <!-- <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
-     :total="moQueried.length" :current-page="page" :page-size="limit" @current-change="pageChange">
-    </el-pagination> -->
+    <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
+     :total="moData.pages.total * limit" :current-page="page" :page-size="limit" @current-change="pageChange">
+    </el-pagination>
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
 
