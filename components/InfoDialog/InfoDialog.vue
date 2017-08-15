@@ -2,8 +2,10 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="onClose" size="large">
     <span slot="title">Criteria this label has</span>
 
-    <h2>Description</h2>
-    <p>{{label.row.description}}</p>
+    <section v-if="label.row && label.row.description">
+      <h2>Description</h2>
+      <p>{{label.row.description}}</p>
+    </section>
 
     <span slot="footer">
       <el-button @click="dismiss">Close</el-button>
