@@ -66,8 +66,6 @@
       const limit = _serLimit ? parseInt(_serLimit) : 5
       const page = _serPage ? parseInt(_serPage) : 1
 
-      console.log(JSON.stringify(query))
-
       // Prepare API query params
       // select
       const qSelect = 'name,details,description,meets_criteria' // tmp select
