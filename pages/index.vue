@@ -6,13 +6,15 @@
   import LabelTable from '../components/LabelTable.vue'
 
   import {LabelsRes} from '../lib/api/LabelsRes.js'
-  import {_COLUMNS_, _OPERATORS_, _ROUTE_} from '../config/config.js'
+  import {_COLUMNS_, _OPERATORS_, _ROUTE_, _API_} from '../config/config.js'
 
   import {
     deserializeArray,
     deserializeOrderBy,
     deserializeQueryFactory
   } from '../lib/deserialize.js'
+
+  import {serializeApiOrderBy} from '../lib/serializeApi.js'
 
   export default {
     components: {LabelTable},
@@ -61,10 +63,15 @@
       const limit = _serLimit ? parseInt(_serLimit) : 5
       const page = _serPage ? parseInt(_serPage) : 1
 
+      const qOrderBy = serializeApiOrderBy(orderBy, _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc)
+      const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
+
+      const qSelect = 'name,details' // tmp select
+
       // Async fetch labels data
       let resp = null
       try {
-        resp = await LabelsRes.fetch({limit, page})
+        resp = await LabelsRes.fetch({limit, page, sort: qSort, only: qSelect})
       } catch(err) {
         console.error(JSON.stringify(err.message))
       }
