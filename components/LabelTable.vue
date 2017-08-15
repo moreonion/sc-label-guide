@@ -79,10 +79,10 @@
   import {id} from '../lib/fp.js'
 
   import {
-    serializeArray,
-    serializeOrderBy,
-    serializeQueryFactory
-  } from '../lib/serialize.js'
+    encodeArray,
+    encodeOrderBy,
+    encodeQueryFactory
+  } from '../lib/encode.js'
 
   import {queryObjToArr} from '../lib/transformQuery.js'
 
@@ -166,35 +166,35 @@
         this.infoDialogVisible = true
       },
       customizeDialogResult(selected) {
-        this.routerPush(this.handleSerSelect(selected), {select: true})
+        this.routerPush(this.handleEncSelect(selected), {select: true})
       },
-      handleSerSelect(selected) {
-        return selected.length !== this.selectableColumns.length ? {select: serializeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
+      handleEncSelect(selected) {
+        return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
       },
       queryDialogResult(newQuery) {
-        this.routerPush(Object.assign(this.handleSerQuery(newQuery), {page: 1}), {query: true})
+        this.routerPush(Object.assign(this.handleEncQuery(newQuery), {page: 1}), {query: true})
       },
-      handleSerQuery(query) {
-        const serializeQuery = serializeQueryFactory(
+      handleEncQuery(query) {
+        const encodeQuery = encodeQueryFactory(
           column => _COLUMNS_.columnValueMapRev[column],
-          op => _OPERATORS_.opSerMap[op],
+          op => _OPERATORS_.opEncMap[op],
           _ROUTE_.queryDelim,
           _ROUTE_.querySubDelim)
 
-        return serializeQuery(query)
+        return encodeQuery(query)
       },
       searchChange: debounce(function(search) {
         this.page = 1
         this.search = search
       }, 200),
-      searchBlur() { this.routerPush(this.handleSerSearch(), {search: true}) },
-      handleSerSearch() {
+      searchBlur() { this.routerPush(this.handleEncSearch(), {search: true}) },
+      handleEncSearch() {
         return {search: this.search.length > 0 ? this.search : undefined}
       },
-      orderByChange() { this.routerPush(this.handleSerOrderBy(), {orderBy: true}) },
-      handleSerOrderBy() {
+      orderByChange() { this.routerPush(this.handleEncOrderBy(), {orderBy: true}) },
+      handleEncOrderBy() {
         return this.moOrder.length > 0
-          ? serializeOrderBy([
+          ? encodeOrderBy([
             this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
             this.moOrder[1]],
             _ROUTE_.queryDelim) : {}
@@ -204,20 +204,20 @@
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
       assembleQueryParams(queryParams, ignore={}) {
-        // Serialize state as route query params
+        // Encialize state as route query params
         const prepQuery = {}
 
         if(!ignore.page) { prepQuery.page = this.page }
 
         if(!ignore.limit) { prepQuery.limit = this.limit }
 
-        if(!ignore.search) { Object.assign(prepQuery, this.handleSerSearch()) }
+        if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
 
-        if(!ignore.oderBy) { Object.assign(prepQuery, this.handleSerOrderBy()) }
+        if(!ignore.oderBy) { Object.assign(prepQuery, this.handleEncOrderBy()) }
 
-        if(!ignore.select) { Object.assign(prepQuery, this.handleSerSelect(this.selected)) }
+        if(!ignore.select) { Object.assign(prepQuery, this.handleEncSelect(this.selected)) }
 
-        if(!ignore.query) { Object.assign(prepQuery, this.handleSerQuery(this.query)) }
+        if(!ignore.query) { Object.assign(prepQuery, this.handleEncQuery(this.query)) }
 
         return Object.assign(prepQuery, queryParams)
       }
