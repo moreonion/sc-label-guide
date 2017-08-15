@@ -8,9 +8,31 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <!-- <pre>{{mappedSelectedColumns}}</pre> -->
+    <!-- <pre>{{moData.items}}</pre> -->
 
-    <div class="queryList">
+    <table v-show="moData.items.length > 0">
+      <thead>
+        <tr>
+          <th v-for="column in mappedSelectedColumns" :key="column[1]" :class="columnClass(column[0])"
+            v-mo-toggle-orderby="column[0]">{{columnLabel(column[0])}}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in moData.items">
+          <td v-for="column in mappedSelectedColumns">
+            <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
+            <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
+              <img class="logoImg" :src="row[columnMapRev(column[0])].img">
+              {{columnValue(row, column[0])}}
+            </span>
+            <span v-else>{{columnValue(row, column[0])}}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
         <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
@@ -39,11 +61,11 @@
         </tr>
       </tbody>
     </table>
-    <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div>
+    <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div> -->
 
-    <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
+    <!-- <el-pagination v-if="moQueried.length > 0" small layout="prev, pager, next"
      :total="moQueried.length" :current-page="page" :page-size="limit" @current-change="pageChange">
-    </el-pagination>
+    </el-pagination> -->
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
 
@@ -82,12 +104,6 @@
   import {id} from '../lib/fp.js'
 
   import {
-    deserializeArray,
-    deserializeOrderBy,
-    deserializeQueryFactory
-  } from '../lib/deserialize.js'
-
-  import {
     serializeArray,
     serializeOrderBy,
     serializeQueryFactory
@@ -106,6 +122,7 @@
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
 
   export default {
+    props: ['moData', 'moConfig'],
     mixins: [moLocalTable],
     components: {
       'lang-select': LangSelect,
@@ -118,56 +135,14 @@
       'customize-dialog': CustomizeDialog
     },
     data() {
-      // Deserialize route query parameters
-      const {
-        select: _serSelect,
-        orderBy: _serOrderBy,
-        orderDir: _serOrderDir,
-        limit: _serLimit,
-        page: _serPage,
-        search: _serSearch
-        // eq, gt, gte,lt, lte - Serialized operators may also be attached
-      } = this.$route.query
-
-      const columnMap = _COLUMNS_.columnValueMap
-
-      let selected = _COLUMNS_.columns
-
-      if(_serSelect) {
-        // Given the selectable columns, deserialize selected columns from query parameters
-        const queryColumns = deserializeArray(_serSelect, _ROUTE_.queryDelim)
-        selected = _COLUMNS_.columns.filter(selCol => queryColumns.find(col => col === selCol[0]))
-      }
-
-      // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
-      const orderBy = (_serOrderBy && _serOrderDir)
-        ? deserializeOrderBy(_serOrderBy, _serOrderDir, column => columnMap[column], 'asc', _ROUTE_.queryDelim) : []
-
-      const _deserializeQuery = deserializeQueryFactory(
-        serOp => _OPERATORS_.opSerMapRev[serOp],
-        serColumn => columnMap[serColumn],
-        (column, val) => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING ? parseInt(val) : val,
-        _ROUTE_.queryDelim,
-        _ROUTE_.querySubDelim)
-
-      const query = _OPERATORS_.ops.map(o => [o, _OPERATORS_.opSerMap[o]]).reduce((accum, [op, serOp]) => {
-        const serOpVal = this.$route.query[serOp]
-        if(serOpVal) {
-          Object.assign(accum, _deserializeQuery(serOpVal, serOp))
-        }
-        return accum
-      }, {})
-
       return {
-        // Basic table data
-        lang: 'English',
-        // Paramterizable by router query (~SQL)
-        selected,
-        query,
-        search: _serSearch || '',
-        orderBy,
-        limit: _serLimit ? parseInt(_serLimit) : 5,
-        page: _serPage ? parseInt(_serPage) : 1,
+        lang: this.moConfig.lang,
+        selected: this.moConfig.selected,
+        query: this.moConfig.query,
+        search: this.moConfig.search,
+        orderBy: this.moConfig.orderBy,
+        limit: this.moConfig.limit,
+        page: this.moConfig.page,
         // Dialog visibility and data
         queryDialogVisible: false,
         shareDialogVisible: false,
