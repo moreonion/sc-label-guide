@@ -8,6 +8,14 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
+    <div class="queryList">
+      <div class="queryStr" v-for="qlItem in queryList">
+        <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
+        <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
+        <div class="queryItem" v-else>{{qlItem.right}}</div>
+      </div>
+    </div>
+
     <table v-show="moData.items.length > 0">
       <thead>
         <tr>
@@ -29,14 +37,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div class="queryList">
-      <div class="queryStr" v-for="qlItem in queryList">
-        <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
-        <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
-        <div class="queryItem" v-else>{{qlItem.right}}</div>
-      </div>
-    </div>
 
     <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
      :total="moData.pages.total * limit" :current-page="page" :page-size="limit" @current-change="pageChange">
