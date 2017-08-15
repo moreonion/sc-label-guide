@@ -30,36 +30,13 @@
       </tbody>
     </table>
 
-    <!-- <div class="queryList">
+    <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
         <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
         <div class="queryItem" v-else>{{qlItem.right}}</div>
       </div>
     </div>
-
-    <table v-show="moDisplayed.length > 0">
-      <thead>
-        <tr>
-          <th v-for="column in mappedSelectedColumns" :key="column[1]" :class="columnClass(column[0])"
-            v-mo-toggle-orderby="column[0]">{{columnLabel(column[0])}}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in moDisplayed">
-          <td v-for="column in mappedSelectedColumns">
-            <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
-            <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
-              <img class="logoImg" :src="row[columnMapRev(column[0])].img">
-              {{columnValue(row, column[0])}}
-            </span>
-            <span v-else>{{columnValue(row, column[0])}}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="noResults" v-show="moDisplayed.length === 0">No results found for specified filters or search term!</div> -->
 
     <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
      :total="moData.pages.total * limit" :current-page="page" :page-size="limit" @current-change="pageChange">
