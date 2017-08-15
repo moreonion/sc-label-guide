@@ -36,7 +36,7 @@
       let selected = _COLUMNS_.columns
 
       if(_encSelect) {
-        // Given the selectable columns, deserialize selected columns from query parameters
+        // Given the selectable columns, decode selected columns from query parameters
         const queryColumns = decodeArray(_encSelect, _ROUTE_.queryDelim)
         selected = _COLUMNS_.columns.filter(selCol => queryColumns.find(col => col === selCol[0]))
       }

@@ -19,7 +19,7 @@ export const _OPERATORS_ = {
     '<=': '$lte',
     '$text': '$text'
   },
-  // Operators mapped to serializeable route query params
+  // Operators mapped to encodeable route query params
   opEncMap: {
     '$eq': 'eq',
     '$gte': 'gte',
@@ -27,7 +27,7 @@ export const _OPERATORS_ = {
     '$lte': 'lte',
     '$lt': 'lt'
   },
-  // Operators mapped to serializeable route query params (reverse)
+  // Operators mapped to encodeable route query params (reverse)
   opEncMapRev: {
     'eq': '$eq',
     'gt': '$gt',
