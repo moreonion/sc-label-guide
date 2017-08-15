@@ -14,7 +14,10 @@
     deserializeQueryFactory
   } from '../lib/deserialize.js'
 
-  import {serializeApiOrderBy} from '../lib/serializeApi.js'
+  import {
+    serializeApiOrderBy,
+    serializeApiQuery
+  } from '../lib/serializeApi.js'
 
   export default {
     components: {LabelTable},
@@ -63,15 +66,27 @@
       const limit = _serLimit ? parseInt(_serLimit) : 5
       const page = _serPage ? parseInt(_serPage) : 1
 
+      console.log(JSON.stringify(query))
+
+      // Prepare API query params
+      // select
+      const qSelect = 'name,details,description,meets_criteria' // tmp select
+
+      // where
+      const qQuery = serializeApiQuery(query,
+        col => _COLUMNS_.columnValueMapRev[col],
+        op => _OPERATORS_.opSerApiMap[op])
+
+      const qSearch = search.length > 0 ? {'name': search} : {}
+
+      // orderby
       const qOrderBy = serializeApiOrderBy(orderBy, _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc)
       const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
-
-      const qSelect = 'name,details,description,meets_criteria' // tmp select
 
       // Async fetch labels data
       let resp = null
       try {
-        resp = await LabelsRes.fetch({limit, page, sort: qSort, only: qSelect})
+        resp = await LabelsRes.fetch(Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery, qSearch))
       } catch(err) {
         console.error(JSON.stringify(err.message))
       }
