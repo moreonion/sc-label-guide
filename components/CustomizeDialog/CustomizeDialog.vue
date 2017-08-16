@@ -16,7 +16,7 @@
 
 <script>
 import {_COLUMNS_} from '../../config/config.js'
-import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
+import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
 
 export default {
   mixins: [moDialogVisibility],

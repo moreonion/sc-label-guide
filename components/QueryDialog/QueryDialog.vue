@@ -43,7 +43,7 @@
   import {_OPERATORS_, _COLUMNS_} from '../../config/config.js'
   import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/transformQuery.js'
-  import {moDialogVisibility} from '../DialogVisibility/DialogVisibility.js'
+  import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
 
   import EvalCircle from '../EvalCircle.vue'
 
