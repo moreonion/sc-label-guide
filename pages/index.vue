@@ -81,10 +81,11 @@
       const qOrderBy = encodeApiOrderBy(orderBy, _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc)
       const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
 
+      const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery, qSearch)
       // Async fetch labels data
       let resp = null
       try {
-        resp = await LabelsRes.fetch(Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery, qSearch))
+        resp = await LabelsRes.fetch(fetchParams)
       } catch(err) {
         console.error(JSON.stringify(err.message))
       }
