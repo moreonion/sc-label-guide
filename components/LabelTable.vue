@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <!-- <pre>{{moTable.where}}</pre> -->
+    <!-- <pre>{{queryableSelectedColumns}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
@@ -58,7 +58,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-     :queryObj="query" :selectedColumns="mappedSelectedColumns">
+     :queryObj="query" :selectedColumns="queryableSelectedColumns">
     </query-dialog>
 
     <!-- Info Dialog -->
@@ -148,6 +148,9 @@
       },
       mappedSelectedColumns() {
         return this.moSelectedColumns.map(([col, colIndx]) => [_COLUMNS_.columnValueMap[col], colIndx])
+      },
+      queryableSelectedColumns() {
+        return this.mappedSelectedColumns.filter(c => _COLUMNS_.columnMeta[c[0]].isQueryable)
       }
     },
     watch: {
