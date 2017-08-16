@@ -168,21 +168,14 @@
         this.search = search
       }, 200),
       // Emit encode as route query params
-      customizeDialogResult(selected) {
-        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, selected, {select: true})
+      emitEncode: function(query, ignore) {
+        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, query, ignore)
       },
-      queryDialogResult(newQuery) {
-        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, newQuery, {query: true})
-      },
-      searchBlur() {
-        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, this.search, {search: true})
-      },
-      orderByChange() {
-        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, this.moOrder, {orderBy: true})
-      },
-      pageChange(page) {
-        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, {page}, {page: true})
-      },
+      customizeDialogResult(selected) { this.emitEncode(selected, {select: true}) },
+      queryDialogResult(newQuery) { this.emitEncode(newQuery, {query: true}) },
+      searchBlur() { this.emitEncode(this.search, {search: true}) },
+      orderByChange() { this.emitEncode(this.moOrder, {orderBy: true}) },
+      pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
       columnClass(column) {
         const dir = this.moColumnOrder(column)
