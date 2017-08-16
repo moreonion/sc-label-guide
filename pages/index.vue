@@ -8,7 +8,7 @@
   import {LabelsRes} from '../lib/api/LabelsRes.js'
   import {_COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_} from '../config/config.js'
 
-  // import {debug as D} from '../lib/debug.js'
+  import {debug as D} from '../lib/debug.js'
 
   import {
     decodeArray,
@@ -22,7 +22,7 @@
   } from '../lib/encodeApi.js'
 
   import {
-    // encodeArray,
+    encodeArray,
     encodeOrderBy
     // encodeQueryFactory
   } from '../lib/encode.js'
@@ -113,24 +113,31 @@
     },
     methods: {
       encodeHandler: function(params, ignore) {
-        // D('ENCODE_HANDLER', params)
+        D('ENCODE_HANDLER', params)
 
         if(ignore.select) {
-
+          const encSelect = this.handleEncSelect(params)
+          this.routerPush({select: encSelect}, ignore)
         } else if(ignore.query) {
 
         } else if(ignore.orderBy) {
-          this.routerPush(encodeOrderBy(params,
-            col => _COLUMNS_.columnValueMapRev[col],
-            _ROUTE_.queryDelim), ignore)
+          const [encOrderBy, encOrderDir] = this.handleEncOrderBy(params)
+
+          this.routerPush({orderBy: encOrderBy, orderDir: encOrderDir}, ignore)
         } else if(ignore.search || ignore.page) {
           // can be directly pushed
           this.routerPush(params, ignore)
         }
       },
-      // handleEncSelect(selected) {
-      //   return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
-      // },
+      handleEncSelect(selected) {
+        return selected.length !== _COLUMNS_.columns.length
+          ? encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim) : undefined
+      },
+      handleEncOrderBy(orderBy) {
+        return encodeOrderBy(orderBy,
+          col => _COLUMNS_.columnValueMapRev[col],
+          _ROUTE_.queryDelim)
+      },
       // handleEncQuery(query) {
       //   const encodeQuery = encodeQueryFactory(
       //     column => _COLUMNS_.columnValueMapRev[column],
@@ -140,9 +147,6 @@
       //
       //   return encodeQuery(query)
       // },
-      // handleEncSearch() {
-      //   return {search: this.tableConfig.search.length > 0 ? this.tableConfig.search : undefined}
-      // },
       routerPush(queryParams, ignore) {
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
@@ -150,15 +154,21 @@
         // Encialize state as route query params
         const prepQuery = {}
 
-        // if(!ignore.page) { Object.assign(prepQuery, {page: this.tableConfig.page}) }
+        if(!ignore.page) { Object.assign(prepQuery, {page: this.tableConfig.page}) }
         //
-        // if(!ignore.limit) { Object.assign(prepQuery, {limit: this.tableConfig.limit}) }
+        if(!ignore.limit) { Object.assign(prepQuery, {limit: this.tableConfig.limit}) }
         //
-        // if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
+        if(!ignore.search && this.tableConfig.search.length > 0) { Object.assign(prepQuery, {search: this.tableConfig.search}) }
 
-        // if(!ignore.oderBy) { Object.assign(prepQuery, this.handleEncOrderBy(this.)) }
+        if(!ignore.oderBy) {
+          const [encOrderBy, encOrderDir] = this.handleEncOrderBy(this.tableConfig.orderBy)
+          Object.assign(prepQuery, {orderBy: encOrderBy, orderDir: encOrderDir})
+        }
 
-        // if(!ignore.select) { Object.assign(prepQuery, this.handleEncSelect(this.selected)) }
+        if(!ignore.select) {
+          const encSelect = this.handleEncSelect(this.tableConfig.selected)
+          Object.assign(prepQuery, {select: encSelect})
+        }
         //
         // if(!ignore.query) { Object.assign(prepQuery, this.handleEncQuery(this.query)) }
 
