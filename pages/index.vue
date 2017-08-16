@@ -83,13 +83,19 @@
         col => _COLUMNS_.columnValueMapRev[col],
         op => _OPERATORS_.opEncApiMap[op])
 
-      const qSearch = search.length > 0 ? {'name': search} : {}
+      if(search.length > 0) {
+        if(qQuery.name) {
+          qQuery.name.push(search)
+        } else {
+          qQuery.name = [search]
+        }
+      }
 
       // orderby
       const qOrderBy = encodeApiOrderBy(orderBy, _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc)
       const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
 
-      const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery, qSearch)
+      const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery)
       // Async fetch labels data
       let resp = null
       try {
@@ -118,11 +124,13 @@
           this.routerPush({select: encSelect}, ignore)
         } else if(ignore.query) {
           const encQuery = this.handleEncQuery(params)
-          this.routerPush(encQuery, ignore)
+          this.routerPush(Object.assign(encQuery, {page: 1}), ignore)
         } else if(ignore.orderBy) {
           const [encOrderBy, encOrderDir] = this.handleEncOrderBy(params)
           this.routerPush({orderBy: encOrderBy, orderDir: encOrderDir}, ignore)
-        } else if(ignore.search || ignore.page) {
+        } else if(ignore.search) {
+          this.routerPush(Object.assign(params, {page: 1}), ignore)
+        } else if(ignore.page) {
           // can be directly pushed
           this.routerPush(params, ignore)
         }

@@ -44,6 +44,7 @@
         </tr>
       </tbody>
     </table>
+    <div class="noResults" v-show="moData.items.length === 0">No results found for specified filters or search term!</div>
 
     <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
      :total="moData.pages.total * limit" :current-page="page" :page-size="limit" @current-change="pageChange">
@@ -167,7 +168,6 @@
         this.infoDialogVisible = true
       },
       searchChange: debounce(function(search) {
-        this.page = 1
         this.search = search
       }, 200),
       // Emit encode as route query params
@@ -176,7 +176,7 @@
       },
       customizeDialogResult(selected) { this.emitEncode(selected, {select: true}) },
       queryDialogResult(newQuery) { this.emitEncode(newQuery, {query: true}) },
-      searchBlur() { this.emitEncode(this.search, {search: true}) },
+      searchBlur() { this.emitEncode({search: this.search.length > 0 ? this.search : undefined}, {search: true}) },
       orderByChange() { this.emitEncode(this.moTable.orderBy, {orderBy: true}) },
       pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
