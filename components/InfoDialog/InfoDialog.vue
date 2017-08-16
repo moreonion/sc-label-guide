@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="onClose" size="large">
     <h1 v-if="label.row" slot="title">{{label.row.name}}</h1>
-    <div v-if="label.row">
+    <template v-if="label.row">
       <section v-if="label.row.description">
         <h2>Description</h2>
         <p>{{label.row.description}}</p>
@@ -15,7 +15,7 @@
           </li>
         </ul>
       </section>
-    </div>
+    </template>
 
     <span slot="footer">
       <el-button @click="dismiss">Close</el-button>
