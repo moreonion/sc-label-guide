@@ -3,30 +3,25 @@
 </template>
 
 <script>
+  // import {debug as D} from '../lib/debug.js'
   import LabelTable from '../components/LabelTable.vue'
 
-  import {LabelsRes} from '../lib/api/LabelsRes.js'
   import {
     _COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_
   } from '../config/config.js'
 
-  // import {debug as D} from '../lib/debug.js'
+  import {LabelsRes} from '../lib/api/LabelsRes.js'
 
   import {
-    decodeArray,
-    decodeOrderBy,
-    decodeQueryFactory
+    decodeArray, decodeOrderBy, decodeQueryFactory
   } from '../lib/decode.js'
 
   import {
-    encodeApiOrderBy,
-    encodeApiQuery
+    encodeApiOrderBy, encodeApiQuery
   } from '../lib/encodeApi.js'
 
   import {
-    encodeArray,
-    encodeOrderBy,
-    encodeQuery
+    encodeArray, encodeOrderBy, encodeQuery
   } from '../lib/encode.js'
 
   export default {
