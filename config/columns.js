@@ -32,7 +32,7 @@ export const _COLUMNS_ = {
     'details.score.social': 'Social impact'
   },
   columnMeta: {
-    'name': {type: types.TEXT, hasInfo: true, mandatory: true},
+    'name': {type: types.TEXT, hasInfo: true, isSortable: true, mandatory: true},
     'details.score.credibility': {type: types.RATING},
     'details.score.environment': {type: types.RATING},
     'details.score.social': {type: types.RATING}

@@ -19,9 +19,14 @@
     <table v-show="moData.items.length > 0">
       <thead>
         <tr>
-          <th v-for="column in mappedSelectedColumns" :key="column[1]" :class="columnClass(column[0])"
-            v-mo-toggle-orderby="column[0]">{{columnLabel(column[0])}}
-          </th>
+          <template v-for="column in mappedSelectedColumns">
+            <template v-if="columnIsSortable(column[0])">
+              <th :key="column[1]" :class="columnClass(column[0])" v-mo-toggle-orderby="column[0]">{{columnLabel(column[0])}}</th>
+            </template>
+            <template v-else>
+              <th :key="column[1]" :class="columnClass(column[0])">{{columnLabel(column[0])}}</th>
+            </template>
+          </template>
         </tr>
       </thead>
       <tbody>
@@ -164,6 +169,7 @@
       columnIsRating: column => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING,
       columnHasInfo: column => _COLUMNS_.columnMeta[column].hasInfo,
       columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
+      columnIsSortable: column => _COLUMNS_.columnMeta[column].isSortable,
       showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
