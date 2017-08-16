@@ -89,7 +89,11 @@
       }
 
       // orderby
-      const qOrderBy = encodeApiOrderBy(orderBy, _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc)
+      const qOrderBy = encodeApiOrderBy(orderBy,
+        col => _COLUMNS_.columnValueMapRev[col],
+        _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc,
+        dir => dir === _ORDERBY_.token.asc)
+
       const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
 
       const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery)
