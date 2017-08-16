@@ -6,7 +6,9 @@
   import LabelTable from '../components/LabelTable.vue'
 
   import {LabelsRes} from '../lib/api/LabelsRes.js'
-  import {_COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_} from '../config/config.js'
+  import {
+    _COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_
+  } from '../config/config.js'
 
   // import {debug as D} from '../lib/debug.js'
 

@@ -83,10 +83,7 @@
   import {moLocalTable} from 'mo-vue-table'
 
   import {
-    _OPERATORS_,
-    _COLUMNS_,
-    _ORDERBY_,
-    _EVENTS_
+    _OPERATORS_, _COLUMNS_, _ORDERBY_, _EVENTS_
   } from '../config/config.js'
 
   import {id} from '../lib/fp.js'
