@@ -122,7 +122,6 @@
 
         } else if(ignore.orderBy) {
           const [encOrderBy, encOrderDir] = this.handleEncOrderBy(params)
-
           this.routerPush({orderBy: encOrderBy, orderDir: encOrderDir}, ignore)
         } else if(ignore.search || ignore.page) {
           // can be directly pushed
