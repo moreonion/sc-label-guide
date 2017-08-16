@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <pre>{{moTable.orderBy}}</pre>
+    <!-- <pre>{{moTable.where}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
@@ -89,7 +89,6 @@
   } from '../config/config.js'
 
   import {id} from '../lib/fp.js'
-
   import {queryObjToArr} from '../lib/transformQuery.js'
 
   import LangSelect from './LangSelect.vue'
