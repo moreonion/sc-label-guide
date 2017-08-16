@@ -74,7 +74,7 @@
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
-  import {_OPERATORS_, _COLUMNS_, _ROUTE_} from '../config/config.js'
+  import {_OPERATORS_, _COLUMNS_, _ROUTE_, _ORDERBY_} from '../config/config.js'
 
   import {id} from '../lib/fp.js'
 
@@ -108,6 +108,9 @@
       'info-dialog': InfoDialog,
       'bginfo-dialog': BgInfoDialog,
       'customize-dialog': CustomizeDialog
+    },
+    created: function() {
+      this.moTable.config.orderBy.token = _ORDERBY_.token
     },
     data() {
       return {
