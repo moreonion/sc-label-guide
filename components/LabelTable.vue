@@ -8,6 +8,8 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
+    <!-- <pre>{{orderBy}}</pre> -->
+
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>

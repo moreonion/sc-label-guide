@@ -1,5 +1,5 @@
 <template>
-  <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="routerPush"></label-table>
+  <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="encodeHandler"></label-table>
 </template>
 
 <script>
@@ -28,7 +28,7 @@
   export default {
     components: {LabelTable},
     async asyncData({route}) {
-      // Deserialize route query parameters
+      // Decode route query parameters
       const {
         select: _encSelect,
         orderBy: _encOrderBy,
@@ -49,21 +49,21 @@
 
       const columnMap = _COLUMNS_.columnValueMap
 
-      // Deserialize orderBy, fallback to 'asc' ordering when direction is not provided
+      // Decode orderBy, fallback to 'asc' ordering when direction is not provided
       const orderBy = (_encOrderBy && _encOrderDir)
         ? decodeOrderBy(_encOrderBy, _encOrderDir, column => columnMap[column], _ORDERBY_.token.asc, _ROUTE_.queryDelim) : []
 
       const _decodeQuery = decodeQueryFactory(
-        serOp => _OPERATORS_.opEncMapRev[serOp],
-        serColumn => columnMap[serColumn],
+        encOp => _OPERATORS_.opEncMapRev[encOp],
+        encColumn => columnMap[encColumn],
         (column, val) => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING ? parseInt(val) : val,
         _ROUTE_.queryDelim,
         _ROUTE_.querySubDelim)
 
-      const query = _OPERATORS_.ops.map(o => [o, _OPERATORS_.opEncMap[o]]).reduce((accum, [op, serOp]) => {
-        const serOpVal = route.query[serOp]
-        if(serOpVal) {
-          Object.assign(accum, _decodeQuery(serOpVal, serOp))
+      const query = _OPERATORS_.ops.map(o => [o, _OPERATORS_.opEncMap[o]]).reduce((accum, [op, encOp]) => {
+        const encOpVal = route.query[encOp]
+        if(encOpVal) {
+          Object.assign(accum, _decodeQuery(encOpVal, encOp))
         }
         return accum
       }, {})
@@ -96,6 +96,8 @@
         console.error(JSON.stringify(err.message))
       }
 
+      console.log('ORDERBY'+JSON.stringify(orderBy))
+
       return {
         tableData: resp.data,
         tableConfig: {
@@ -110,6 +112,19 @@
       }
     },
     methods: {
+      encodeHandler: function(query, ignore) {
+        if(ignore.select) {
+
+        } else if(ignore.query) {
+
+        } else if(ignore.search) {
+
+        } else if(ignore.orderBy) {
+
+        } else if(ignore.page) {
+
+        }
+      },
       handleEncSelect(selected) {
         return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
       },
@@ -123,7 +138,7 @@
         return encodeQuery(query)
       },
       handleEncSearch() {
-        return {search: this.search.length > 0 ? this.search : undefined}
+        return {search: this.tableConfig.search.length > 0 ? this.tableConfig.search : undefined}
       },
       handleEncOrderBy() {
         return this.moOrder.length > 0
@@ -140,9 +155,9 @@
         // Encialize state as route query params
         const prepQuery = {}
 
-        if(!ignore.page) { prepQuery.page = this.page }
+        if(!ignore.page) { prepQuery.page = this.tableConfig.page }
 
-        if(!ignore.limit) { prepQuery.limit = this.limit }
+        if(!ignore.limit) { prepQuery.limit = this.tableConfig.limit }
 
         if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
 
