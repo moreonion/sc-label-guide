@@ -137,7 +137,6 @@
       }
     },
     computed: {
-      selectableColumns: () => _COLUMNS_.columns,
       offset() { return (this.page - 1) * this.limit },
       completeQuery() {
         // Perform case insenstive search on label name
