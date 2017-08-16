@@ -9,6 +9,7 @@
     "element-ui": "^1.4.1",
     "lodash.debounce": "^4.0.8",
     "lodash.reduce": "^4.6.0",
+    "lodash.unzip": "^3.4.0",
     "lodash.zip": "^4.2.0",
     "mo-vue-table": ">= 0.1.1 < 1",
     "nuxt": "latest"

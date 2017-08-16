@@ -8,6 +8,8 @@
   import {LabelsRes} from '../lib/api/LabelsRes.js'
   import {_COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_} from '../config/config.js'
 
+  // import {debug as D} from '../lib/debug.js'
+
   import {
     decodeArray,
     decodeOrderBy,
@@ -20,9 +22,9 @@
   } from '../lib/encodeApi.js'
 
   import {
-    encodeArray,
-    encodeOrderBy,
-    encodeQueryFactory
+    // encodeArray,
+    encodeOrderBy
+    // encodeQueryFactory
   } from '../lib/encode.js'
 
   export default {
@@ -51,7 +53,7 @@
 
       // Decode orderBy, fallback to 'asc' ordering when direction is not provided
       const orderBy = (_encOrderBy && _encOrderDir)
-        ? decodeOrderBy(_encOrderBy, _encOrderDir, column => columnMap[column], _ORDERBY_.token.asc, _ROUTE_.queryDelim) : []
+        ? decodeOrderBy(_encOrderBy, _encOrderDir, column => columnMap[column], _ORDERBY_.token.asc, _ROUTE_.queryDelim) : {}
 
       const _decodeQuery = decodeQueryFactory(
         encOp => _OPERATORS_.opEncMapRev[encOp],
@@ -96,8 +98,6 @@
         console.error(JSON.stringify(err.message))
       }
 
-      console.log('ORDERBY'+JSON.stringify(orderBy))
-
       return {
         tableData: resp.data,
         tableConfig: {
@@ -112,60 +112,55 @@
       }
     },
     methods: {
-      encodeHandler: function(query, ignore) {
+      encodeHandler: function(params, ignore) {
+        // D('ENCODE_HANDLER', params)
+
         if(ignore.select) {
 
         } else if(ignore.query) {
 
-        } else if(ignore.search) {
-
         } else if(ignore.orderBy) {
-
-        } else if(ignore.page) {
-
+          this.routerPush(encodeOrderBy(params,
+            col => _COLUMNS_.columnValueMapRev[col],
+            _ROUTE_.queryDelim), ignore)
+        } else if(ignore.search || ignore.page) {
+          // can be directly pushed
+          this.routerPush(params, ignore)
         }
       },
-      handleEncSelect(selected) {
-        return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
-      },
-      handleEncQuery(query) {
-        const encodeQuery = encodeQueryFactory(
-          column => _COLUMNS_.columnValueMapRev[column],
-          op => _OPERATORS_.opEncMap[op],
-          _ROUTE_.queryDelim,
-          _ROUTE_.querySubDelim)
-
-        return encodeQuery(query)
-      },
-      handleEncSearch() {
-        return {search: this.tableConfig.search.length > 0 ? this.tableConfig.search : undefined}
-      },
-      handleEncOrderBy() {
-        return this.moOrder.length > 0
-          ? encodeOrderBy([
-            this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
-            this.moOrder[1]],
-            _ROUTE_.queryDelim) : {}
-      },
+      // handleEncSelect(selected) {
+      //   return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
+      // },
+      // handleEncQuery(query) {
+      //   const encodeQuery = encodeQueryFactory(
+      //     column => _COLUMNS_.columnValueMapRev[column],
+      //     op => _OPERATORS_.opEncMap[op],
+      //     _ROUTE_.queryDelim,
+      //     _ROUTE_.querySubDelim)
+      //
+      //   return encodeQuery(query)
+      // },
+      // handleEncSearch() {
+      //   return {search: this.tableConfig.search.length > 0 ? this.tableConfig.search : undefined}
+      // },
       routerPush(queryParams, ignore) {
-        console.log('ROUTER_PUSH'+JSON.stringify(queryParams))
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
       assembleQueryParams(queryParams, ignore={}) {
         // Encialize state as route query params
         const prepQuery = {}
 
-        if(!ignore.page) { prepQuery.page = this.tableConfig.page }
+        // if(!ignore.page) { Object.assign(prepQuery, {page: this.tableConfig.page}) }
+        //
+        // if(!ignore.limit) { Object.assign(prepQuery, {limit: this.tableConfig.limit}) }
+        //
+        // if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
 
-        if(!ignore.limit) { prepQuery.limit = this.tableConfig.limit }
+        // if(!ignore.oderBy) { Object.assign(prepQuery, this.handleEncOrderBy(this.)) }
 
-        if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
-
-        if(!ignore.oderBy) { Object.assign(prepQuery, this.handleEncOrderBy()) }
-
-        if(!ignore.select) { Object.assign(prepQuery, this.handleEncSelect(this.selected)) }
-
-        if(!ignore.query) { Object.assign(prepQuery, this.handleEncQuery(this.query)) }
+        // if(!ignore.select) { Object.assign(prepQuery, this.handleEncSelect(this.selected)) }
+        //
+        // if(!ignore.query) { Object.assign(prepQuery, this.handleEncQuery(this.query)) }
 
         return Object.assign(prepQuery, queryParams)
       }

@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <!-- <pre>{{orderBy}}</pre> -->
+    <pre>{{moTable.orderBy}}</pre>
 
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
@@ -176,7 +176,7 @@
       customizeDialogResult(selected) { this.emitEncode(selected, {select: true}) },
       queryDialogResult(newQuery) { this.emitEncode(newQuery, {query: true}) },
       searchBlur() { this.emitEncode(this.search, {search: true}) },
-      orderByChange() { this.emitEncode(this.moOrder, {orderBy: true}) },
+      orderByChange() { this.emitEncode(this.moTable.orderBy, {orderBy: true}) },
       pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
       columnClass(column) {
