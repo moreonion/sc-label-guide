@@ -79,15 +79,14 @@
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
-  import {_OPERATORS_, _COLUMNS_, _ROUTE_, _ORDERBY_} from '../config/config.js'
+  import {
+    _OPERATORS_,
+    _COLUMNS_,
+    _ORDERBY_,
+    _EVENTS_
+  } from '../config/config.js'
 
   import {id} from '../lib/fp.js'
-
-  import {
-    encodeArray,
-    encodeOrderBy,
-    encodeQueryFactory
-  } from '../lib/encode.js'
 
   import {queryObjToArr} from '../lib/transformQuery.js'
 
@@ -160,6 +159,31 @@
       moOrder() { this.orderByChange() }
     },
     methods: {
+      showInfoDialog(row, col) {
+        this.infoDialogInput = {row, col}
+        this.infoDialogVisible = true
+      },
+      searchChange: debounce(function(search) {
+        this.page = 1
+        this.search = search
+      }, 200),
+      // Emit encode as route query params
+      customizeDialogResult(selected) {
+        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, selected, {select: true})
+      },
+      queryDialogResult(newQuery) {
+        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, newQuery, {query: true})
+      },
+      searchBlur() {
+        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, this.search, {search: true})
+      },
+      orderByChange() {
+        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, this.moOrder, {orderBy: true})
+      },
+      pageChange(page) {
+        this.$emit(_EVENTS_.Index.encodeAsRouteQuery, {page}, {page: true})
+      },
+      // Helper methods on columns
       columnClass(column) {
         const dir = this.moColumnOrder(column)
         return dir !== null ? [`mo-${dir}`] : []
@@ -169,67 +193,7 @@
       columnIsRating: column => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING,
       columnHasInfo: column => _COLUMNS_.columnMeta[column].hasInfo,
       columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
-      columnIsSortable: column => _COLUMNS_.columnMeta[column].isSortable,
-      showInfoDialog(row, col) {
-        this.infoDialogInput = {row, col}
-        this.infoDialogVisible = true
-      },
-      customizeDialogResult(selected) {
-        this.routerPush(this.handleEncSelect(selected), {select: true})
-      },
-      handleEncSelect(selected) {
-        return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
-      },
-      queryDialogResult(newQuery) {
-        this.routerPush(Object.assign(this.handleEncQuery(newQuery), {page: 1}), {query: true})
-      },
-      handleEncQuery(query) {
-        const encodeQuery = encodeQueryFactory(
-          column => _COLUMNS_.columnValueMapRev[column],
-          op => _OPERATORS_.opEncMap[op],
-          _ROUTE_.queryDelim,
-          _ROUTE_.querySubDelim)
-
-        return encodeQuery(query)
-      },
-      searchChange: debounce(function(search) {
-        this.page = 1
-        this.search = search
-      }, 200),
-      searchBlur() { this.routerPush(this.handleEncSearch(), {search: true}) },
-      handleEncSearch() {
-        return {search: this.search.length > 0 ? this.search : undefined}
-      },
-      orderByChange() { this.routerPush(this.handleEncOrderBy(), {orderBy: true}) },
-      handleEncOrderBy() {
-        return this.moOrder.length > 0
-          ? encodeOrderBy([
-            this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
-            this.moOrder[1]],
-            _ROUTE_.queryDelim) : {}
-      },
-      pageChange(page) { this.routerPush({page}, {page: true}) },
-      routerPush(queryParams, ignore) {
-        this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
-      },
-      assembleQueryParams(queryParams, ignore={}) {
-        // Encialize state as route query params
-        const prepQuery = {}
-
-        if(!ignore.page) { prepQuery.page = this.page }
-
-        if(!ignore.limit) { prepQuery.limit = this.limit }
-
-        if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
-
-        if(!ignore.oderBy) { Object.assign(prepQuery, this.handleEncOrderBy()) }
-
-        if(!ignore.select) { Object.assign(prepQuery, this.handleEncSelect(this.selected)) }
-
-        if(!ignore.query) { Object.assign(prepQuery, this.handleEncQuery(this.query)) }
-
-        return Object.assign(prepQuery, queryParams)
-      }
+      columnIsSortable: column => _COLUMNS_.columnMeta[column].isSortable
     }
   }
 </script>

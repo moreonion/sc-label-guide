@@ -1,5 +1,5 @@
 <template>
-  <label-table :moData="tableData" :moConfig="tableConfig"></label-table>
+  <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="routerPush"></label-table>
 </template>
 
 <script>
@@ -18,6 +18,12 @@
     encodeApiOrderBy,
     encodeApiQuery
   } from '../lib/encodeApi.js'
+
+  import {
+    encodeArray,
+    encodeOrderBy,
+    encodeQueryFactory
+  } from '../lib/encode.js'
 
   export default {
     components: {LabelTable},
@@ -103,10 +109,51 @@
         }
       }
     },
-    created: function() {
-      this.$on('serializeRouteQuery', query => {
-        console.log('serializeRouteQuery')
-      })
+    methods: {
+      handleEncSelect(selected) {
+        return selected.length !== this.selectableColumns.length ? {select: encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim)} : undefined
+      },
+      handleEncQuery(query) {
+        const encodeQuery = encodeQueryFactory(
+          column => _COLUMNS_.columnValueMapRev[column],
+          op => _OPERATORS_.opEncMap[op],
+          _ROUTE_.queryDelim,
+          _ROUTE_.querySubDelim)
+
+        return encodeQuery(query)
+      },
+      handleEncSearch() {
+        return {search: this.search.length > 0 ? this.search : undefined}
+      },
+      handleEncOrderBy() {
+        return this.moOrder.length > 0
+          ? encodeOrderBy([
+            this.moOrder[0].map(column => _COLUMNS_.columnValueMapRev[column]),
+            this.moOrder[1]],
+            _ROUTE_.queryDelim) : {}
+      },
+      routerPush(queryParams, ignore) {
+        console.log('ROUTER_PUSH'+JSON.stringify(queryParams))
+        this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
+      },
+      assembleQueryParams(queryParams, ignore={}) {
+        // Encialize state as route query params
+        const prepQuery = {}
+
+        if(!ignore.page) { prepQuery.page = this.page }
+
+        if(!ignore.limit) { prepQuery.limit = this.limit }
+
+        if(!ignore.search) { Object.assign(prepQuery, this.handleEncSearch()) }
+
+        if(!ignore.oderBy) { Object.assign(prepQuery, this.handleEncOrderBy()) }
+
+        if(!ignore.select) { Object.assign(prepQuery, this.handleEncSelect(this.selected)) }
+
+        if(!ignore.query) { Object.assign(prepQuery, this.handleEncQuery(this.query)) }
+
+        return Object.assign(prepQuery, queryParams)
+      }
     }
   }
 </script>
