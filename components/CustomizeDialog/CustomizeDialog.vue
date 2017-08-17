@@ -37,7 +37,7 @@ export default {
       this.$emit('update:visible', val)
     },
     columnName: column => _COLUMNS_.columnLabelMap[_COLUMNS_.columnValueMap[column]],
-    isMandadory: column => _COLUMNS_.columnMeta[_COLUMNS_.columnValueMap[column]].mandatory,
+    isMandadory: column => _COLUMNS_.columnMeta[_COLUMNS_.columnValueMap[column]].isMandatory,
     projectColumns: function() {
       return this.availableColumns.filter(col => this.columns.find(c => c === col[0]) !== undefined)
     },
