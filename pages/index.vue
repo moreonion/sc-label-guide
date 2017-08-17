@@ -32,16 +32,17 @@
     validate({query}) {
       for(const key in query) {
         const validate = Validation[key]
-        if(validate) {
+        if(validate && query[key] !== undefined) {
           const valid = validate(query, query[key])
           if(!valid) {
             return false
           }
+        } else if(validate && query[key] === undefined) {
+          return true
         } else {
           return false
         }
       }
-
       return true
     },
     async asyncData({route}) {
