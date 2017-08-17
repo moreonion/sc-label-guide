@@ -4,13 +4,12 @@
 
 <script>
   // import {debug as D} from '../lib/debug.js'
+
   import LabelTable from '../components/LabelTable.vue'
 
   import {
     _COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_
   } from '../config/config.js'
-
-  import {LabelsRes} from '../lib/api/LabelsRes.js'
 
   import {
     decodeArray, decodeOrderBy, decodeQueryFactory
@@ -24,8 +23,27 @@
     encodeArray, encodeOrderBy, encodeQuery
   } from '../lib/encode.js'
 
+  import {LabelsRes} from '../lib/api/LabelsRes.js'
+
+  import {Validation} from '../lib/validation.js'
+
   export default {
     components: {LabelTable},
+    validate({query}) {
+      for(const key in query) {
+        const validate = Validation[key]
+        if(validate) {
+          const valid = validate(query[key])
+          if(!valid) {
+            return false
+          }
+        } else {
+          return false
+        }
+      }
+
+      return true
+    },
     async asyncData({route}) {
       // Decode route query parameters
       const {
