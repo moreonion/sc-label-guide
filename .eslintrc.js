@@ -15,7 +15,8 @@ module.exports = {
     'space-before-function-paren' : ['error', 'never'],
     'keyword-spacing': 'off',
     'space-infix-ops': 'off',
-    'no-debugger': 'warn'
+    'no-debugger': 'warn',
+    'no-unused-vars': 'warn'
   },
   globals: {}
 }
