@@ -1,5 +1,5 @@
 <template>
-  <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="encodeHandler"></label-table>
+  <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="encodeHandler" @fetch="fetchData"></label-table>
 </template>
 
 <script>
@@ -26,6 +26,37 @@
   import {LabelsRes} from '../lib/api/LabelsRes.js'
 
   import {Validation} from '../lib/validation.js'
+
+  const fetch = (select, query, search, orderBy, limit, page) => {
+    // Prepare API query params
+    // select
+    const qSelect = 'name,details,description,meets_criteria' // tmp select
+
+    // where
+    const qQuery = encodeApiQuery(query,
+      col => _COLUMNS_.columnValueMapRev[col],
+      op => _OPERATORS_.opEncApiMap[op])
+
+    if(search.length > 0) {
+      if(qQuery.name) {
+        qQuery.name.push(search)
+      } else {
+        qQuery.name = [search]
+      }
+    }
+
+    // orderby
+    const qOrderBy = encodeApiOrderBy(orderBy,
+      col => _COLUMNS_.columnValueMapRev[col],
+      _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc,
+      dir => dir === _ORDERBY_.token.asc)
+
+    const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
+
+    const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery)
+
+    return LabelsRes.fetch(fetchParams)
+  }
 
   export default {
     components: {LabelTable},
@@ -90,36 +121,10 @@
       const limit = _encLimit ? parseInt(_encLimit) : 5
       const page = _encPage ? parseInt(_encPage) : 1
 
-      // Prepare API query params
-      // select
-      const qSelect = 'name,details,description,meets_criteria' // tmp select
-
-      // where
-      const qQuery = encodeApiQuery(query,
-        col => _COLUMNS_.columnValueMapRev[col],
-        op => _OPERATORS_.opEncApiMap[op])
-
-      if(search.length > 0) {
-        if(qQuery.name) {
-          qQuery.name.push(search)
-        } else {
-          qQuery.name = [search]
-        }
-      }
-
-      // orderby
-      const qOrderBy = encodeApiOrderBy(orderBy,
-        col => _COLUMNS_.columnValueMapRev[col],
-        _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc,
-        dir => dir === _ORDERBY_.token.asc)
-
-      const qSort = qOrderBy.length > 0 ? qOrderBy : undefined
-
-      const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery)
       // Async fetch labels data
       let resp = null
       try {
-        resp = await LabelsRes.fetch(fetchParams)
+        resp = await fetch(selected, query, search, orderBy, limit, page)
       } catch(err) {
         console.error(JSON.stringify(err.message))
       }
@@ -138,6 +143,16 @@
       }
     },
     methods: {
+      async fetchData(search) {
+        const def = this.tableConfig
+        try {
+          const resp = await fetch(def.selected, def.query, search, def.orderBy, def.limit, 1)
+          this.tableConfig.search = search
+          this.tableData = resp.data
+        } catch(err) {
+          console.error(JSON.stringify(err.message))
+        }
+      },
       encodeHandler: function(params, ignore) {
         if(ignore.select) {
           const encSelect = this.handleEncSelect(params)

@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <!-- <pre>{{queryableSelectedColumns}}</pre> -->
+    <!-- <pre>{{search}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" v-for="qlItem in queryList">
@@ -166,7 +166,8 @@
       },
       searchChange: debounce(function(search) {
         this.search = search
-      }, 200),
+        this.$emit(_EVENTS_.Index.fetch, search)
+      }, 1000),
       // Emit encode as route query params
       emitEncode: function(query, ignore) {
         this.$emit(_EVENTS_.Index.encodeAsRouteQuery, query, ignore)
