@@ -33,7 +33,7 @@
       for(const key in query) {
         const validate = Validation[key]
         if(validate) {
-          const valid = validate(query[key])
+          const valid = validate(query, query[key])
           if(!valid) {
             return false
           }
