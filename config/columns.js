@@ -33,8 +33,8 @@ export const _COLUMNS_ = {
   },
   columnMeta: {
     'name': {type: types.TEXT, hasInfo: true, isSortable: true, isQueryable: true, isMandatory: true},
-    'details.score.credibility': {type: types.RATING},
-    'details.score.environment': {type: types.RATING},
-    'details.score.social': {type: types.RATING}
+    'details.score.credibility': {type: types.RATING, isSortable: true, isQueryable: true},
+    'details.score.environment': {type: types.RATING, isSortable: true, isQueryable: true},
+    'details.score.social': {type: types.RATING, isSortable: true, isQueryable: true}
   }
 }
