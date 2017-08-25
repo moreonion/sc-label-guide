@@ -36,10 +36,10 @@ export const _OPERATORS_ = {
     'lte': '$lte'
   },
   opEncApiMap: {
-    '$eq': '',
-    '$gte': '>=',
-    '$gt': '>',
-    '$lt': '<',
-    '$lte': '<='
+    '$eq': 'eq',
+    '$gte': 'ge',
+    '$gt': 'gt',
+    '$lt': 'lt',
+    '$lte': 'le'
   }
 }
