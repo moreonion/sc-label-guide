@@ -47,8 +47,7 @@
     }
 
     // orderby
-    const qOrderBy = encodeApiOrderBy(orderBy,
-      col => _COLUMNS_.columnValueMapRev[col],
+    const qOrderBy = encodeApiOrderBy(orderBy, id,
       _API_.queryDelim, _API_.orderBy.token.asc, _API_.orderBy.token.desc,
       dir => dir === _ORDERBY_.token.asc)
 
