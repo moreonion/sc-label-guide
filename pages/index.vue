@@ -7,6 +7,8 @@
 
   import LabelTable from '../components/LabelTable.vue'
 
+  import {id} from '../lib/fp.js'
+
   import {
     _COLUMNS_, _OPERATORS_, _ROUTE_, _API_, _ORDERBY_
   } from '../config/config.js'
@@ -33,9 +35,8 @@
     const qSelect = 'name,details,description,meets_criteria' // tmp select
 
     // where
-    const qQuery = encodeApiQuery(query,
-      col => _COLUMNS_.columnValueMapRev[col],
-      op => _OPERATORS_.opEncApiMap[op])
+    const qQuery = encodeApiQuery(query, id,
+      op => _OPERATORS_.opEncApiMap[op], _API_.opDelim)
 
     if(search.length > 0) {
       if(qQuery.name) {
