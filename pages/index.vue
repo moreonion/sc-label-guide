@@ -39,11 +39,7 @@
       op => _OPERATORS_.opEncApiMap[op], _API_.opDelim)
 
     if(search.length > 0) {
-      if(qQuery.name) {
-        qQuery.name.push(search)
-      } else {
-        qQuery.name = [search]
-      }
+      qQuery[`name${_API_.opDelim}like`] = search
     }
 
     // orderby
