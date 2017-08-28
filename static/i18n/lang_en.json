@@ -1,0 +1,53 @@
+{
+  "Basics": {
+    "Add": "Add",
+    "Filter": "Filter | Filters",
+    "Value": "Value | Values",
+    "Description": "Description"
+  },
+  "Languages": {
+    "English": "English",
+    "German": "German"
+  },
+  "Evaluation": {
+    "Good": "Good",
+    "Mediocre": "Mediocre",
+    "NotGood": "Not Good",
+    "Unknown": "Unkown"
+  },
+  "Operators": {
+    "eq": "is",
+    "gt": ">",
+    "gte": ">=",
+    "lt": "<",
+    "lte": "<=",
+    "in": "in"
+  },
+  "Buttons": {
+    "CustomizeDisplay": "Customize Display",
+    "BackgroundInformation": "Background information"
+  },
+  "Modals": {
+    "Buttons": {
+      "Apply": "Apply",
+      "Close": "Close"
+    },
+    "Headers": {
+      "CriteriaMet": "Criteria met"
+    }
+  },
+  "Columns": {
+    "Label": "Label",
+    "GovTrans": "Governance& Transparency",
+    "EnvImpact": "Environmental impact",
+    "ScoImpact": "Social impact",
+    "Hotspots": "Issues label has impact on",
+    "Resources": "Raw materials label has impact on"
+  },
+  "Texts": {
+    "Embed": "Embed this label guide on your website"
+  },
+  "Questions": {
+    "Scoring": "How does the scoring work?"
+  }
+}
