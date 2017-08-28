@@ -84,7 +84,7 @@
         // eq, gt, gte,lt, lte - Encialized operators may also be attached
       } = route.query
 
-      let selected = _COLUMNS_.columns
+      let selected = _COLUMNS_.columns.filter(([c, _]) => _COLUMNS_.columnMeta[_COLUMNS_.columnValueMap[c]].isDefaultSelected)
 
       if(_encSelect) {
         // Given the selectable columns, decode selected columns from query parameters
@@ -167,7 +167,13 @@
         }
       },
       handleEncSelect(selected) {
-        return selected.length !== _COLUMNS_.columns.length
+        const defaultSelection = _COLUMNS_.columns.filter(([c, _]) => _COLUMNS_.columnMeta[_COLUMNS_.columnValueMap[c]].isDefaultSelected)
+
+        const hasCustomSelection = () => selected.find(([col, _]) => {
+          return defaultSelection.find(([defCol, _]) => col === defCol) === undefined
+        }) !== undefined
+
+        return (selected.length !== defaultSelection.length || hasCustomSelection())
           ? encodeArray(selected.map(col => col[0]), _ROUTE_.queryDelim) : undefined
       },
       handleEncOrderBy(orderBy) {

@@ -37,10 +37,10 @@ export const _COLUMNS_ = {
     'hotspots': 'Issues label has impact on'
   },
   columnMeta: {
-    'name': {type: types.TEXT, hasInfo: true, isSortable: true, isQueryable: true, isMandatory: true},
-    'details.score.credibility': {type: types.RATING, isSortable: true, isQueryable: true},
-    'details.score.environment': {type: types.RATING, isSortable: true, isQueryable: true},
-    'details.score.social': {type: types.RATING, isSortable: true, isQueryable: true},
+    'name': {type: types.TEXT, hasInfo: true, isSortable: true, isQueryable: true, isMandatory: true, isDefaultSelected: true},
+    'details.score.credibility': {type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true},
+    'details.score.environment': {type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true},
+    'details.score.social': {type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true},
     'hotspots': {type: types.LIST}
   }
 }
