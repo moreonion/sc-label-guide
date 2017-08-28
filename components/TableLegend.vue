@@ -15,6 +15,11 @@
         <eval-circle value="1"></eval-circle><span>Not Good</span>
       </div>
     </el-col>
+    <el-col :xs="8" :sm="5" class="test">
+      <div class="eval-cont">
+        <eval-circle value="0"></eval-circle><span>Unknown</span>
+      </div>
+    </el-col>
     <el-col :xs="24" :sm="8">
       <span>How does the scoring work?</span><br>
       <a @click="onClick">Background Information</a>
