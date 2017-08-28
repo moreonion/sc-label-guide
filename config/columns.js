@@ -1,40 +1,46 @@
 const types = {
   'RATING': 'rating',
-  'TEXT': 'text'
+  'TEXT': 'text',
+  'LIST': 'list'
 }
 
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['name', 0], ['credibility', 1], ['environment', 2], ['social', 3]],
+  columns: [['name', 0], ['credibility', 1], ['environment', 2], ['social', 3], ['hotspots', 4]],
   columnValueMap: {
     'name': 'name',
     'credibility': 'details.score.credibility',
     'environment': 'details.score.environment',
-    'social': 'details.score.social'
+    'social': 'details.score.social',
+    'hotspots': 'hotspots'
   },
   columnValueMapRev: {
     'name': 'name',
     'details.score.credibility': 'credibility',
     'details.score.environment': 'environment',
-    'details.score.social': 'social'
+    'details.score.social': 'social',
+    'hotspots': 'hotspots'
   },
   columnValFuncMap: {
     'name': row => row.name,
     'details.score.credibility': row => row.details.score.credibility || 0,
     'details.score.environment': row => row.details.score.environment || 0,
-    'details.score.social': row => row.details.score.social || 0
+    'details.score.social': row => row.details.score.social || 0,
+    'hotspots': row => row.hotspots || []
   },
   columnLabelMap: {
     'name': 'Label',
     'details.score.credibility': 'Governance& Transparency',
     'details.score.environment': 'Environmental impact',
-    'details.score.social': 'Social impact'
+    'details.score.social': 'Social impact',
+    'hotspots': 'Issues label has impact on'
   },
   columnMeta: {
     'name': {type: types.TEXT, hasInfo: true, isSortable: true, isQueryable: true, isMandatory: true},
     'details.score.credibility': {type: types.RATING, isSortable: true, isQueryable: true},
     'details.score.environment': {type: types.RATING, isSortable: true, isQueryable: true},
-    'details.score.social': {type: types.RATING, isSortable: true, isQueryable: true}
+    'details.score.social': {type: types.RATING, isSortable: true, isQueryable: true},
+    'hotspots': {type: types.LIST}
   }
 }

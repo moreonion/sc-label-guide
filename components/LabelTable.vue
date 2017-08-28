@@ -39,6 +39,12 @@
               <img v-if="row.logo" class="logoImg" :src="row.logo">
               {{columnValue(row, column[0])}}
             </span>
+            <span v-else-if="columnIsList(column[0])">
+              <span :key="li.id" v-for="(li, index) in columnValue(row, column[0])">
+                <span v-if="index < columnValue(row, column[0]).length-1">{{li.name}}, </span>
+                <span v-else>{{li.name}}</span>
+              </span>
+            </span>
             <span v-else>{{columnValue(row, column[0])}}</span>
           </td>
         </tr>
@@ -187,7 +193,8 @@
       columnIsRating: column => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING,
       columnHasInfo: column => _COLUMNS_.columnMeta[column].hasInfo,
       columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
-      columnIsSortable: column => _COLUMNS_.columnMeta[column].isSortable
+      columnIsSortable: column => _COLUMNS_.columnMeta[column].isSortable,
+      columnIsList: column => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.LIST
     }
   }
 </script>

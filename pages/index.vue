@@ -32,7 +32,7 @@
   const fetch = (select, query, search, orderBy, limit, page) => {
     // Prepare API query params
     // select
-    const qSelect = 'name,details,description,meets_criteria' // tmp select
+    const qSelect = 'name,hotspots,details,description,meets_criteria' // tmp select
 
     // where
     const qQuery = encodeApiQuery(query, id,
