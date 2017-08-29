@@ -5,31 +5,32 @@
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
-      <div v-if="queryArr.length > 0" class="query-cont" :key="index" v-for="(query, index) in queryArr">
-        <el-select class="leftSelect" v-model="query.left" placeholder="Column">
-          <el-option v-for="column in selectedColumns" :key="column[1]"
-            :label="columnLabel(column[0])" :value="column[0]">
-          </el-option>
-        </el-select>
+      <div v-if="queryArr.length > 0" class="query-cont">
+        <div :key="qIndex" v-for="(query, qIndex) in queryArr">
+          <el-select class="leftSelect" v-model="query.left" placeholder="Column">
+            <el-option v-for="column in selectedColumns" :key="column[1]"
+              :label="columnLabel(column[0])" :value="column[0]">
+            </el-option>
+          </el-select>
 
-        <el-select class="opSelect" v-model="query.op" placeholder="Operator">
-          <el-option v-for="(op, index) in operators" :key="index" :label="op" :value="op"></el-option>
-        </el-select>
+          <el-select class="opSelect" v-model="query.op" placeholder="Operator">
+            <el-option v-for="(op, index) in operators" :key="index" :label="op" :value="op"></el-option>
+          </el-select>
 
-        <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
-          <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
-            <eval-circle :value="rating"></eval-circle>
-          </el-option>
-        </el-select>
-        <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
+          <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
+            <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
+              <eval-circle :value="rating"></eval-circle>
+            </el-option>
+          </el-select>
+          <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
 
-        <el-button @click="queryArr.splice(index, 1)"><i class="el-icon-delete"></i></el-button>
+          <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
+        </div>
       </div>
       <!-- BUG: v-else not working here -->
       <div v-if="queryArr.length === 0" class="emptyState">
         Add new filters to get more precise search results.
       </div>
-
     </div>
 
     <span slot="footer">
