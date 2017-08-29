@@ -18,11 +18,31 @@
           </el-select>
 
           <div v-if="isListOperator(query.op)">
+            <!-- List operator -->
             List Operator :D
+            <div v-if="hasAutocomplete(query.left)">
+              Has auto complete
+            </div>
+            <div v-else>
+              No autocomplete
+            </div>
           </div>
-          <div v-else>
-            Single Operator :)
-          </div>
+          <template v-else>
+            <!-- Single value operator -->
+            <template v-if="hasAutocomplete(query.left)">
+              <autocomplete :config="getAutocompleteConfig(query.left)">
+
+              </autocomplete>
+            </template>
+            <div v-else>
+              <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
+                <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
+                  <eval-circle :value="rating"></eval-circle>
+                </el-option>
+              </el-select>
+              <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
+            </div>
+          </template>
 
           <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
         </div>
@@ -47,10 +67,14 @@
   import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
 
   import EvalCircle from '../EvalCircle.vue'
+  import Autocomplete from '../Autocomplete/Autocomplete.vue'
 
   export default {
     mixins: [moDialogVisibility],
-    components: {'eval-circle': EvalCircle},
+    components: {
+      'eval-circle': EvalCircle,
+      'autocomplete': Autocomplete
+    },
     props: ['visible', 'queryObj', 'selectedColumns'],
     data: () => ({queryArr: []}),
     computed: {
@@ -82,6 +106,8 @@
         return opMeta && opMeta.isListOperator
       },
       isRating: col => _COLUMNS_.columnMeta[col].type === _COLUMNS_.types.RATING,
+      hasAutocomplete: col => _COLUMNS_.columnMeta[col].hasAutocomplete,
+      getAutocompleteConfig: col => _COLUMNS_.columnMeta[col].autocomplete,
       columnLabel: column => _COLUMNS_.columnLabelMap[column]
     }
   }
