@@ -201,7 +201,7 @@
 
 <style>
   .cont {
-    max-width: 500px;
+    padding: 10px;
     margin: 0 auto;
     margin-top: 20px;
   }
