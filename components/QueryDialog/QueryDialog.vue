@@ -17,31 +17,39 @@
             <el-option v-for="(op, index) in operators" :key="index" :label="op" :value="op"></el-option>
           </el-select>
 
-          <div v-if="isListOperator(query.op)">
+          <template v-if="isListOperator(query.op)">
             <!-- List operator -->
-            List Operator :D
-            <div v-if="hasAutocomplete(query.left)">
-              Has auto complete
-            </div>
-            <div v-else>
-              No autocomplete
-            </div>
-          </div>
+            <template v-if="hasAutocomplete(query.left)">
+              <!-- With autocomplete -->
+              <!-- TODO -->
+            </template>
+            <template v-else>
+              <!-- No autocomplete -->
+              <!-- TODO -->
+            </template>
+          </template>
           <template v-else>
             <!-- Single value operator -->
             <template v-if="hasAutocomplete(query.left)">
-              <autocomplete :config="getAutocompleteConfig(query.left)">
-
+              <!-- With autocomplete -->
+              <autocomplete v-if="isRating(query.left)" 
+                :config="getAutocompleteConfig(query.left)" 
+                customItem="eval-dropdown-item"
+                :selector="{'label': 'label'}">
+              </autocomplete>
+              <autocomplete v-else 
+                :config="getAutocompleteConfig(query.left)">
               </autocomplete>
             </template>
-            <div v-else>
+            <template v-else>
+              <!-- No autocomplete -->
               <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
-                <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
+                <el-option v-for="(rating, index) in [3,2,1,0]" :key="index" :value="rating">
                   <eval-circle :value="rating"></eval-circle>
                 </el-option>
               </el-select>
               <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
-            </div>
+            </template>
           </template>
 
           <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
@@ -66,13 +74,13 @@
   import {queryObjToArr, queryArrToObj} from '../../lib/transformQuery.js'
   import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
 
-  import EvalCircle from '../EvalCircle.vue'
   import Autocomplete from '../Autocomplete/Autocomplete.vue'
+  import '../Eval/EvalDropdownItem.js'
 
   export default {
     mixins: [moDialogVisibility],
     components: {
-      'eval-circle': EvalCircle,
+      // 'eval-dropdown-item': EvalDropdownItem,
       'autocomplete': Autocomplete
     },
     props: ['visible', 'queryObj', 'selectedColumns'],

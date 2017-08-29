@@ -99,7 +99,10 @@ export const _COLUMNS_ = {
       isQueryable: true,
       hasAutocomplete: true,
       autocomplete: {
-        async: 'resources?only=name,id'
+        async: 'resources?only=name,id',
+        middlewares: {
+          postfetch: res => res.data.items
+        }
       }
     }
   }
