@@ -11,7 +11,7 @@
     <!-- <pre>{{search}}</pre> -->
 
     <div class="queryList">
-      <div class="queryStr" v-for="qlItem in queryList">
+      <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
         <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
         <div class="queryItem" v-else>{{qlItem.right}}</div>
@@ -32,8 +32,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="row in moData.items">
-          <td v-for="column in mappedSelectedColumns">
+        <tr :key="index" v-for="(row, index) in moData.items">
+          <td :key="colIndex" v-for="(column, colIndex) in mappedSelectedColumns">
             <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
             <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
               <img v-if="row.logo" class="logoImg" :src="row.logo">
