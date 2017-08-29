@@ -86,6 +86,8 @@ export const _COLUMNS_ = {
     'hotspots': {type: types.LIST},
     'resources': {
       type: types.LIST,
+      isQueryable: true,
+      hasAutocomplete: true,
       autocomplete: {
         async: 'resources?only=name,id'
       }
