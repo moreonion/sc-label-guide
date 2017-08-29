@@ -27,7 +27,7 @@
 
   import {LabelsRes} from '../lib/api/LabelsRes.js'
 
-  import {fetchArrayFactory} from '../lib/api/fetchArray.js'
+  // import {fetchArrayFactory} from '../lib/api/fetchArray.js'
 
   import {Validation} from '../lib/validation.js'
 
@@ -55,7 +55,7 @@
 
     try {
       const res = await LabelsRes.fetch(fetchParams)
-      const resData = res.data
+      // const resData = res.data
 
       /**
        * Current workaround to fetch resources by id.
