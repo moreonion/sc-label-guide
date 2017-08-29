@@ -50,7 +50,10 @@ export const _COLUMNS_ = {
       isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        async: 'labels?only=name,id'
+        async: 'labels?only=name,id',
+        middlewares: {
+          postfetch: res => res.data.items
+        }
       }
     },
     'details.score.credibility': {
