@@ -27,12 +27,14 @@
 
   import {LabelsRes} from '../lib/api/LabelsRes.js'
 
+  import {fetchArrayFactory} from '../lib/api/fetchArray.js'
+
   import {Validation} from '../lib/validation.js'
 
-  const fetch = (select, query, search, orderBy, limit, page) => {
+  async function fetch(select, query, search, orderBy, limit, page) {
     // Prepare API query params
     // select
-    const qSelect = 'name,hotspots,details,description,meets_criteria' // tmp select
+    const qSelect = 'name,hotspots,details,description,meets_criteria,resources' // tmp select
 
     // where
     const qQuery = encodeApiQuery(query, id,
@@ -51,7 +53,26 @@
 
     const fetchParams = Object.assign({limit, page, sort: qSort, only: qSelect}, qQuery)
 
-    return LabelsRes.fetch(fetchParams)
+    try {
+      const res = await LabelsRes.fetch(fetchParams)
+      const resData = res.data
+
+      /**
+       * Current workaround to fetch resources by id.
+       * Remove this, when resources are inlined in labels response.
+       */
+      const fetchResources = fetchArrayFactory('resources')
+
+      for(let i = 0; i < resData.items.length; i++) {
+        const resArr = resData.items[i].resources
+        const lItemRes = await fetchResources(resArr)
+        resData.items[i].resources = lItemRes.map(r => r.data)
+      }
+
+      return res
+    } catch(err) {
+      console.error(JSON.stringify(err))
+    }
   }
 
   export default {
@@ -118,12 +139,7 @@
       const page = _encPage ? parseInt(_encPage) : 1
 
       // Async fetch labels data
-      let resp = null
-      try {
-        resp = await fetch(selected, query, search, orderBy, limit, page)
-      } catch(err) {
-        console.error(JSON.stringify(err.message))
-      }
+      const resp = await fetch(selected, query, search, orderBy, limit, page)
 
       return {
         tableData: resp.data,
