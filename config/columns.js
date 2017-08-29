@@ -7,40 +7,45 @@ const types = {
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['name', 0], ['credibility', 1], ['environment', 2], ['social', 3], ['hotspots', 4]],
+  columns: [['name', 0], ['credibility', 1], ['environment', 2], ['social', 3], ['hotspots', 4], ['resources', 5]],
   columnValueMap: {
     'name': 'name',
     'credibility': 'details.score.credibility',
     'environment': 'details.score.environment',
     'social': 'details.score.social',
-    'hotspots': 'hotspots'
+    'hotspots': 'hotspots',
+    'resources': 'resources'
   },
   columnValueMapRev: {
     'name': 'name',
     'details.score.credibility': 'credibility',
     'details.score.environment': 'environment',
     'details.score.social': 'social',
-    'hotspots': 'hotspots'
+    'hotspots': 'hotspots',
+    'resources': 'resources'
   },
   columnValFuncMap: {
     'name': row => row.name,
     'details.score.credibility': row => row.details.score.credibility || 0,
     'details.score.environment': row => row.details.score.environment || 0,
     'details.score.social': row => row.details.score.social || 0,
-    'hotspots': row => row.hotspots || []
+    'hotspots': row => row.hotspots || [],
+    'resources': row => row.resources || []
   },
   columnLabelMap: {
     'name': 'Label',
     'details.score.credibility': 'Governance& Transparency',
     'details.score.environment': 'Environmental impact',
     'details.score.social': 'Social impact',
-    'hotspots': 'Issues label has impact on'
+    'hotspots': 'Issues label has impact on',
+    'resources': 'Raw materials label has impact on'
   },
   columnMeta: {
     'name': {type: types.TEXT, hasInfo: true, isSortable: true, isQueryable: true, isMandatory: true, isDefaultSelected: true},
     'details.score.credibility': {type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true},
     'details.score.environment': {type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true},
     'details.score.social': {type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true},
-    'hotspots': {type: types.LIST}
+    'hotspots': {type: types.LIST},
+    'resources': {type: types.LIST}
   }
 }
