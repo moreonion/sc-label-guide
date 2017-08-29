@@ -4,17 +4,6 @@
   "version": "0.2.0",
   "description": "More Onion - Label Guide",
   "author": "Onur Dogangönül <contact@dinony.com>",
-  "dependencies": {
-    "axios": "^0.16.2",
-    "element-ui": "^1.4.1",
-    "lodash.debounce": "^4.0.8",
-    "lodash.reduce": "^4.6.0",
-    "lodash.unzip": "^3.4.0",
-    "lodash.zip": "^4.2.0",
-    "mo-vue-table": ">= 0.1.1 < 1",
-    "nuxt": "latest",
-    "qs": "^6.5.0"
-  },
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -22,6 +11,21 @@
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint"
+  },
+  "engines": {
+    "node": ">=8.4.0",
+    "npm": ">=5.3.0"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "element-ui": "^1.4.3",
+    "lodash.debounce": "^4.0.8",
+    "lodash.reduce": "^4.6.0",
+    "lodash.unzip": "^3.4.0",
+    "lodash.zip": "^4.2.0",
+    "mo-vue-table": ">= 0.1.1 < 1",
+    "nuxt": "^1.0.0-rc6",
+    "qs": "^6.5.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
