@@ -20,7 +20,7 @@ module.exports = {
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/mo-vue-table', '~plugins/element-ui'],
+  plugins: ['~plugins/globalComponents.js', '~plugins/mo-vue-table', '~plugins/element-ui'],
   build: {
     vendor: ['qs', 'axios', 'element-ui', 'mo-vue-table', 'lodash.debounce', 'lodash.zip', 'lodash.unzip', 'lodash.reduce'],
     /*
