@@ -46,5 +46,8 @@ export const _OPERATORS_ = {
     '$lt': 'lt',
     '$lte': 'le',
     '$in': 'in'
+  },
+  opMeta: {
+    '$in': {isListOperator: true}
   }
 }

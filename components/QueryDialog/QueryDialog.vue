@@ -17,12 +17,12 @@
             <el-option v-for="(op, index) in operators" :key="index" :label="op" :value="op"></el-option>
           </el-select>
 
-          <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
-            <el-option v-for="(rating, index) in [3,2,1]" :key="index" :value="rating">
-              <eval-circle :value="rating"></eval-circle>
-            </el-option>
-          </el-select>
-          <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
+          <div v-if="isListOperator(query.op)">
+            List Operator :D
+          </div>
+          <div v-else>
+            Single Operator :)
+          </div>
 
           <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
         </div>
@@ -76,6 +76,10 @@
       onClose: function() {
         this.dismiss()
         this.$emit('close', this.transformQuery())
+      },
+      isListOperator: op => {
+        const opMeta = _OPERATORS_.opMeta[_OPERATORS_.opLabelMapRev[op]]
+        return opMeta && opMeta.isListOperator
       },
       isRating: col => _COLUMNS_.columnMeta[col].type === _COLUMNS_.types.RATING,
       columnLabel: column => _COLUMNS_.columnLabelMap[column]
