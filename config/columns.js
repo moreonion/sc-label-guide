@@ -42,31 +42,45 @@ export const _COLUMNS_ = {
   },
   columnMeta: {
     'name': {
-      type: types.TEXT, hasInfo: true, isSortable: true, isQueryable: true, isMandatory: true, isDefaultSelected: true, 
-      hasAutocomplete: true, 
+      type: types.TEXT,
+      hasInfo: true,
+      isSortable: true,
+      isQueryable: true,
+      isMandatory: true,
+      isDefaultSelected: true,
+      hasAutocomplete: true,
       autocomplete: {
         async: 'labels?only=name,id'
       }
     },
     'details.score.credibility': {
-      type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true,
+      type: types.RATING,
+      isSortable: true,
+      isQueryable: true,
+      isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        sync: [0,1,2,3]
+        sync: [0, 1, 2, 3]
       }
     },
     'details.score.environment': {
-      type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true,
+      type: types.RATING,
+      isSortable: true,
+      isQueryable: true,
+      isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        sync: [0,1,2,3]
+        sync: [0, 1, 2, 3]
       }
     },
     'details.score.social': {
-      type: types.RATING, isSortable: true, isQueryable: true, isDefaultSelected: true,
+      type: types.RATING,
+      isSortable: true,
+      isQueryable: true,
+      isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        sync: [0,1,2,3]
+        sync: [0, 1, 2, 3]
       }
     },
     'hotspots': {type: types.LIST},
