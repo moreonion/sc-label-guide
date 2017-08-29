@@ -1,6 +1,6 @@
 export const _OPERATORS_ = {
   // Available operators
-  ops: ['$eq', '$gt', '$gte', '$lt', '$lte'],
+  ops: ['$eq', '$gt', '$gte', '$lt', '$lte', '$in'],
   // Operators mapped to displayable labels
   opLabelMap: {
     '$eq': 'is',
@@ -8,6 +8,7 @@ export const _OPERATORS_ = {
     '$gte': '>=',
     '$lt': '<',
     '$lte': '<=',
+    '$in': 'in',
     '$text': '$text' // not displayed, therefore no mapping
   },
   // Operators mapped to displayable labels (reverse)
@@ -17,6 +18,7 @@ export const _OPERATORS_ = {
     '>=': '$gte',
     '<': '$lt',
     '<=': '$lte',
+    'in': '$in',
     '$text': '$text'
   },
   // Operators mapped to encodeable route query params
@@ -25,7 +27,8 @@ export const _OPERATORS_ = {
     '$gte': 'gte',
     '$gt': 'gt',
     '$lte': 'lte',
-    '$lt': 'lt'
+    '$lt': 'lt',
+    '$in': 'in'
   },
   // Operators mapped to encodeable route query params (reverse)
   opEncMapRev: {
@@ -33,13 +36,15 @@ export const _OPERATORS_ = {
     'gt': '$gt',
     'gte': '$gte',
     'lt': '$lt',
-    'lte': '$lte'
+    'lte': '$lte',
+    'in': '$in'
   },
   opEncApiMap: {
     '$eq': 'eq',
     '$gte': 'ge',
     '$gt': 'gt',
     '$lt': 'lt',
-    '$lte': 'le'
+    '$lte': 'le',
+    '$in': 'in'
   }
 }
