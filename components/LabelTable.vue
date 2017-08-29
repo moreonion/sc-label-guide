@@ -96,7 +96,7 @@
   import {queryObjToArr} from '../lib/transformQuery.js'
 
   import LangSelect from './LangSelect.vue'
-  import EvalCircle from './EvalCircle.vue'
+  import EvalCircle from './Eval/EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
 
   import QueryDialog from './QueryDialog/QueryDialog.vue'

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import EvalCircle from './EvalCircle'
+import EvalCircle from './Eval/EvalCircle.vue'
 
 export default {
   components: {
