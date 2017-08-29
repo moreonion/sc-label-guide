@@ -4,7 +4,8 @@
     :fetch-suggestions="querySearch"
     :placeholder="placeholder"
     @select="handleSelect"
-    :props="{label:'name'}">
+    :props="selector"
+    :custom-item="customItem">
   </el-autocomplete>
 </template>
 
@@ -20,11 +21,17 @@
       'placeholder': {
         type: String,
         default: 'Value'
+      },
+      'selector': {
+        type: Object,
+        default: () => ({label: 'name'})
+      },
+      'customItem': {
+        type: String,
+        default: ''
       }
     },
-    data: () => ({
-      state: null
-    }),
+    data: () => ({state: null}),
     methods: {
       querySearch(queryString, cb) {
         if(this.config.sync) {
