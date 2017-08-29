@@ -2,7 +2,7 @@
   <el-autocomplete
     v-model="state"
     :fetch-suggestions="querySearch"
-    placeholder="Please input"
+    :placeholder="placeholder"
     @select="handleSelect"
     :props="{label:'name'}">
   </el-autocomplete>
@@ -13,8 +13,18 @@
   import {_APIURL_} from '../../lib/api/base.js'
 
   export default {
-    props: ['config'],
-    data: () => ({state: null}),
+    props: {
+      'config': {
+        type: Object
+      },
+      'placeholder': {
+        type: String,
+        default: 'Value'
+      }
+    },
+    data: () => ({
+      state: null
+    }),
     methods: {
       querySearch(queryString, cb) {
         if(this.config.sync) {
