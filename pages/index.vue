@@ -61,13 +61,13 @@
        * Current workaround to fetch resources by id.
        * Remove this, when resources are inlined in labels response.
        */
-      const fetchResources = fetchArrayFactory('resources')
+      // const fetchResources = fetchArrayFactory('resources')
 
-      for(let i = 0; i < resData.items.length; i++) {
-        const resArr = resData.items[i].resources
-        const lItemRes = await fetchResources(resArr)
-        resData.items[i].resources = lItemRes.map(r => r.data)
-      }
+      // for(let i = 0; i < resData.items.length; i++) {
+      //   const resArr = resData.items[i].resources
+      //   const lItemRes = await fetchResources(resArr)
+      //   resData.items[i].resources = lItemRes.map(r => r.data)
+      // }
 
       return res
     } catch(err) {
