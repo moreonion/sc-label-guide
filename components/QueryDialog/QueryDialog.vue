@@ -96,7 +96,13 @@
       updateVisible(val) {
         if(val) {
           // Query -> Filters array
-          this.queryArr = queryObjToArr(this.queryObj, id, op => _OPERATORS_.opLabelMap[op])
+          const res = queryObjToArr(this.queryObj, id, op => _OPERATORS_.opLabelMap[op])
+          this.queryArr = res.map(q => {
+            if(this.isRating(q.left)) {
+              return {...q, right: q.right.toString()}
+            }
+            return q
+          })
         }
 
         this.$emit('update:visible', val)
@@ -107,7 +113,15 @@
       },
       transformQuery: function() {
         // Filters array -> Query
-        return queryArrToObj(this.queryArr, id, op => _OPERATORS_.opLabelMapRev[op])
+        const res = this.queryArr.map(q => {
+          if(this.isRating(q.left)) {
+            const parsed = parseInt(q.right)
+            return {...q, right: Number.isNaN(parsed) ? 0 : parsed}
+          }
+          return q
+        })
+
+        return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
       },
       onClose: function() {
         this.dismiss()
