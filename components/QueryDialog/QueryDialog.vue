@@ -48,8 +48,7 @@
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left)"
                 :props="{'label': 'label', 'value': 'label'}"
-                custom-item="eval-dropdown-item"
-                @select="handleSelect">
+                custom-item="eval-dropdown-item">
               </el-autocomplete>
             </template>
             <template v-else>
