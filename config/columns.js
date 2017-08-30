@@ -34,7 +34,8 @@ const defaultAutocompleteConfig = {
     limit: 50
   },
   needsCacheMap: true,
-  projectModel: 'id'
+  projectModel: 'id',
+  projectFrom: 'name'
 }
 
 const defaultScoreAutocompleteConfig = {
@@ -56,7 +57,10 @@ const defaultScoreAutocompleteConfig = {
         return data
       }
     }
-  }
+  },
+  needsCacheMap: true,
+  projectModel: 'value',
+  projectFrom: 'label'
 }
 
 export const _COLUMNS_ = {
