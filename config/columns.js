@@ -1,3 +1,5 @@
+import {AutocompleteTypes} from './api.js'
+
 const types = {
   'RATING': 'rating',
   'TEXT': 'text',
@@ -78,6 +80,9 @@ export const _COLUMNS_ = {
         },
         dropdown: {
           selector: {'label': 'name', 'value': 'name'}
+        },
+        endpoint: {
+          type: AutocompleteTypes.EMULATED
         }
       }
     },
