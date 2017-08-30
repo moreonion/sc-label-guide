@@ -8,7 +8,7 @@
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" placeholder="Column">
+          <el-select class="leftSelect" v-model="query.left" @change="_ => cleanupQuery(query)" placeholder="Column">
             <el-option v-for="column in selectedColumns" :key="column[1]"
               :label="columnLabel(column[0])" :value="column[0]">
             </el-option>
@@ -48,12 +48,14 @@
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left)"
                 :props="getSelector(query.left)"
-                custom-item="eval-dropdown-item">
+                custom-item="eval-dropdown-item"
+                @select="selection => handleSelect(query, selection)">
               </el-autocomplete>
               <el-autocomplete v-else
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left)"
-                :props="getSelector(query.left)">
+                :props="getSelector(query.left)"
+                @select="selection => handleSelect(query, selection)">
               </el-autocomplete>
             </template>
             <template v-else>
@@ -79,6 +81,7 @@
 </template>
 
 <script>
+  // import D from '../../lib/debug.js'
   import {_OPERATORS_, _COLUMNS_} from '../../config/config.js'
   import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/transformQuery.js'
@@ -93,6 +96,23 @@
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o])
     },
     methods: {
+      cleanupQuery(query) {
+        query.right = null
+        if(query.project) {
+          delete query.project
+        }
+        if(query.model) {
+          delete query.model
+        }
+      },
+      handleSelect(query, selection) {
+        const ac = this.getAutocompleteConfig(query.left)
+        if(ac.needsCacheMap) {
+          query.model = selection
+          query.project = ac.projectModel
+          query.compare = ac.projectFrom
+        }
+      },
       updateVisible(val) {
         if(val) {
           // Query -> Filters array
@@ -112,15 +132,15 @@
         this.queryArr.push({left: firstColumn[0], op: this.operators[0], right: null})
       },
       transformQuery: function() {
-        // Filters array -> Query
+        // Hack to solve input model issue
         const res = this.queryArr.map(q => {
-          if(this.isRating(q.left)) {
-            const parsed = parseInt(q.right)
-            return {...q, right: Number.isNaN(parsed) ? 0 : parsed}
+          if(q.project && q.right === q.model[q.compare]) {
+            return {...q, right: q.model[q.project]}
           }
           return q
         })
 
+        // Filters array -> Query
         return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
       },
       onClose: function() {
