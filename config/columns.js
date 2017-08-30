@@ -4,11 +4,12 @@ const types = {
   'LIST': 'list'
 }
 
+// vue element autocomplete requires objects as items in dropdown
 const defaultRatingValues = [
-  {label: 0, value: 0},
-  {label: 1, value: 1},
-  {label: 2, value: 2},
-  {label: 3, value: 3}
+  {label: '0', value: 0},
+  {label: '1', value: 1},
+  {label: '2', value: 2},
+  {label: '3', value: 3}
 ]
 
 export const _COLUMNS_ = {
@@ -59,7 +60,8 @@ export const _COLUMNS_ = {
       autocomplete: {
         async: 'labels?only=name,id',
         middlewares: {
-          postfetch: res => res.data.items
+          postfetch: res => res.data.items,
+          postselect: item => item.name
         }
       }
     },
@@ -70,7 +72,10 @@ export const _COLUMNS_ = {
       isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        sync: defaultRatingValues
+        sync: defaultRatingValues,
+        middlewares: {
+          postselect: item => item.value
+        }
       }
     },
     'details.score.environment': {
@@ -80,7 +85,10 @@ export const _COLUMNS_ = {
       isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        sync: defaultRatingValues
+        sync: defaultRatingValues,
+        middlewares: {
+          postselect: item => item.value
+        }
       }
     },
     'details.score.social': {
@@ -90,7 +98,10 @@ export const _COLUMNS_ = {
       isDefaultSelected: true,
       hasAutocomplete: true,
       autocomplete: {
-        sync: defaultRatingValues
+        sync: defaultRatingValues,
+        middlewares: {
+          postselect: item => item.value
+        }
       }
     },
     'hotspots': {type: types.LIST},
@@ -101,7 +112,8 @@ export const _COLUMNS_ = {
       autocomplete: {
         async: 'resources?only=name,id',
         middlewares: {
-          postfetch: res => res.data.items
+          postfetch: res => res.data.items,
+          postselect: item => item.id
         }
       }
     }
