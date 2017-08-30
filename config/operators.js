@@ -1,6 +1,6 @@
 export const _OPERATORS_ = {
   // Available operators
-  ops: ['$eq', '$gt', '$gte', '$lt', '$lte', '$in'],
+  ops: ['$eq', '$gt', '$gte', '$lt', '$lte'],
   // Operators mapped to displayable labels
   opLabelMap: {
     '$eq': 'is',
