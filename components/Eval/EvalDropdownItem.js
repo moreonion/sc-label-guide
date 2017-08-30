@@ -1,15 +1,13 @@
-import EvalCircle from './EvalCircle.vue'
-
 export const EvalDropdownItem = {
-  components: {
-    'eval-circle': EvalCircle
-  },
+  functional: true,
   props: {
     item: {type: Object, required: true}
   },
-  render(h) {
-    return h('li', [
-      h('eval-circle', {props: {value: this.item.value}})
+  render(h, ctx) {
+    const item = ctx.props.item
+    return h('li', ctx.data, [
+      h('eval-circle', {props: {value: item.value}})
     ])
   }
 }
+
