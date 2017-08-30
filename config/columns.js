@@ -76,13 +76,25 @@ export const _COLUMNS_ = {
       autocomplete: {
         async: 'labels?only=name,id',
         middlewares: {
-          postfetch: data => data.items
+          postfetch: (res, {query}) => {
+            if(typeof query === 'string' && query.length > 0) {
+              return res.data.items.filter(item => {
+                return item.name.toLowerCase().includes(query.toLowerCase())
+              })
+            } else {
+              return res.data.items
+            }
+          },
+          totalPages: res => res.data.pages.total
         },
         dropdown: {
           selector: {'label': 'name', 'value': 'name'}
         },
         endpoint: {
-          type: AutocompleteTypes.EMULATED
+          type: AutocompleteTypes.EMULATED,
+          minResults: 5,
+          maxResults: 10,
+          limit: 50
         }
       }
     },
@@ -118,7 +130,7 @@ export const _COLUMNS_ = {
       autocomplete: {
         async: 'resources?only=name,id',
         middlewares: {
-          postfetch: res => res.items
+          postfetch: res => res.data.items
         }
       }
     }
