@@ -2,6 +2,7 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
 
+    <pre>{{queryArr}}</pre>
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
@@ -32,14 +33,24 @@
             <!-- Single value operator -->
             <template v-if="hasAutocomplete(query.left)">
               <!-- With autocomplete -->
-              <autocomplete v-if="isRating(query.left)" 
+              <!-- <autocomplete v-if="isRating(query.left)"
+                v-model="query.right"
                 :config="getAutocompleteConfig(query.left)" 
-                customItem="eval-dropdown-item"
-                :selector="{'label': 'label'}">
+                :selector="{'value':'value'}"
+                customItem="eval-dropdown-item">
               </autocomplete>
               <autocomplete v-else 
-                :config="getAutocompleteConfig(query.left)">
-              </autocomplete>
+                :value="query.right"
+                :config="getAutocompleteConfig(query.left)"
+                @select="item => query.right = item">
+              </autocomplete> -->
+              <el-autocomplete v-if="isRating(query.left)"
+                v-model="query.right"
+                :fetch-suggestions="autocompleteHandlerFactory(query.left)"
+                :props="{'label': 'label', 'value': 'label'}"
+                custom-item="eval-dropdown-item"
+                @select="handleSelect">
+              </el-autocomplete>
             </template>
             <template v-else>
               <!-- No autocomplete -->
@@ -73,16 +84,10 @@
   import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/transformQuery.js'
   import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
-
-  import Autocomplete from '../Autocomplete/Autocomplete.vue'
-  import '../Eval/EvalDropdownItem.js'
+  import {moAutocomplete} from '../../lib/mixins/Autocomplete.js'
 
   export default {
-    mixins: [moDialogVisibility],
-    components: {
-      // 'eval-dropdown-item': EvalDropdownItem,
-      'autocomplete': Autocomplete
-    },
+    mixins: [moDialogVisibility, moAutocomplete],
     props: ['visible', 'queryObj', 'selectedColumns'],
     data: () => ({queryArr: []}),
     computed: {
