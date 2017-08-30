@@ -58,12 +58,7 @@
             </template>
             <template v-else>
               <!-- No autocomplete -->
-              <el-select class="valInput" v-if="isRating(query.left)" v-model="query.right" placeholder="Value">
-                <el-option v-for="(rating, index) in [3,2,1,0]" :key="index" :value="rating">
-                  <eval-circle :value="rating"></eval-circle>
-                </el-option>
-              </el-select>
-              <el-input class="valInput" placeholder="Value" v-model="query.right" v-else></el-input>
+              <el-input class="valInput" placeholder="Value" v-model="query.right"></el-input>
             </template>
           </template>
 
