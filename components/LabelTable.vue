@@ -199,7 +199,7 @@
 
 <style>
   .cont {
-    padding: 10px;
+    padding: 20px;
     margin: 0 auto;
     margin-top: 20px;
   }
