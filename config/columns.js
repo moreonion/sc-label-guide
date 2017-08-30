@@ -32,7 +32,9 @@ const defaultAutocompleteConfig = {
     minResults: 5,
     maxResults: 10,
     limit: 50
-  }
+  },
+  needsCacheMap: true,
+  projectModel: 'id'
 }
 
 const defaultScoreAutocompleteConfig = {
@@ -60,7 +62,7 @@ const defaultScoreAutocompleteConfig = {
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['name', 0], ['credibility', 1], ['environment', 2], ['social', 3], ['hotspots', 4], ['resources', 5]],
+  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6]],
   columnValueMap: {
     'name': 'name',
     'credibility': 'details.score.credibility',
@@ -104,7 +106,8 @@ export const _COLUMNS_ = {
       hasAutocomplete: true,
       autocomplete: {
         ...defaultAutocompleteConfig,
-        async: 'labels?only=name'
+        async: 'labels?only=name,id',
+        needsCacheMap: false
       }
     },
     'details.score.credibility': {
@@ -131,14 +134,22 @@ export const _COLUMNS_ = {
       hasAutocomplete: true,
       autocomplete: defaultScoreAutocompleteConfig
     },
-    'hotspots': {type: types.LIST},
+    'hotspots': {
+      type: types.LIST,
+      isQueryable: true,
+      hasAutocomplete: true,
+      autocomplete: {
+        ...defaultAutocompleteConfig,
+        async: 'hotspots?only=name,id'
+      }
+    },
     'resources': {
       type: types.LIST,
       isQueryable: true,
       hasAutocomplete: true,
       autocomplete: {
         ...defaultAutocompleteConfig,
-        async: 'resources?only=name'
+        async: 'resources?only=name,id'
       }
     }
   }
