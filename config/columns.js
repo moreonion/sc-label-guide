@@ -10,8 +10,13 @@ const defaultAutocompleteConfig = {
   middlewares: {
     postfetch: (res, {query}) => {
       if(typeof query === 'string' && query.length > 0) {
+        const qParts = query.split(/[\s,]/)
+          .filter(p => p.length > 0)
+          .map(p => p.toLocaleLowerCase())
+
         return res.data.items.filter(item => {
-          return item.name.toLowerCase().includes(query.toLowerCase())
+          const _name = item.name.toLocaleLowerCase()
+          return qParts.find(qPart => _name.includes(qPart)) !== undefined
         })
       } else {
         return res.data.items
