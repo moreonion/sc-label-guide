@@ -79,7 +79,7 @@ export const _COLUMNS_ = {
       hasAutocomplete: true,
       autocomplete: {
         sync: defaultScoreValues,
-        scoreDropdownConfig
+        dropdown: scoreDropdownConfig
       }
     },
     'details.score.environment': {
@@ -90,7 +90,7 @@ export const _COLUMNS_ = {
       hasAutocomplete: true,
       autocomplete: {
         sync: defaultScoreValues,
-        scoreDropdownConfig
+        dropdown: scoreDropdownConfig
       }
     },
     'details.score.social': {
@@ -101,7 +101,7 @@ export const _COLUMNS_ = {
       hasAutocomplete: true,
       autocomplete: {
         sync: defaultScoreValues,
-        scoreDropdownConfig
+        dropdown: scoreDropdownConfig
       }
     },
     'hotspots': {type: types.LIST},
