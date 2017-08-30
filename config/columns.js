@@ -4,16 +4,26 @@ const types = {
   'LIST': 'list'
 }
 
+const defaultScoreAutocompleteConfig = {
 // vue element autocomplete requires objects as items in dropdown
-const defaultScoreValues = [
-  {label: '0', value: 0},
-  {label: '1', value: 1},
-  {label: '2', value: 2},
-  {label: '3', value: 3}
-]
-
-const scoreDropdownConfig = {
-  selector: {'label': 'label', 'value': 'label'}
+  sync: [
+    {label: '0', value: 0},
+    {label: '1', value: 1},
+    {label: '2', value: 2},
+    {label: '3', value: 3}
+  ],
+  dropdown: {
+    selector: {'label': 'label', 'value': 'label'}
+  },
+  middlewares: {
+    postfetch(data, query) {
+      if(typeof query === 'string' && query.length > 0) {
+        return data.filter(d => d.label === query)
+      } else {
+        return data
+      }
+    }
+  }
 }
 
 export const _COLUMNS_ = {
@@ -64,7 +74,7 @@ export const _COLUMNS_ = {
       autocomplete: {
         async: 'labels?only=name,id',
         middlewares: {
-          postfetch: res => res.data.items
+          postfetch: data => data.items
         },
         dropdown: {
           selector: {'label': 'name', 'value': 'name'}
@@ -77,10 +87,7 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isDefaultSelected: true,
       hasAutocomplete: true,
-      autocomplete: {
-        sync: defaultScoreValues,
-        dropdown: scoreDropdownConfig
-      }
+      autocomplete: defaultScoreAutocompleteConfig
     },
     'details.score.environment': {
       type: types.RATING,
@@ -88,10 +95,7 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isDefaultSelected: true,
       hasAutocomplete: true,
-      autocomplete: {
-        sync: defaultScoreValues,
-        dropdown: scoreDropdownConfig
-      }
+      autocomplete: defaultScoreAutocompleteConfig
     },
     'details.score.social': {
       type: types.RATING,
@@ -99,10 +103,7 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isDefaultSelected: true,
       hasAutocomplete: true,
-      autocomplete: {
-        sync: defaultScoreValues,
-        dropdown: scoreDropdownConfig
-      }
+      autocomplete: defaultScoreAutocompleteConfig
     },
     'hotspots': {type: types.LIST},
     'resources': {
@@ -112,7 +113,7 @@ export const _COLUMNS_ = {
       autocomplete: {
         async: 'resources?only=name,id',
         middlewares: {
-          postfetch: res => res.data.items
+          postfetch: res => res.items
         }
       }
     }
