@@ -96,7 +96,6 @@
   import {queryObjToArr} from '../lib/transformQuery.js'
 
   import LangSelect from './LangSelect.vue'
-  import EvalCircle from './Eval/EvalCircle.vue'
   import TableLegend from './TableLegend.vue'
 
   import QueryDialog from './QueryDialog/QueryDialog.vue'
@@ -110,7 +109,6 @@
     mixins: [moLocalTable],
     components: {
       'lang-select': LangSelect,
-      'eval-circle': EvalCircle,
       'table-legend': TableLegend,
       'query-dialog': QueryDialog,
       'share-dialog': ShareDialog,

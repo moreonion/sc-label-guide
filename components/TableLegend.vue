@@ -28,12 +28,7 @@
 </template>
 
 <script>
-import EvalCircle from './Eval/EvalCircle.vue'
-
 export default {
-  components: {
-    'eval-circle': EvalCircle
-  },
   methods: {
     onClick: function() {
       this.$emit('click')
