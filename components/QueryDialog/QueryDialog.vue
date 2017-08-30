@@ -47,8 +47,13 @@
               <el-autocomplete v-if="isRating(query.left)"
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left)"
-                :props="{'label': 'label', 'value': 'label'}"
+                :props="getSelector(query.left)"
                 custom-item="eval-dropdown-item">
+              </el-autocomplete>
+              <el-autocomplete v-else
+                v-model="query.right"
+                :fetch-suggestions="autocompleteHandlerFactory(query.left)"
+                :props="getSelector(query.left)">
               </el-autocomplete>
             </template>
             <template v-else>
@@ -120,7 +125,16 @@
       isRating: col => _COLUMNS_.columnMeta[col].type === _COLUMNS_.types.RATING,
       hasAutocomplete: col => _COLUMNS_.columnMeta[col].hasAutocomplete,
       getAutocompleteConfig: col => _COLUMNS_.columnMeta[col].autocomplete,
-      columnLabel: column => _COLUMNS_.columnLabelMap[column]
+      columnLabel: col => _COLUMNS_.columnLabelMap[col],
+      getSelector: col => {
+        const ac = _COLUMNS_.columnMeta[col].autocomplete
+        if(ac && ac.dropdown) {
+          return ac.dropdown.selector
+        } else {
+          // Default selector
+          return {'label': 'label', 'value': 'value'}
+        }
+      }
     }
   }
 </script>
