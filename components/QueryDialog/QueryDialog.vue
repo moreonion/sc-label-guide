@@ -8,7 +8,7 @@
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" @change="_ => cleanupQuery(query)" placeholder="Column">
+          <el-select class="leftSelect" v-model="query.left" placeholder="Column">
             <el-option v-for="column in selectedColumns" :key="column[1]"
               :label="columnLabel(column[0])" :value="column[0]">
             </el-option>
@@ -96,15 +96,6 @@
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o])
     },
     methods: {
-      cleanupQuery(query) {
-        query.right = null
-        if(query.project) {
-          delete query.project
-        }
-        if(query.model) {
-          delete query.model
-        }
-      },
       handleSelect(query, selection) {
         const model = this.columnMeta(query.left).model
         if(model) {
