@@ -31,6 +31,8 @@
 
   import {Validation} from '../lib/validation.js'
 
+  import {extendModel} from '../lib/queryModel.js'
+
   async function fetch(select, query, search, orderBy, limit, page) {
     // Prepare API query params
     // select
@@ -138,8 +140,10 @@
       const limit = _encLimit ? parseInt(_encLimit) : 5
       const page = _encPage ? parseInt(_encPage) : 1
 
-      // Async fetch labels data
-      const resp = await fetch(selected, query, search, orderBy, limit, page)
+      // Async fetch labels data and route query models
+      const fetchPromises = [fetch(selected, query, search, orderBy, limit, page), extendModel(query)]
+
+      const [resp, extendedQuery] = await Promise.all(fetchPromises)
 
       return {
         tableData: resp.data,
