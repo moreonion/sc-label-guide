@@ -40,9 +40,9 @@
               {{columnValue(row, column[0])}}
             </span>
             <span v-else-if="columnIsList(column[0])">
-              <span :key="li.id" v-for="(li, index) in columnValue(row, column[0])">
-                <span v-if="index < columnValue(row, column[0]).length-1">{{li.name}}, </span>
-                <span v-else>{{li.name}}</span>
+              <span :key="index" v-for="(li, index) in columnValue(row, column[0])">
+                <span v-if="index < columnValue(row, column[0]).length-1">{{projectItemLabel(column[0], li)}}, </span>
+                <span v-else>{{projectItemLabel(column[0], li)}}</span>
               </span>
             </span>
             <span v-else>{{columnValue(row, column[0])}}</span>
@@ -202,6 +202,10 @@
         } else {
           return query
         }
+      },
+      projectItemLabel(column, li) {
+        const model = this.columnMeta(column)
+        return model.projectItemLabel(li)
       },
       columnClass(column) {
         const dir = this.moColumnOrder(column)
