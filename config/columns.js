@@ -109,7 +109,6 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isMandatory: true,
       isDefaultSelected: true,
-      hasAutocomplete: true,
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'labels?only=name,id'
@@ -120,7 +119,6 @@ export const _COLUMNS_ = {
       isSortable: true,
       isQueryable: true,
       isDefaultSelected: true,
-      hasAutocomplete: true,
       model: defaultModelConfig,
       autocomplete: defaultScoreAutocompleteConfig
     },
@@ -130,7 +128,6 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isDefaultSelected: true,
       model: defaultModelConfig,
-      hasAutocomplete: true,
       autocomplete: defaultScoreAutocompleteConfig
     },
     'details.score.social': {
@@ -139,13 +136,11 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isDefaultSelected: true,
       model: defaultModelConfig,
-      hasAutocomplete: true,
       autocomplete: defaultScoreAutocompleteConfig
     },
     'hotspots': {
       type: types.LIST,
       isQueryable: true,
-      hasAutocomplete: true,
       model: {
         async: 'hotspots?only=name,id',
         projectLabel: 'name',
@@ -170,7 +165,6 @@ export const _COLUMNS_ = {
           postfetch: res => res.data.items[0]
         }
       },
-      hasAutocomplete: true,
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'resources?only=name,id'

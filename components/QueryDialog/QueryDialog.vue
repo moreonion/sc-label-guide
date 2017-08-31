@@ -175,7 +175,7 @@
         return this.columnMeta(col).type === _COLUMNS_.types.RATING
       },
       hasAutocomplete(col) {
-        return this.columnMeta(col).hasAutocomplete
+        return this.columnMeta(col).autocomplete !== undefined
       },
       getAutocompleteConfig(col) {
         return this.columnMeta(col).autocomplete
