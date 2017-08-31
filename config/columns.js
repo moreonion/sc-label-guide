@@ -112,7 +112,8 @@ export const _COLUMNS_ = {
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'labels?only=name,id'
-      }
+      },
+      ops: ['$eq']
     },
     'details.score.credibility': {
       type: types.RATING,
@@ -152,7 +153,8 @@ export const _COLUMNS_ = {
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'hotspots?only=name,id'
-      }
+      },
+      ops: ['$eq']
     },
     'resources': {
       type: types.LIST,
@@ -168,7 +170,8 @@ export const _COLUMNS_ = {
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'resources?only=name,id'
-      }
+      },
+      ops: ['$eq']
     }
   }
 }
