@@ -68,14 +68,15 @@ const defaultScoreAutocompleteConfig = {
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6]],
+  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6], ['countries', 7]],
   columnValueMap: {
     'name': 'name',
     'credibility': 'details.score.credibility',
     'environment': 'details.score.environment',
     'social': 'details.score.social',
     'hotspots': 'hotspots',
-    'resources': 'resources'
+    'resources': 'resources',
+    'countries': 'countries'
   },
   columnValueMapRev: {
     'name': 'name',
@@ -83,7 +84,8 @@ export const _COLUMNS_ = {
     'details.score.environment': 'environment',
     'details.score.social': 'social',
     'hotspots': 'hotspots',
-    'resources': 'resources'
+    'resources': 'resources',
+    'countries': 'countries'
   },
   columnValFuncMap: {
     'name': row => row.name,
@@ -91,7 +93,8 @@ export const _COLUMNS_ = {
     'details.score.environment': row => row.details.score.environment || 0,
     'details.score.social': row => row.details.score.social || 0,
     'hotspots': row => row.hotspots || [],
-    'resources': row => row.resources || []
+    'resources': row => row.resources || [],
+    'countries': row => row.countries || []
   },
   columnLabelMap: {
     'name': 'Label',
@@ -99,7 +102,8 @@ export const _COLUMNS_ = {
     'details.score.environment': 'Environmental impact',
     'details.score.social': 'Social impact',
     'hotspots': 'Issues label has impact on',
-    'resources': 'Raw materials label has impact on'
+    'resources': 'Raw materials label has impact on',
+    'countries': 'Countries'
   },
   columnMeta: {
     'name': {
@@ -141,6 +145,7 @@ export const _COLUMNS_ = {
     },
     'hotspots': {
       type: types.LIST,
+      projectItemLabel: li => li.name,
       isQueryable: true,
       model: {
         async: 'hotspots?only=name,id',
@@ -158,6 +163,7 @@ export const _COLUMNS_ = {
     },
     'resources': {
       type: types.LIST,
+      projectItemLabel: li => li.name,
       isQueryable: true,
       model: {
         async: 'resources?only=name,id',
@@ -170,6 +176,32 @@ export const _COLUMNS_ = {
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'resources?only=name,id'
+      },
+      ops: ['$eq']
+    },
+    'countries': {
+      type: types.LIST,
+      projectItemLabel: li => li,
+      isQueryable: true,
+      model: {
+        sync: [],
+        projectLabel: 'label',
+        projectValue: 'code'
+      },
+      autocomplete: {
+        sync: [],
+        dropdown: {
+          selector: {'label': 'label', 'value': 'code'}
+        },
+        middlewares: {
+          postfetch(data, query) {
+            if(typeof query === 'string' && query.length > 0) {
+              return data.filter(d => d.label === query)
+            } else {
+              return data
+            }
+          }
+        }
       },
       ops: ['$eq']
     }
