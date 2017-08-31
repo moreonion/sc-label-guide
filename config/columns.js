@@ -5,6 +5,10 @@ const types = {
   'TEXT': 1,
   'LIST': 2
 }
+
+const defaultModelConfig = {
+  projectLabel: 'label',
+  projectValue: 'value'
 }
 
 const defaultAutocompleteConfig = {
