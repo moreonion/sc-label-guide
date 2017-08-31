@@ -34,7 +34,7 @@
   function fetch(select, query, search, orderBy, limit, page) {
     // Prepare API query params
     // select
-    const qSelect = 'name,hotspots,details,description,meets_criteria,resources' // tmp select
+    const qSelect = 'name,hotspots,details,description,meets_criteria,resources,countries' // tmp select
 
     // where
     const qQuery = encodeApiQuery(query, id,
