@@ -6,7 +6,15 @@ const types = {
   'LIST': 2
 }
 
+const scoreValues = [
+  {label: '0', value: 0},
+  {label: '1', value: 1},
+  {label: '2', value: 2},
+  {label: '3', value: 3}
+]
+
 const defaultModelConfig = {
+  sync: scoreValues,
   projectLabel: 'label',
   projectValue: 'value'
 }
@@ -42,12 +50,7 @@ const defaultAutocompleteConfig = {
 
 // vue element autocomplete requires objects as items in dropdown
 const defaultScoreAutocompleteConfig = {
-  sync: [
-    {label: '0', value: 0},
-    {label: '1', value: 1},
-    {label: '2', value: 2},
-    {label: '3', value: 3}
-  ],
+  sync: scoreValues,
   dropdown: {
     selector: {'label': 'label', 'value': 'label'}
   },
@@ -144,8 +147,12 @@ export const _COLUMNS_ = {
       isQueryable: true,
       hasAutocomplete: true,
       model: {
+        async: 'hotspots?only=name,id',
         projectLabel: 'name',
-        projectValue: 'id'
+        projectValue: 'id',
+        middlewares: {
+          postfetch: res => res.data.items[0]
+        }
       },
       autocomplete: {
         ...defaultAutocompleteConfig,
@@ -156,8 +163,12 @@ export const _COLUMNS_ = {
       type: types.LIST,
       isQueryable: true,
       model: {
+        async: 'resources?only=name,id',
         projectLabel: 'name',
-        projectValue: 'id'
+        projectValue: 'id',
+        middlewares: {
+          postfetch: res => res.data.items[0]
+        }
       },
       hasAutocomplete: true,
       autocomplete: {
