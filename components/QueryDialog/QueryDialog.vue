@@ -2,7 +2,7 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
 
-    <!-- <pre>{{queryArr}}</pre> -->
+    <!-- <pre>{{queryObjOut}}</pre> -->
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
@@ -73,6 +73,9 @@
       <div v-if="queryArr.length === 0" class="emptyState">
         Add new filters to get more precise search results.
       </div>
+      <div v-if="countResults !== null" class="emptyState">
+        This filter yields <el-tag :type="countResults > 0 ? 'success' : 'danger'">{{countResults}}</el-tag> results.
+      </div>
     </div>
 
     <span slot="footer">
@@ -84,18 +87,42 @@
 
 <script>
   // import D from '../../lib/debug.js'
-  import {_OPERATORS_, _COLUMNS_} from '../../config/config.js'
+  import debounce from 'lodash.debounce'
+  import {_OPERATORS_, _COLUMNS_, _API_} from '../../config/config.js'
   import {id} from '../../lib/fp.js'
   import {queryObjToArr, queryArrToObj} from '../../lib/transformQuery.js'
   import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
   import {moAutocomplete} from '../../lib/mixins/Autocomplete.js'
+  import {shrinkModel} from '../../lib/queryModel.js'
+  import {LabelsRes} from '../../lib/api/LabelsRes.js'
+  import {encodeApiQuery} from '../../lib/encodeApi.js'
 
   export default {
     mixins: [moDialogVisibility, moAutocomplete],
     props: ['visible', 'queryObj', 'selectedColumns'],
-    data: () => ({queryArr: []}),
+    data: () => ({queryArr: [], countResults: null}),
     computed: {
-      operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o])
+      operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
+      queryObjOut() {
+        // Hack to solve input model issue
+        const res = this.queryArr
+          .filter(q => q.right !== null && (typeof q.right === 'string' && q.right.length > 0))
+          .map(q => {
+            const model = this.columnMeta(q.left).model
+
+            if(model && q.model && q.right && q.right === q.model[model.projectLabel]) {
+              return {left: q.left, op: q.op, right: q.model}
+            } else {
+              return {...q}
+            }
+          })
+
+        // Filters array -> Query
+        return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
+      },
+      shrunkQueryObjOut() {
+        return shrinkModel(this.queryObjOut)
+      }
     },
     methods: {
       handleSelect(query, selection) {
@@ -133,19 +160,7 @@
         this.queryArr.push({left: firstColumn[0], op: this.operators[0], right: null})
       },
       transformQuery: function() {
-        // Hack to solve input model issue
-        const res = this.queryArr.map(q => {
-          const model = this.columnMeta(q.left).model
-
-          if(model && q.right === q.model[model.projectLabel]) {
-            return {left: q.left, op: q.op, right: q.model}
-          } else {
-            return {...q}
-          }
-        })
-
-        // Filters array -> Query
-        return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
+        return this.queryObjOut
       },
       onClose: function() {
         this.dismiss()
@@ -174,6 +189,24 @@
           // Default selector
           return {'label': 'label', 'value': 'value'}
         }
+      }
+    },
+    watch: {
+      shrunkQueryObjOut: {
+        handler: debounce(async function() {
+          if(this.visible && this.shrunkQueryObjOut['$and'].length > 0) {
+            const qParams = encodeApiQuery(this.shrunkQueryObjOut, id,
+              op => _OPERATORS_.opEncApiMap[op], _API_.opDelim)
+
+            const params = {only: 'id', ...qParams}
+
+            const res = await LabelsRes.fetch(params)
+            this.countResults = res.data.items.length
+          } else {
+            this.countResults = null
+          }
+        }, 1000),
+        immediate: true
       }
     }
   }
