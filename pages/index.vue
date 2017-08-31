@@ -3,7 +3,7 @@
 </template>
 
 <script>
-  // import {debug as D} from '../lib/debug.js'
+  // import D from '../lib/debug.js'
 
   import LabelTable from '../components/LabelTable.vue'
 
@@ -66,10 +66,6 @@
           if(!valid) {
             return false
           }
-        } else if(validate && query[key] === undefined) {
-          return true
-        } else {
-          return false
         }
       }
       return true
