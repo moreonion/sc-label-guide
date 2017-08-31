@@ -2,7 +2,7 @@ import Vue from 'vue'
 import {
   Button, Input, Select, Pagination,
   Row, Col, Dialog, Checkbox, CheckboxGroup,
-  Option, Autocomplete
+  Option, Autocomplete, Tag
 } from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
@@ -17,4 +17,4 @@ Vue.component(Checkbox.name, Checkbox)
 Vue.component(CheckboxGroup.name, CheckboxGroup)
 Vue.component(Option.name, Option)
 Vue.component(Autocomplete.name, Autocomplete)
-
+Vue.component(Tag.name, Tag)
