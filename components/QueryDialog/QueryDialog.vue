@@ -1,9 +1,6 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
-    <!-- <pre>{{queryArr}}</pre>
-    <pre>{{queryObjOut}}</pre>
-    <pre>{{shrunkQueryObjOut}}</pre>-->
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
@@ -79,6 +76,10 @@
       </div>
     </div>
 
+    <!-- <pre>{{queryArr}}</pre> -->
+    <!-- <pre>{{queryObjOut}}</pre> -->
+    <!-- <pre>{{shrunkQueryObjOut}}</pre> -->
+
     <span slot="footer">
       <el-button @click="dismiss">Close</el-button>
       <el-button @click="onClose" type="primary">Apply</el-button>
@@ -121,7 +122,7 @@
             if(cModel && model && right && right === model[cModel.projectLabel]) {
               return {left, op, right: model}
             } else {
-              return {left, right, model}
+              return {left, op, right, model}
             }
           })
 
