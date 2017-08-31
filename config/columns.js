@@ -1,9 +1,10 @@
 import {AutocompleteTypes} from './api.js'
 
 const types = {
-  'RATING': 'rating',
-  'TEXT': 'text',
-  'LIST': 'list'
+  'RATING': 0,
+  'TEXT': 1,
+  'LIST': 2
+}
 }
 
 const defaultAutocompleteConfig = {
