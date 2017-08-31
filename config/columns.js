@@ -40,8 +40,8 @@ const defaultAutocompleteConfig = {
   }
 }
 
-const defaultScoreAutocompleteConfig = {
 // vue element autocomplete requires objects as items in dropdown
+const defaultScoreAutocompleteConfig = {
   sync: [
     {label: '0', value: 0},
     {label: '1', value: 1},
@@ -118,6 +118,7 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isDefaultSelected: true,
       hasAutocomplete: true,
+      model: defaultModelConfig,
       autocomplete: defaultScoreAutocompleteConfig
     },
     'details.score.environment': {
@@ -125,6 +126,7 @@ export const _COLUMNS_ = {
       isSortable: true,
       isQueryable: true,
       isDefaultSelected: true,
+      model: defaultModelConfig,
       hasAutocomplete: true,
       autocomplete: defaultScoreAutocompleteConfig
     },
@@ -133,6 +135,7 @@ export const _COLUMNS_ = {
       isSortable: true,
       isQueryable: true,
       isDefaultSelected: true,
+      model: defaultModelConfig,
       hasAutocomplete: true,
       autocomplete: defaultScoreAutocompleteConfig
     },
@@ -140,6 +143,10 @@ export const _COLUMNS_ = {
       type: types.LIST,
       isQueryable: true,
       hasAutocomplete: true,
+      model: {
+        projectLabel: 'name',
+        projectValue: 'id'
+      },
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'hotspots?only=name,id'
@@ -148,6 +155,10 @@ export const _COLUMNS_ = {
     'resources': {
       type: types.LIST,
       isQueryable: true,
+      model: {
+        projectLabel: 'name',
+        projectValue: 'id'
+      },
       hasAutocomplete: true,
       autocomplete: {
         ...defaultAutocompleteConfig,
