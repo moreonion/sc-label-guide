@@ -1,5 +1,7 @@
 {
   "Basics": {
+    "All": "All",
+    "Unknown": "Unknown",
     "Add": "Add",
     "Filter": "Filter | Filters",
     "Value": "Value | Values",
@@ -45,7 +47,8 @@
     "Resources": "Raw materials label has impact on"
   },
   "Texts": {
-    "Embed": "Embed this label guide on your website"
+    "Embed": "Embed this label guide on your website",
+    "NumFilterResults": "This filter yields {count} results."
   },
   "Questions": {
     "Scoring": "How does the scoring work?"
