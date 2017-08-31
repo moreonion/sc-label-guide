@@ -106,22 +106,30 @@
         }
       },
       handleSelect(query, selection) {
-        const ac = this.getAutocompleteConfig(query.left)
-        if(ac.needsCacheMap) {
+        const model = this.columnMeta(query.left).model
+        if(model) {
           query.model = selection
-          query.project = ac.projectModel
-          query.compare = ac.projectFrom
         }
       },
       updateVisible(val) {
         if(val) {
           // Query -> Filters array
           const res = queryObjToArr(this.queryObj, id, op => _OPERATORS_.opLabelMap[op])
+
+          /*
+           * Transform to intermediate representation
+           * where query.right is the label that is
+           * shown in form input controls.
+           * Additionally, a model object is attached to
+           * keep the complete information about the query.
+           */
           this.queryArr = res.map(q => {
-            if(this.isRating(q.left)) {
-              return {...q, right: q.right.toString()}
+            const model = this.columnMeta(q.left).model
+            if(model) {
+              return {...q, right: q.right[model.projectLabel], model: q.right}
+            } else {
+              return {...q}
             }
-            return q
           })
         }
 
@@ -134,10 +142,13 @@
       transformQuery: function() {
         // Hack to solve input model issue
         const res = this.queryArr.map(q => {
-          if(q.project && q.right === q.model[q.compare]) {
-            return {...q, right: q.model[q.project]}
+          const model = this.columnMeta(q.left).model
+
+          if(model && q.right === q.model[model.projectLabel]) {
+            return {left: q.left, op: q.op, right: q.model}
+          } else {
+            return {...q}
           }
-          return q
         })
 
         // Filters array -> Query
@@ -151,12 +162,19 @@
         const opMeta = _OPERATORS_.opMeta[_OPERATORS_.opLabelMapRev[op]]
         return opMeta && opMeta.isListOperator
       },
-      isRating: col => _COLUMNS_.columnMeta[col].type === _COLUMNS_.types.RATING,
-      hasAutocomplete: col => _COLUMNS_.columnMeta[col].hasAutocomplete,
-      getAutocompleteConfig: col => _COLUMNS_.columnMeta[col].autocomplete,
+      columnMeta: col => _COLUMNS_.columnMeta[col],
+      isRating(col) {
+        return this.columnMeta(col).type === _COLUMNS_.types.RATING
+      },
+      hasAutocomplete(col) {
+        return this.columnMeta(col).hasAutocomplete
+      },
+      getAutocompleteConfig(col) {
+        return this.columnMeta(col).autocomplete
+      },
       columnLabel: col => _COLUMNS_.columnLabelMap[col],
-      getSelector: col => {
-        const ac = _COLUMNS_.columnMeta[col].autocomplete
+      getSelector(col) {
+        const ac = this.columnMeta(col).autocomplete
         if(ac && ac.dropdown) {
           return ac.dropdown.selector
         } else {
