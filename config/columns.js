@@ -32,10 +32,7 @@ const defaultAutocompleteConfig = {
     minResults: 5,
     maxResults: 10,
     limit: 50
-  },
-  needsCacheMap: true,
-  projectModel: 'id',
-  projectFrom: 'name'
+  }
 }
 
 const defaultScoreAutocompleteConfig = {
@@ -57,10 +54,7 @@ const defaultScoreAutocompleteConfig = {
         return data
       }
     }
-  },
-  needsCacheMap: true,
-  projectModel: 'value',
-  projectFrom: 'label'
+  }
 }
 
 export const _COLUMNS_ = {
@@ -110,8 +104,7 @@ export const _COLUMNS_ = {
       hasAutocomplete: true,
       autocomplete: {
         ...defaultAutocompleteConfig,
-        async: 'labels?only=name,id',
-        needsCacheMap: false
+        async: 'labels?only=name,id'
       }
     },
     'details.score.credibility': {
