@@ -24,7 +24,7 @@
     "lodash.unzip": "^3.4.0",
     "lodash.zip": "^4.2.0",
     "mo-vue-table": ">= 0.1.1 < 1",
-    "nuxt": "^1.0.0-rc6",
+    "nuxt": "^1.0.0-rc8",
     "qs": "^6.5.0"
   },
   "devDependencies": {
