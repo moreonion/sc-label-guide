@@ -1,4 +1,5 @@
 import {AutocompleteTypes} from './api.js'
+import {_COUNTRIES_} from './countries.js'
 
 const types = {
   'RATING': 0,
@@ -184,21 +185,26 @@ export const _COLUMNS_ = {
       projectItemLabel: li => li,
       isQueryable: true,
       model: {
-        sync: [],
+        sync: _COUNTRIES_,
         projectLabel: 'label',
         projectValue: 'code'
       },
       autocomplete: {
-        sync: [],
+        sync: _COUNTRIES_,
         dropdown: {
-          selector: {'label': 'label', 'value': 'code'}
+          selector: {'label': 'label', 'value': 'label'}
         },
         middlewares: {
           postfetch(data, query) {
             if(typeof query === 'string' && query.length > 0) {
-              return data.filter(d => d.label === query)
+              const _query = query.toLowerCase()
+
+              return data.filter(({label, code}) => {
+                const _label = label.toLocaleLowerCase()
+                return _label.includes(_query)
+              }).slice(0, 10)
             } else {
-              return data
+              return data.slice(0, 10)
             }
           }
         }
