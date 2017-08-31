@@ -14,7 +14,7 @@
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
         <eval-circle class="queryItem" :value="projectValue(qlItem.left, qlItem.right)" v-if="columnIsRating(qlItem.left)"></eval-circle>
-        <div class="queryItem" v-else>{{projectLabel(qlItem.left, qlItem.right)}}</div>
+        <div class="queryItem" v-else><el-tag type="gray">{{projectLabel(qlItem.left, qlItem.right)}}</el-tag></div>
       </div>
     </div>
 
@@ -261,6 +261,7 @@
   }
 
   .queryItem {
+    margin-top: 2px;
     margin-left: 2px;
     margin-right: 2px;
   }
