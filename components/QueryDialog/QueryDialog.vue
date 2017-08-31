@@ -1,8 +1,9 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
-
-    <!-- <pre>{{queryObjOut}}</pre> -->
+    <!-- <pre>{{queryArr}}</pre>
+    <pre>{{queryObjOut}}</pre>
+    <pre>{{shrunkQueryObjOut}}</pre>-->
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
@@ -106,14 +107,21 @@
       queryObjOut() {
         // Hack to solve input model issue
         const res = this.queryArr
-          .filter(q => q.right !== null && (typeof q.right === 'string' && q.right.length > 0))
-          .map(q => {
-            const model = this.columnMeta(q.left).model
-
-            if(model && q.model && q.right && q.right === q.model[model.projectLabel]) {
-              return {left: q.left, op: q.op, right: q.model}
+          .filter(({left, right, model}) => {
+            const cModel = this.columnMeta(left).model
+            if(cModel) {
+              return model ? right === model[cModel.projectLabel] : false
             } else {
-              return {...q}
+              return right !== null && right !== ''
+            }
+          })
+          .map(({left, op, right, model}) => {
+            const cModel = this.columnMeta(left).model
+
+            if(cModel && model && right && right === model[cModel.projectLabel]) {
+              return {left, op, right: model}
+            } else {
+              return {left, right, model}
             }
           })
 
