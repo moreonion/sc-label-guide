@@ -4,20 +4,20 @@ export const _OPERATORS_ = {
   // Operators mapped to displayable labels
   opLabelMap: {
     '$eq': 'is',
-    '$gt': '>',
-    '$gte': '>=',
-    '$lt': '<',
-    '$lte': '<=',
+    '$gt': 'is better than',
+    '$gte': 'is at least',
+    '$lt': 'is worse than',
+    '$lte': 'is at most',
     '$in': 'in',
     '$text': '$text' // not displayed, therefore no mapping
   },
   // Operators mapped to displayable labels (reverse)
   opLabelMapRev: {
     'is': '$eq',
-    '>': '$gt',
-    '>=': '$gte',
-    '<': '$lt',
-    '<=': '$lte',
+    'is better than': '$gt',
+    'is at least': '$gte',
+    'is worse than': '$lt',
+    'is at most': '$lte',
     'in': '$in',
     '$text': '$text'
   },

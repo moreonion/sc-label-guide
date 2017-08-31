@@ -237,7 +237,7 @@
   }
 
   .opSelect {
-    width: 70px;
+    width: 150px;
     margin-right: 5px;
   }
 
