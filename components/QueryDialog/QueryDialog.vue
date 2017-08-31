@@ -2,7 +2,7 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">Filters</span>
 
-    <pre>{{queryArr}}</pre>
+    <!-- <pre>{{queryArr}}</pre> -->
     <div>
       <el-button @click="addQuery" type="primary">Add filter</el-button>
 
@@ -45,6 +45,7 @@
                 @select="item => query.right = item">
               </autocomplete> -->
               <el-autocomplete v-if="isRating(query.left)"
+                class="valInput"
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left)"
                 :props="getSelector(query.left)"
@@ -52,6 +53,7 @@
                 @select="selection => handleSelect(query, selection)">
               </el-autocomplete>
               <el-autocomplete v-else
+                class="valInput"
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left)"
                 :props="getSelector(query.left)"
@@ -199,6 +201,7 @@
   }
 
   .valInput {
-    width: 100px;
+    width: 200px;
+    margin-right: 5px;
   }
 </style>
