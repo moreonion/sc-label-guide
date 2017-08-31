@@ -1,3 +1,4 @@
+import countries from 'i18n-iso-countries'
 import {AutocompleteTypes} from './api.js'
 import {_COUNTRIES_} from './countries.js'
 
@@ -182,7 +183,9 @@ export const _COLUMNS_ = {
     },
     'countries': {
       type: types.LIST,
-      projectItemLabel: li => li,
+      projectItemLabel: li => {
+        return li === '*' ? 'All' : countries.getNames('en')[li] || 'Unknown'
+      },
       isQueryable: true,
       model: {
         sync: _COUNTRIES_,
