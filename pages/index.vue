@@ -150,6 +150,7 @@
         tableConfig: {
           lang: 'English',
           selected,
+          query,
           extendedQuery,
           search,
           orderBy,

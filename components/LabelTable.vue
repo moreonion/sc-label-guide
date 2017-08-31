@@ -8,13 +8,13 @@
       <lang-select class="lang-select" :lang.sync="lang"></lang-select>
     </div>
 
-    <!-- <pre>{{search}}</pre> -->
+    <!-- <pre>{{completeQuery}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
-        <eval-circle class="queryItem" :value="qlItem.right" v-if="columnIsRating(qlItem.left)"></eval-circle>
-        <div class="queryItem" v-else>{{qlItem.right}}</div>
+        <eval-circle class="queryItem" :value="projectValue(qlItem.left, qlItem.right)" v-if="columnIsRating(qlItem.left)"></eval-circle>
+        <div class="queryItem" v-else>{{projectLabel(qlItem.left, qlItem.right)}}</div>
       </div>
     </div>
 
@@ -65,7 +65,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-     :queryObj="query" :selectedColumns="queryableSelectedColumns">
+     :queryObj="extendedQuery" :selectedColumns="queryableSelectedColumns">
     </query-dialog>
 
     <!-- Info Dialog -->
@@ -104,6 +104,8 @@
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
 
+  import {shrinkModel} from '../lib/queryModel.js'
+
   export default {
     props: ['moData', 'moConfig'],
     mixins: [moLocalTable],
@@ -123,7 +125,7 @@
       return {
         lang: this.moConfig.lang,
         selected: this.moConfig.selected,
-        query: this.moConfig.query,
+        extendedQuery: this.moConfig.extendedQuery,
         search: this.moConfig.search,
         orderBy: this.moConfig.orderBy,
         limit: this.moConfig.limit,
@@ -142,7 +144,10 @@
       completeQuery() {
         // Perform case insenstive search on label name
         const searchQuery = {'label.name': {$text: {$search: this.search}}}
-        return this.search.length > 0 ? Object.assign(searchQuery, this.query) : this.query
+        return this.search.length > 0 ? Object.assign(searchQuery, this.extendedQuery) : this.extendedQuery
+      },
+      shrunkQuery() {
+        return shrinkModel(this.completeQuery)
       },
       queryList() {
         const queryArr = queryObjToArr(this.completeQuery, id, op => _OPERATORS_.opLabelMap[op])
@@ -159,7 +164,7 @@
       offset: { handler() { this.moSetOffset(this.offset) }, immediate: true },
       limit: { handler() { this.moSetLimit(this.limit) }, immediate: true },
       selected: { handler() { this.moSetSelectState(this.selected) }, immediate: true },
-      completeQuery: { handler() { this.moSetWhereState(this.completeQuery) }, immediate: true },
+      shrunkQuery: { handler() { this.moSetWhereState(this.shrunkQuery) }, immediate: true },
       orderBy: { handler() { this.moTable.orderBy = this.orderBy }, immediate: true },
       moOrder() { this.orderByChange() }
     },
@@ -177,22 +182,47 @@
         this.$emit(_EVENTS_.Index.encodeAsRouteQuery, query, ignore)
       },
       customizeDialogResult(selected) { this.emitEncode(selected, {select: true}) },
-      queryDialogResult(newQuery) { this.emitEncode(newQuery, {query: true}) },
+      queryDialogResult(newQuery) { this.emitEncode(shrinkModel(newQuery), {query: true}) },
       searchBlur() { this.emitEncode({search: this.search.length > 0 ? this.search : undefined}, {search: true}) },
       orderByChange() { this.emitEncode(this.moTable.orderBy, {orderBy: true}) },
       pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
+      projectLabel(column, query) {
+        const model = this.columnMeta(column).model
+        if(model) {
+          return query[model.projectLabel]
+        } else {
+          return query
+        }
+      },
+      projectValue(column, query) {
+        const model = this.columnMeta(column).model
+        if(model) {
+          return query[model.projectValue]
+        } else {
+          return query
+        }
+      },
       columnClass(column) {
         const dir = this.moColumnOrder(column)
         return dir !== null ? [`mo-${dir}`] : []
       },
       columnLabel: column => _COLUMNS_.columnLabelMap[column],
       columnValue: (row, column) => _COLUMNS_.columnValFuncMap[column](row),
-      columnIsRating: column => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING,
-      columnHasInfo: column => _COLUMNS_.columnMeta[column].hasInfo,
       columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
-      columnIsSortable: column => _COLUMNS_.columnMeta[column].isSortable,
-      columnIsList: column => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.LIST
+      columnMeta: column => _COLUMNS_.columnMeta[column],
+      columnIsRating(column) {
+        return this.columnMeta(column).type === _COLUMNS_.types.RATING
+      },
+      columnHasInfo(column) {
+        return this.columnMeta(column).hasInfo
+      },
+      columnIsSortable(column) {
+        return this.columnMeta(column).isSortable
+      },
+      columnIsList(column) {
+        return this.columnMeta(column).type === _COLUMNS_.types.LIST
+      }
     }
   }
 </script>
