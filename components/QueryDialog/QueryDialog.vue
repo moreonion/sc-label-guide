@@ -13,7 +13,7 @@
           </el-select>
 
           <el-select class="opSelect" v-model="query.op" placeholder="Operator">
-            <el-option v-for="(op, index) in operators" :key="index" :label="op" :value="op"></el-option>
+            <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="op" :value="op"></el-option>
           </el-select>
 
           <template v-if="isListOperator(query.op)">
@@ -99,6 +99,8 @@
   import {LabelsRes} from '../../lib/api/LabelsRes.js'
   import {encodeApiQuery} from '../../lib/encodeApi.js'
 
+  const opLabelMap = o => _OPERATORS_.opLabelMap[o]
+
   export default {
     mixins: [moDialogVisibility, moAutocomplete],
     props: ['visible', 'queryObj', 'selectedColumns'],
@@ -163,6 +165,14 @@
         }
 
         this.$emit('update:visible', val)
+      },
+      getOperators(col) {
+        const ops = this.columnMeta(col).ops
+        if(ops !== undefined) {
+          return ops.map(opLabelMap)
+        } else {
+          return _OPERATORS_.ops.map(opLabelMap)
+        }
       },
       addQuery: function() {
         const firstColumn = this.selectedColumns[0]
