@@ -1,4 +1,7 @@
 module.exports = {
+  router: {
+    middleware: 'lang'
+  },
   /*
   ** Headers of the page
   */

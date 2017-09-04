@@ -20,6 +20,7 @@
     "axios": "^0.16.2",
     "element-ui": "^1.4.3",
     "i18n-iso-countries": "^2.0.1",
+    "locale": "^0.1.0",
     "lodash.debounce": "^4.0.8",
     "lodash.reduce": "^4.6.0",
     "lodash.unzip": "^3.4.0",
