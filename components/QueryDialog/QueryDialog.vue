@@ -1,18 +1,18 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
-    <span slot="title">Filters</span>
+    <span slot="title">{{$tc('Basics.Filter', 2)}}</span>
     <div>
-      <el-button @click="addQuery" type="primary">Add filter</el-button>
+      <el-button @click="addQuery" type="primary">{{$t('Basics.Add') + ' ' + $tc('Basics.Filter', 1)}}</el-button>
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" placeholder="Column">
+          <el-select class="leftSelect" v-model="query.left" placeholder="$t('Basics.Column')">
             <el-option v-for="column in selectedColumns" :key="column[1]"
               :label="columnLabel(column[0])" :value="column[0]">
             </el-option>
           </el-select>
 
-          <el-select class="opSelect" v-model="query.op" placeholder="Operator">
+          <el-select class="opSelect" v-model="query.op" :placeholder="$t('Basics.Operator')">
             <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="op" :value="op"></el-option>
           </el-select>
 
@@ -60,7 +60,7 @@
             </template>
             <template v-else>
               <!-- No autocomplete -->
-              <el-input class="valInput" placeholder="Value" v-model="query.right"></el-input>
+              <el-input class="valInput" placeholder="$tc('Basics.Value', 1)'" v-model="query.right"></el-input>
             </template>
           </template>
 
@@ -69,10 +69,12 @@
       </div>
       <!-- BUG: v-else not working here -->
       <div v-if="queryArr.length === 0" class="emptyState">
-        Add new filters to get more precise search results.
+        {{$t('Texts.AddFilters')}}
       </div>
       <div v-if="countResults !== null" class="emptyState">
-        This filter yields <el-tag :type="countResults > 0 ? 'success' : 'danger'">{{countResults}}</el-tag> results.
+        <i18n path="Texts.NumFilterResults" tag="span">
+          <el-tag :type="countResults > 0 ? 'success' : 'danger'">{{countResults}}</el-tag>
+        </i18n>
       </div>
     </div>
 
@@ -81,8 +83,8 @@
     <!-- <pre>{{shrunkQueryObjOut}}</pre> -->
 
     <span slot="footer">
-      <el-button @click="dismiss">Close</el-button>
-      <el-button @click="onClose" type="primary">Apply</el-button>
+      <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
+      <el-button @click="onClose" type="primary">{{$t('Buttons.Apply')}}</el-button>
     </span>
   </el-dialog>
 </template>
