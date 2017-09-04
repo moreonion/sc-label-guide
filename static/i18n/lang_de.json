@@ -1,0 +1,26 @@
+{
+  "Basics": {
+    "All": "Alle",
+    "Unknown": "Unbekannt",
+    "Add": "Hinzufügen",
+    "Filter": "Filter | Filters",
+    "Value": "Wert | Werte",
+    "Description": "Beschreibung",
+    "Operator": "Operator",
+    "Column": "Spalte",
+    "AddFilters": "Filter Hinzufügen"
+  },
+  "Translations": {
+    "Language": "Sprache"
+  },
+  "Languages": {
+    "English": "Englisch",
+    "German": "Deutsch"
+  },
+  "Evaluation": {
+    "Good": "Gut",
+    "Mediocre": "Mittel",
+    "NotGood": "Schlecht",
+    "Unknown": "Unbekannt"
+  }
+}
