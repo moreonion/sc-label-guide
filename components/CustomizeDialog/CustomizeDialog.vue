@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
-    <span slot="title">Columns to show</span>
+    <span slot="title">{{$t('Modals.Headers.ColumnsToShow')}}</span>
     <el-checkbox-group v-model="columns" :min="2">
       <el-checkbox class="checkbox" v-for="column in availableColumns" :key="column[1]"
         :label="column[0]" :disabled="isMandadory(column[0])">
@@ -8,8 +8,8 @@
      </el-checkbox>
     </el-checkbox-group>
     <span slot="footer">
-      <el-button @click="dismiss">Close</el-button>
-      <el-button @click="onClose" type="primary">Apply</el-button>
+      <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
+      <el-button @click="onClose" type="primary">{{$t('Buttons.Apply')}}</el-button>
     </span>
   </el-dialog>
 </template>
