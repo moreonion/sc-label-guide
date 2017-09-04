@@ -26,7 +26,8 @@
     "lodash.zip": "^4.2.0",
     "mo-vue-table": ">= 0.1.1 < 1",
     "nuxt": "^1.0.0-rc8",
-    "qs": "^6.5.0"
+    "qs": "^6.5.0",
+    "vue-i18n": "^7.2.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",

@@ -16,13 +16,13 @@ module.exports = {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#3B8070' },
+  loading: {color: '#3B8070'},
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/globalComponents.js', '~plugins/mo-vue-table', '~plugins/element-ui'],
+  plugins: ['~plugins/vue-i18n.js', '~plugins/globalComponents.js', '~plugins/mo-vue-table', '~plugins/element-ui'],
   build: {
-    vendor: ['i18n-iso-countries', 'qs', 'axios', 'element-ui', 'mo-vue-table', 'lodash.debounce', 'lodash.zip', 'lodash.unzip', 'lodash.reduce'],
+    vendor: ['vue-i18n', 'i18n-iso-countries', 'qs', 'axios', 'element-ui', 'mo-vue-table', 'lodash.debounce', 'lodash.zip', 'lodash.unzip', 'lodash.reduce'],
     /*
     ** Run ESLINT on save
     */
