@@ -5,7 +5,12 @@
     "Add": "Add",
     "Filter": "Filter | Filters",
     "Value": "Value | Values",
-    "Description": "Description"
+    "Description": "Description",
+    "Operator": "Operator",
+    "Column": "Column"
+  },
+  "Translations": {
+    "Language": "Language"
   },
   "Languages": {
     "English": "English",
@@ -27,15 +32,16 @@
   },
   "Buttons": {
     "CustomizeDisplay": "Customize Display",
-    "BackgroundInformation": "Background information"
+    "BackgroundInformation": "Background information",
+    "Apply": "Apply",
+    "Close": "Close",
+    "CustomizeTable": "Customize Display",
+    "Share": "Share It"
   },
   "Modals": {
-    "Buttons": {
-      "Apply": "Apply",
-      "Close": "Close"
-    },
     "Headers": {
-      "CriteriaMet": "Criteria met"
+      "CriteriaMet": "Criteria met",
+      "ColumnsToShow": "Columns to show"
     }
   },
   "Columns": {
@@ -48,7 +54,9 @@
   },
   "Texts": {
     "Embed": "Embed this label guide on your website",
-    "NumFilterResults": "This filter yields {count} results."
+    "NumFilterResults": "This filter yields {0} results.",
+    "AddFilters": "Add new filters to get more precise search results.",
+    "NoResults": "No results found for specified filters or search term!"
   },
   "Questions": {
     "Scoring": "How does the scoring work?"
