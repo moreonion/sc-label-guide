@@ -2,7 +2,7 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="dismiss" size="large">
     <span slot="title">{{$tc('Basics.Filter', 2)}}</span>
     <div>
-      <el-button @click="addQuery" type="primary">{{$t('Basics.Add') + ' ' + $tc('Basics.Filter', 1)}}</el-button>
+      <el-button @click="addQuery" type="primary">{{$t('Basics.AddFilters')}}</el-button>
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
