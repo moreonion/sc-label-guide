@@ -2,27 +2,27 @@
   <el-row type="flex" algin="middle" class="legend-cont">
     <el-col :xs="8" :sm="5">
       <div class="eval-cont">
-        <eval-circle value="3"></eval-circle><span>Good</span>
+        <eval-circle value="3"></eval-circle><span>{{$t('Evaluation.Good')}}</span>
       </div>
     </el-col>
     <el-col :xs="8" :sm="5" class="test">
       <div class="eval-cont">
-        <eval-circle value="2"></eval-circle><span>Mediocre</span>
+        <eval-circle value="2"></eval-circle><span>{{$t('Evaluation.Mediocre')}}</span>
       </div>
     </el-col>
     <el-col :xs="8" :sm="5" class="test">
       <div class="eval-cont">
-        <eval-circle value="1"></eval-circle><span>Not Good</span>
+        <eval-circle value="1"></eval-circle><span>{{$t('Evaluation.NotGood')}}</span>
       </div>
     </el-col>
     <el-col :xs="8" :sm="5" class="test">
       <div class="eval-cont">
-        <eval-circle value="0"></eval-circle><span>Unknown</span>
+        <eval-circle value="0"></eval-circle><span>{{$t('Evaluation.Unknown')}}</span>
       </div>
     </el-col>
     <el-col :xs="24" :sm="8">
-      <span>How does the scoring work?</span><br>
-      <a @click="onClick">Background Information</a>
+      <span>{{$t('Questions.Scoring')}}</span><br>
+      <a @click="onClick">{{$t('Buttons.BackgroundInformation')}}</a>
     </el-col>
   </el-row>
 </template>
