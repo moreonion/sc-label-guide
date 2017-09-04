@@ -46,7 +46,7 @@
       <li>Ist die Herkunft des Endprodukts entlang der gesamten Lieferkette nachvollziehbar?</li>
     </ul>
     <span slot="footer">
-      <el-button @click="dismiss">Close</el-button>
+      <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
     </span>
   </el-dialog>
 </template>
