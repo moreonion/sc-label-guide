@@ -1,7 +1,7 @@
 <template>
   <div class="cont">
     <div>
-      <el-button @click="queryDialogVisible = true">Filters</el-button>
+      <el-button @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button>
 
       <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="searchBlur"></el-input>
 
@@ -50,7 +50,7 @@
         </tr>
       </tbody>
     </table>
-    <div class="noResults" v-show="moData.items.length === 0">No results found for specified filters or search term!</div>
+    <div class="noResults" v-show="moData.items.length === 0">{{$t('Texts.NoResults')}}</div>
 
     <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
      :total="moData.pages.total * limit" :current-page="page" :page-size="limit" @current-change="pageChange">
@@ -59,8 +59,8 @@
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
 
     <div class="last-row">
-      <el-button @click="customizeDialogVisible = true">Customize Display</el-button>
-      <el-button @click="shareDialogVisible = true">Share it</el-button>
+      <el-button @click="customizeDialogVisible = true">{{$t('Buttons.CustomizeTable')}}</el-button>
+      <el-button @click="shareDialogVisible = true">{{$t('Buttons.Share')}}</el-button>
     </div>
 
     <!-- Filters Dialog -->
