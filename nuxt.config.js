@@ -25,7 +25,7 @@ module.exports = {
   */
   plugins: ['~plugins/vue-i18n.js', '~plugins/globalComponents.js', '~plugins/mo-vue-table', '~plugins/element-ui'],
   build: {
-    vendor: ['vue-i18n', 'i18n-iso-countries', 'qs', 'axios', 'element-ui', 'mo-vue-table', 'lodash.debounce', 'lodash.zip', 'lodash.unzip', 'lodash.reduce'],
+    vendor: ['locale', 'locale2', 'vue-i18n', 'i18n-iso-countries', 'qs', 'axios', 'element-ui', 'mo-vue-table', 'lodash.debounce', 'lodash.zip', 'lodash.unzip', 'lodash.reduce'],
     /*
     ** Run ESLINT on save
     */
