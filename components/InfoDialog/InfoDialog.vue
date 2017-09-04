@@ -3,14 +3,14 @@
     <h1 v-if="label.row" slot="title">{{label.row.name}}</h1>
     <template v-if="label.row">
       <section v-if="label.row.description">
-        <h2>Description</h2>
+        <h2>{{$t('Basics.Description')}}</h2>
         <p>{{label.row.description}}</p>
       </section>
 
       <section v-if="label.row.meets_criteria">
-        <h2>Criteria met</h2>
+        <h2>{{$t('Modals.Headers.CriteriaMet')}}</h2>
         <ul>
-          <li class="criterion" v-for="c in label.row.meets_criteria">
+          <li :key="index" class="criterion" v-for="(c, index) in label.row.meets_criteria">
             {{criterionDescr(c)}}
           </li>
         </ul>
@@ -18,7 +18,7 @@
     </template>
 
     <span slot="footer">
-      <el-button @click="dismiss">Close</el-button>
+      <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
     </span>
   </el-dialog>
 </template>
