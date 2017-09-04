@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-select v-model="lang" disabled placeholder="Language">
+    <el-select v-model="lang" disabled :placeholder="$t('Translations.Language')">
       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
     </el-select>
   </div>
