@@ -1,35 +1,45 @@
-// import Vue from 'vue'
-// import LabelTable from '../../components/LabelTable.vue'
+import 'babel-polyfill'
+import Vue from 'vue'
+import LabelTable from '../../components/LabelTable.vue'
+import fetchLabels from '../../lib/api/fetchLabels.js'
+import {extendModel} from '../../lib/queryModel.js'
+
+import '../../plugins/element-ui.js'
+import '../../plugins/globalComponents.js'
+import '../../plugins/mo-vue-table.js'
+import {i18n} from '../../plugins/vue-i18n.js'
 
 class MO {
-  init({select, orderBy, orderDir, query, search}, succCB, errCB) {
+  init({selected, query, search, orderBy, limit, page}, succCB, errCB) {
+    fetchLabels(selected, query, search, orderBy, limit, page).then(succCB).catch(err => errCB(err))
+  }
+
+  async mount(selector, params, res, succCB, errCB) {
+    const {query} = params
     try {
-      const res = {'data': [1,2,3]}
-      succCB(res)
+      const extendedQuery = await extendModel(query)
+      debugger
+      new Vue({
+        i18n,
+        components: {'label-table': LabelTable},
+        render(h) {
+          return h('label-table', {
+            props: {
+              moData: res.data,
+              moConfig: {...params, lang: 'English', extendedQuery}
+            }
+          })
+        }
+      }).$mount(selector)
+      succCB()
     } catch(err) {
       errCB(err)
     }
   }
 
-  mount(selector) {
-    // const app = new Vue({
-    //   el: selector,
-    //   components: {
-    //     'label-table': LabelTable
-    //   },
-    //   data: {
-    //     message: 'Hello Vue!'
-    //   },
-    //   render(h) {
-    //     return h('div', this.message)
-    //   }
-    // })
-  }
-
   mountFetched(selector, params, succCB, errCB) {
-    this.init(params, () => {
-      this.mount(selector, succCB)
-      succCB()
+    this.init(params, data => {
+      this.mount(selector, params, data, succCB, errCB)
     }, errCB)
   }
 }
