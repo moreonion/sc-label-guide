@@ -8,10 +8,12 @@ Vue.use(VueI18n)
 
 const translations = {'en': en, 'de': de}
 
+export const i18n = new VueI18n({
+  locale: 'en',
+  fallbackLocale: 'en',
+  messages: translations
+})
+
 export default ({app}) => {
-  app.i18n = new VueI18n({
-    locale: 'en',
-    fallbackLocale: 'en',
-    messages: translations
-  })
+  app.i18n = i18n
 }
