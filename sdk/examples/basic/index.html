@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Narrow Jumbotron Template for Bootstrap</title>
+    <title>Label Guide - Embed Basics</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
@@ -27,9 +27,7 @@
       (function(d, s, id){
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) {return;}
-        js = d.createElement(s);
-        js.id = id;
-        js.async = true;
+        js = d.createElement(s); js.id = id; js.async = true;
         js.src = "http://localhost:8080/sdk-dist/sdk.js";
         fjs.parentNode.insertBefore(js, fjs);
       } (document, 'script', 'mo-label-guide-jssdk'));
