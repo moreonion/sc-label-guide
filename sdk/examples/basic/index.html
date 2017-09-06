@@ -17,10 +17,10 @@
     <!-- Label Guide: Embed Script -->
     <script>
       window.moAsyncInit = function(MO) {
-        MO.init({query: {social: {$eq: 2}}}, function(res) {
-          MO.mount('#label-guide')
+        MO.mountFetched('#label-guide', {query: {social: {$eq: 2}}}, function(res) {
+          console.log('Label Guide: mounted')
         }, function(err) {
-          console.log(err)
+          console.log('Label Guide:' + JSON.stringify(err))
         })
       };
 
@@ -72,6 +72,7 @@
         </div>
 
         <div class="col-lg-6">
+          <!-- Mount Label Guide here (Selector: #label-guide) -->
           <div id="label-guide"></div>
         </div>
       </div>
