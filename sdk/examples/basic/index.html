@@ -17,10 +17,19 @@
     <!-- Label Guide: Embed Script -->
     <script>
       window.moAsyncInit = function(MO) {
-        MO.mountFetched('#label-guide', {query: {social: {$eq: 2}}}, function(res) {
+        const params = {
+          selected: [['name', 0], ['credibility', 4], ['environment', 5], ['social', 6]],
+          query: {$and:[{'details.score.credibility': {$eq: 1}}]},
+          search: '',
+          orderBy: {name: ['asc', 0]},
+          limit: 5,
+          page: 1
+        };
+
+        MO.mountFetched('#label-guide', params, function() {
           console.log('Label Guide: mounted')
         }, function(err) {
-          console.log('Label Guide:' + JSON.stringify(err))
+          console.log('Label Guide Error:' + JSON.stringify(err))
         })
       };
 
