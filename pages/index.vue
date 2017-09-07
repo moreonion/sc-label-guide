@@ -107,7 +107,7 @@
       async fetchData(search) {
         const def = this.tableConfig
         try {
-          const resp = await fetch(def.selected, def.query, search, def.orderBy, def.limit, 1)
+          const resp = await fetchLabels(def.selected, def.query, search, def.orderBy, def.limit, 1)
           this.tableConfig.search = search
           this.tableData = resp.data
         } catch(err) {
