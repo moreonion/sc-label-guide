@@ -1,5 +1,5 @@
 <template>
-  <div class="cont">
+  <div>
     <div>
       <el-button @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button>
 
@@ -232,12 +232,6 @@
 </script>
 
 <style>
-  .cont {
-    padding: 20px;
-    margin: 0 auto;
-    margin-top: 20px;
-  }
-
   .el-button, .el-input {
     margin-top: 5px;
     margin-bottom: 5px;

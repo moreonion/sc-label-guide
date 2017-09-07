@@ -1,5 +1,7 @@
 <template>
-  <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="encodeHandler" @fetch="fetchData"></label-table>
+  <div class="cont">
+    <label-table :moData="tableData" :moConfig="tableConfig" @encodeAsRouteQuery="encodeHandler" @fetch="fetchData"></label-table>
+  </div>
 </template>
 
 <script>
@@ -191,5 +193,9 @@
 </script>
 
 <style>
-
+  .cont {
+    padding: 20px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
 </style>
