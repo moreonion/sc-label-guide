@@ -5,10 +5,10 @@
 
       <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="searchBlur"></el-input>
 
-      <lang-select class="lang-select" :lang.sync="lang"></lang-select>
+      <lang-select class="lang-select" :lang.sync="moConfig.lang"></lang-select>
     </div>
 
-    <!-- <pre>{{completeQuery}}</pre> -->
+    <!-- <pre>{{moConfig.selected}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
@@ -53,7 +53,7 @@
     <div class="noResults" v-show="moData.items.length === 0">{{$t('Texts.NoResults')}}</div>
 
     <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
-     :total="moData.pages.total * limit" :current-page="page" :page-size="limit" @current-change="pageChange">
+     :total="moData.pages.total * moConfig.limit" :current-page="moConfig.page" :page-size="moConfig.limit" @current-change="pageChange">
     </el-pagination>
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
@@ -65,7 +65,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-     :queryObj="extendedQuery" :selectedColumns="queryableSelectedColumns">
+     :queryObj="moConfig.extendedQuery" :selectedColumns="queryableSelectedColumns">
     </query-dialog>
 
     <!-- Info Dialog -->
@@ -79,7 +79,7 @@
 
     <!-- Customize Display Dialog -->
     <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
-      :selectedColumns="selected">
+      :selectedColumns="moConfig.selected">
     </customize-dialog>
   </div>
 </template>
@@ -123,13 +123,7 @@
     },
     data() {
       return {
-        lang: this.moConfig.lang,
-        selected: this.moConfig.selected,
-        extendedQuery: this.moConfig.extendedQuery,
         search: this.moConfig.search,
-        orderBy: this.moConfig.orderBy,
-        limit: this.moConfig.limit,
-        page: this.moConfig.page,
         // Dialog visibility and data
         queryDialogVisible: false,
         shareDialogVisible: false,
@@ -140,11 +134,11 @@
       }
     },
     computed: {
-      offset() { return (this.page - 1) * this.limit },
+      offset() { return (this.moConfig.page - 1) * this.moConfig.limit },
       completeQuery() {
         // Perform case insenstive search on label name
-        const searchQuery = {'label.name': {$text: {$search: this.search}}}
-        return this.search.length > 0 ? Object.assign(searchQuery, this.extendedQuery) : this.extendedQuery
+        const searchQuery = {'label.name': {$text: {$search: this.moConfig.search}}}
+        return this.search.length > 0 ? Object.assign(searchQuery, this.moConfig.extendedQuery) : this.moConfig.extendedQuery
       },
       shrunkQuery() {
         return shrinkModel(this.completeQuery)
@@ -161,11 +155,11 @@
       }
     },
     watch: {
-      offset: { handler() { this.moSetOffset(this.offset) }, immediate: true },
-      limit: { handler() { this.moSetLimit(this.limit) }, immediate: true },
-      selected: { handler() { this.moSetSelectState(this.selected) }, immediate: true },
+      'moConfig.offset': { handler() { this.moSetOffset(this.moConfig.offset) }, immediate: true },
+      'moConfig.limit': { handler() { this.moSetLimit(this.moConfig.limit) }, immediate: true },
+      'moConfig.selected': { handler() { this.moSetSelectState(this.moConfig.selected) }, immediate: true },
       shrunkQuery: { handler() { this.moSetWhereState(this.shrunkQuery) }, immediate: true },
-      orderBy: { handler() { this.moTable.orderBy = this.orderBy }, immediate: true },
+      'moConfig.orderBy': { handler() { this.moTable.orderBy = this.moConfig.orderBy }, immediate: true },
       moOrder() { this.orderByChange() }
     },
     methods: {
