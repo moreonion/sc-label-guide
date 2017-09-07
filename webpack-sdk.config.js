@@ -5,6 +5,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const common = require('./webpack-sdk.common-config.js')
 
+const pkg = require('./sdk/package.json')
+
 module.exports = merge(common, {
   module: {
     rules: [
@@ -18,6 +20,7 @@ module.exports = merge(common, {
     ]
   },
   plugins: [
+    new webpack.BannerPlugin(`${pkg.name} v${pkg.version}, Copyright (c) ${new Date().getFullYear()}`),
     new ExtractTextPlugin("sdk.css"),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,

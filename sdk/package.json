@@ -1,0 +1,11 @@
+{
+  "name": "mo-label-guide-sdk",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Label Guide SDK",
+  "main": "src/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "author": "Onur Dogangönül <contact@dinony.com>"
+}
