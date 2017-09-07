@@ -1,7 +1,7 @@
 {
   "presets": ["env"],
   "plugins": [
-    // "transform-runtime",
+    "transform-runtime",
     "babel-plugin-transform-object-rest-spread"
   ]
 }

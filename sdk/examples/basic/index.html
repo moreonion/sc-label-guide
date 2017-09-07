@@ -10,6 +10,7 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="http://localhost:8080/sdk-dist/sdk.css" rel="stylesheet"> -->
   </head>
 
   <body>
@@ -33,13 +34,21 @@
         })
       };
 
-      (function(d, s, id){
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {return;}
-        js = d.createElement(s); js.id = id; js.async = true;
-        js.src = "http://localhost:8080/sdk-dist/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-      } (document, 'script', 'mo-label-guide-jssdk'));
+      (function(d, s, id, l, lId){
+        if(!d.getElementById(lId)) {
+          var fl = d.getElementsByTagName(l)[0];
+          var l = d.createElement(l);
+          l.href = 'http://localhost:8080/sdk-dist/sdk.css'; l.rel = 'stylesheet';
+          fl.parentNode.appendChild(l);
+        }
+        if (!d.getElementById(id)) {
+          var js = d.createElement(s);
+          js.id = id; js.async = true;
+          js.src = 'http://localhost:8080/sdk-dist/sdk.js';
+          var fjs = d.getElementsByTagName(s)[0];
+          fjs.parentNode.insertBefore(js, fjs);
+        }
+      })(document, 'script', 'mo-label-guide-jssdk', 'link', 'mo-label-guide-csssdk');
     </script>
 
     <div class="container">

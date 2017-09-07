@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+// import 'babel-polyfill'
 import Vue from 'vue'
 import LabelTable from '../../components/LabelTable.vue'
 import fetchLabels from '../../lib/api/fetchLabels.js'

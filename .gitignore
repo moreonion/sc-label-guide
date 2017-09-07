@@ -12,3 +12,5 @@ dist
 
 .vscode
 sdk-dist
+
+stats.json

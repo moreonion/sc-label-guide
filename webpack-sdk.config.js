@@ -1,18 +1,32 @@
 const merge = require('webpack-merge')
 const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const common = require('./webpack-sdk.common-config.js')
 
 module.exports = merge(common, {
+  module: {
+    rules: [
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+      }
+    ]
+  },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('production')}
-    }),
+    new ExtractTextPlugin("sdk.css"),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {warnings: false}
+    }),
+    new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify('production')}
     })
   ],
-  devtool: '#source-map',
+  devtool: 'source-map',
   performance: {hints: 'warning'}
 })

@@ -12,7 +12,8 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "build:dev-sdk": "webpack --config webpack-sdk.dev-config.js",
-    "build:sdk": "webpack --config webpack-sdk.config.js"
+    "build:sdk": "webpack --config webpack-sdk.config.js",
+    "build:analyze": "webpack --config webpack-sdk.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "engines": {
     "node": ">=8.4.0",
@@ -20,7 +21,6 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "babel-polyfill": "^6.26.0",
     "element-ui": "^1.4.4",
     "i18n-iso-countries": "^2.0.1",
     "locale": "^0.1.0",
@@ -30,7 +30,7 @@
     "lodash.unzip": "^3.4.0",
     "lodash.zip": "^4.2.0",
     "mo-vue-table": ">= 0.1.1 < 1",
-    "nuxt": "^1.0.0-rc8",
+    "nuxt": "^1.0.0-rc9",
     "qs": "^6.5.0",
     "vue-i18n": "^7.2.0"
   },
@@ -48,11 +48,13 @@
     "eslint-plugin-html": "^2.0.0",
     "eslint-plugin-promise": "^3.4.1",
     "eslint-plugin-standard": "^2.0.1",
+    "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "vue-loader": "^13.0.4",
-    "webpack": "^3.5.5",
+    "webpack": "^3.5.6",
+    "webpack-bundle-analyzer": "^2.9.0",
     "webpack-merge": "^4.1.0"
   }
 }
