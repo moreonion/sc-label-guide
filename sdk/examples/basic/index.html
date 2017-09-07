@@ -37,7 +37,7 @@
       (function(d, s, id, l, lId){
         if(!d.getElementById(lId)) {
           var fl = d.getElementsByTagName(l)[0];
-          var l = d.createElement(l);
+          var l = d.createElement(l); l.id = lId;
           l.href = 'http://localhost:8080/sdk-dist/sdk.css'; l.rel = 'stylesheet';
           fl.parentNode.appendChild(l);
         }
