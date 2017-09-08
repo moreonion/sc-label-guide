@@ -29,7 +29,7 @@
         if (!d.getElementById(id)) {
           var js = d.createElement(s);
           js.id = id; js.async = true;
-          js.src = 'https://localhost:8080/sdk.js';
+          js.src = 'http://localhost:8080/sdk-dist/sdk.js';
           var fjs = d.getElementsByTagName(s)[0];
           fjs.parentNode.insertBefore(js, fjs);
         }
