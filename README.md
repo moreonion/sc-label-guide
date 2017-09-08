@@ -1,6 +1,6 @@
 # mo-label-guide
 
-> TOOD: add description
+> Label Guide
 
 ## Build Setup
 
@@ -31,3 +31,5 @@ $ npm run build:dev-sdk
 # start dev server with development build of SDK
 $ npm run dev:sdk
 ```
+
+Find more information in `sdk/README.md`.
