@@ -1,6 +1,6 @@
 const merge = require('webpack-merge')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
 // const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const common = require('./webpack-sdk.common-config.js')
@@ -16,7 +16,7 @@ module.exports = merge(common, {
       compress: {warnings: false}
     }),
     new webpack.DefinePlugin({
-      'process.env': { NODE_ENV: JSON.stringify('production')}
+      'process.env': {NODE_ENV: JSON.stringify('production')}
     })
   ],
   devtool: 'source-map',
