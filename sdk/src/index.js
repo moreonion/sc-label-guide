@@ -12,14 +12,10 @@ async function mount(selector, params, res) {
   return app
 }
 
-async function fetchAndMount(selector, params, succCB, errCB) {
-  try {
-    const data = await fetchData(params)
-    const vueInst = await mount(selector, params, data)
-    succCB(vueInst)
-  } catch(err) {
-    errCB(err)
-  }
+async function fetchAndMount(selector, params) {
+  const data = await fetchData(params)
+  const vueInst = await mount(selector, params, data)
+  return {vueInst}
 }
 
 const api = {'mount': fetchAndMount}

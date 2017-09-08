@@ -27,9 +27,9 @@
           page: 1
         };
 
-        MO.mount('#label-guide', params, function() {
+        MO.mount('#label-guide', params).then(function() {
           // console.log('Label Guide: mounted');
-        }, function(err) {
+        }).catch(function(err) {
           // console.log('Label Guide Error:' + JSON.stringify(err));
         });
       };
