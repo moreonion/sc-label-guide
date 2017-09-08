@@ -15,3 +15,19 @@ $ npm run dev
 $ npm run build
 $ npm start
 ```
+
+### SDK
+
+``` bash
+# build production version of SDK
+$ npm run build:sdk
+
+# analyze SDK bundle
+$ npm run build:analyze
+
+# build development version of SDK
+$ npm run build:dev-sdk
+
+# start dev server with development build of SDK
+$ npm run dev:sdk
+```
