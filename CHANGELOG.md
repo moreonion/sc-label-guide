@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.4.0 (2017-09-08)
+* Use vue-i18n to embed text in web app
+* Embed SDK (v0.1.0)
+
 # 0.3.0 (2017-08-31)
 
 * Add new columns (resources, hotspots, countries)
