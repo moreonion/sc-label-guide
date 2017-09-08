@@ -16,6 +16,7 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         include: resolve('components'),
+        exclude: /(node_modules)/,
         options: {
           loaders: {
             'scss': 'vue-style-loader!css-loader!sass-loader'
@@ -24,9 +25,9 @@ module.exports = {
       },
       {
         test: /\.js$/,
+        include: [resolveArr(['components', 'lib', 'plugins', 'config', 'sdk/src'])],
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        include: [resolveArr(['components', 'lib', 'plugins', 'config', 'sdk/src'])]
+        use: ['babel-loader', 'eslint-loader']
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
