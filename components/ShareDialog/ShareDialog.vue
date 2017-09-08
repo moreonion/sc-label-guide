@@ -1,7 +1,8 @@
 <template>
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="onClose" size="large">
     <span slot="title">{{$t('Texts.Embed')}}</span>
-    <el-input readonly type="textarea" :rows="15" v-model="shareSnippet"></el-input>
+    <p>{{$t('Texts.EmbedDescr')}}</p>
+    <el-input readonly type="textarea" :rows="15" :value="shareSnippet"></el-input>
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
     </span>
@@ -10,13 +11,17 @@
 
 <script>
 import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
+import getSDKSnippet from '../../config/sdk.js'
 
 export default {
   mixins: [moDialogVisibility],
-  props: ['visible'],
-  data: () => ({
-    shareSnippet: '<<< TODO: Coming Soon! >>>'
-  }),
+  props: ['visible', 'config'],
+  computed: {
+    shareSnippet: function() {
+      const {selected, search, query, orderBy, page, limit} = this.config
+      return getSDKSnippet({selected, search, query, orderBy, page, limit}).trim()
+    }
+  },
   methods: {
     onClose: function() {
       this.dismiss()

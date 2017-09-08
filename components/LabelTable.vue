@@ -75,7 +75,7 @@
     <bginfo-dialog :visible.sync="bginfoDialogVisible"></bginfo-dialog>
 
     <!-- Share Dialog -->
-    <share-dialog :visible.sync="shareDialogVisible"></share-dialog>
+    <share-dialog :visible.sync="shareDialogVisible" :config="moConfig"></share-dialog>
 
     <!-- Customize Display Dialog -->
     <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"

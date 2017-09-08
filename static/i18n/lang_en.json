@@ -55,6 +55,7 @@
   },
   "Texts": {
     "Embed": "Embed this label guide on your website",
+    "EmbedDescr": "Copy paste this snippet on your website.",
     "NumFilterResults": "This filter yields {0} results.",
     "AddFilters": "Add new filters to get more precise search results.",
     "NoResults": "No results found for specified filters or search term!"

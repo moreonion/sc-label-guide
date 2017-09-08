@@ -18,19 +18,10 @@
     <!-- Label Guide: Embed Script -->
     <script>
       window.moAsyncInit = function(MO) {
-        const params = {
-          selected: [['name', 0], ['credibility', 4], ['environment', 5], ['social', 6]],
-          query: {$and:[{'details.score.credibility': {$eq: 1}}]},
-          search: '',
-          orderBy: {name: ['asc', 0]},
-          limit: 5,
-          page: 1
-        };
+        const params = {"selected":[["name",0],["credibility",4],["environment",5],["social",6]],"search":"","query":{"$and":[{"details.score.social":{"$eq":3}},{"details.score.environment":{"$eq":2}}]},"orderBy":{"name":["desc",0]},"page":1,"limit":5};
 
-        MO.mount('#label-guide', params).then(function() {
-          // console.log('Label Guide: mounted');
-        }).catch(function(err) {
-          // console.log('Label Guide Error:' + JSON.stringify(err));
+        MO.mount('#label-guide', params).catch(function(err) {
+          console.log('Label Guide SDK Error:' + JSON.stringify(err));
         });
       };
 
@@ -38,7 +29,7 @@
         if (!d.getElementById(id)) {
           var js = d.createElement(s);
           js.id = id; js.async = true;
-          js.src = 'http://localhost:8080/sdk-dist/sdk.js';
+          js.src = 'https://localhost:8080/sdk.js';
           var fjs = d.getElementsByTagName(s)[0];
           fjs.parentNode.insertBefore(js, fjs);
         }
