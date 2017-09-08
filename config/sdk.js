@@ -1,4 +1,4 @@
-const sdkURL = 'https://localhost:8080'
+const sdkURL = 'http://localhost:8080/sdk'
 
 export default function getSDKSnippet(params) {
   return `
