@@ -2,21 +2,24 @@
 import fetchLabels from '../../lib/api/fetchLabels.js'
 import createApp from './wrapper.js'
 
-function fetchData({selected, query, search, orderBy, limit, page}, succCB, errCB) {
-  fetchLabels(selected, query, search, orderBy, limit, page).then(succCB).catch(err => errCB(err))
+function fetchData({selected, query, search, orderBy, limit, page}) {
+  return fetchLabels(selected, query, search, orderBy, limit, page)
 }
 
-function mount(selector, params, res, succCB, errCB) {
-  createApp(res, params, app => {
-    app.$mount(selector)
-    succCB()
-  }, errCB)
+async function mount(selector, params, res) {
+  const app = await createApp(res, params)
+  app.$mount(selector)
+  return app
 }
 
-function fetchAndMount(selector, params, succCB, errCB) {
-  fetchData(params, data => {
-    mount(selector, params, data, succCB, errCB)
-  }, errCB)
+async function fetchAndMount(selector, params, succCB, errCB) {
+  try {
+    const data = await fetchData(params)
+    const vueInst = await mount(selector, params, data)
+    succCB(vueInst)
+  } catch(err) {
+    errCB(err)
+  }
 }
 
 const api = {'mount': fetchAndMount}
