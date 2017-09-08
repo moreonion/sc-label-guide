@@ -1,27 +1,16 @@
 const merge = require('webpack-merge')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+// const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 const common = require('./webpack-sdk.common-config.js')
 
 const pkg = require('./sdk/package.json')
 
 module.exports = merge(common, {
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader"
-        })
-      }
-    ]
-  },
   plugins: [
     new webpack.BannerPlugin(`${pkg.name} v${pkg.version}, Copyright (c) ${new Date().getFullYear()}`),
-    new ExtractTextPlugin("sdk.css"),
+    // new ExtractTextPlugin("sdk.css"),
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: true,
       compress: {warnings: false}

@@ -28,19 +28,13 @@
         };
 
         MO.mount('#label-guide', params, function() {
-          console.log('Label Guide: mounted')
+          // console.log('Label Guide: mounted');
         }, function(err) {
-          console.log('Label Guide Error:' + JSON.stringify(err))
-        })
+          // console.log('Label Guide Error:' + JSON.stringify(err));
+        });
       };
 
-      (function(d, s, id, l, lId){
-        if(!d.getElementById(lId)) {
-          var fl = d.getElementsByTagName(l)[0];
-          var l = d.createElement(l); l.id = lId;
-          l.href = 'http://localhost:8080/sdk-dist/sdk.css'; l.rel = 'stylesheet';
-          fl.parentNode.appendChild(l);
-        }
+      (function(d, s, id){
         if (!d.getElementById(id)) {
           var js = d.createElement(s);
           js.id = id; js.async = true;
@@ -48,7 +42,7 @@
           var fjs = d.getElementsByTagName(s)[0];
           fjs.parentNode.insertBefore(js, fjs);
         }
-      })(document, 'script', 'mo-label-guide-jssdk', 'link', 'mo-label-guide-csssdk');
+      })(document, 'script', 'mo-label-guide-jssdk');
     </script>
 
     <div class="container">
