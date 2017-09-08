@@ -2,7 +2,7 @@
   <el-dialog :visible="visible" @update:visible="updateVisible" @close="onClose" size="large">
     <span slot="title">{{$t('Texts.Embed')}}</span>
     <p>{{$t('Texts.EmbedDescr')}}</p>
-    <el-input readonly type="textarea" :rows="15" :value="shareSnippet"></el-input>
+    <el-input readonly type="textarea" :rows="22" :value="shareSnippet"></el-input>
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
     </span>
