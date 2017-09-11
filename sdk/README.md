@@ -37,7 +37,7 @@ interface SDKApi {
 
 # API
 
-Although not being written in TypeScript, type annotations are provided to express the kinds of types that are involed.
+Although not being written in TypeScript, type annotations are provided to express the kinds of types that are involved.
 
 # Methods
 
