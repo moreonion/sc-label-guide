@@ -8,12 +8,15 @@ Vue.use(VueI18n)
 
 const translations = {'en': en, 'de': de}
 
-export const i18n = new VueI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages: translations
-})
+export function getI18nInst(locale, fallback='en', silentWarnings=false) {
+  return new VueI18n({
+    locale: locale,
+    fallbackLocale: fallback,
+    messages: translations,
+    silentTranslationWarn: silentWarnings
+  })
+}
 
-export default ({app}) => {
-  app.i18n = i18n
+export default ({app, store, isDev}) => {
+  app.i18n = getI18nInst(store.state.lang, 'en', !isDev)
 }
