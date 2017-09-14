@@ -15,7 +15,7 @@
           </el-select>
 
           <el-select class="opSelect" v-model="query.op" :placeholder="$t('Basics.Operator')">
-            <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="op" :value="op"></el-option>
+            <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="opLabel(op)" :value="op"></el-option>
           </el-select>
 
           <template v-if="isListOperator(query.op)">
@@ -207,6 +207,9 @@
       },
       columnLabel(col, lang) {
         return this.$i18n.t(_COLUMNS_.columnLabelMap[col], lang)
+      },
+      opLabel(op, lang) {
+        return this.$i18n.t(op, lang)
       },
       getSelector(col) {
         const ac = this.columnMeta(col).autocomplete
