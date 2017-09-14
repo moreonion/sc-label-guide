@@ -23,10 +23,10 @@
         <tr>
           <template v-for="column in mappedSelectedColumns">
             <template v-if="columnIsSortable(column[0])">
-              <th :key="column[1]" :class="columnClass(column[0])" v-mo-toggle-orderby="column[0]">{{columnLabel(column[0])}}</th>
+              <th :key="column[1]" :class="columnClass(column[0])" v-mo-toggle-orderby="column[0]">{{columnLabel(column[0], lang)}}</th>
             </template>
             <template v-else>
-              <th :key="column[1]" :class="columnClass(column[0])">{{columnLabel(column[0])}}</th>
+              <th :key="column[1]" :class="columnClass(column[0])">{{columnLabel(column[0], lang)}}</th>
             </template>
           </template>
         </tr>
@@ -85,6 +85,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import debounce from 'lodash.debounce'
   import {moLocalTable} from 'mo-vue-table'
 
@@ -106,6 +107,8 @@
 
   import {shrinkModel} from '../lib/queryModel.js'
 
+  import {SET_LANG} from '../store/mutation-types.js'
+
   export default {
     props: ['moData', 'moConfig'],
     mixins: [moLocalTable],
@@ -123,7 +126,6 @@
     },
     data() {
       return {
-        lang: this.moConfig.lang,
         search: this.moConfig.search,
         // Dialog visibility and data
         queryDialogVisible: false,
@@ -135,6 +137,7 @@
       }
     },
     computed: {
+      ...mapState(['lang']),
       offset() { return (this.moConfig.page - 1) * this.moConfig.limit },
       completeQuery() {
         // Perform case insenstive search on label name
@@ -161,16 +164,18 @@
       'moConfig.selected': { handler() { this.moSetSelectState(this.moConfig.selected) }, immediate: true },
       shrunkQuery: { handler() { this.moSetWhereState(this.shrunkQuery) }, immediate: true },
       'moConfig.orderBy': { handler() { this.moTable.orderBy = this.moConfig.orderBy }, immediate: true },
-      moOrder() { this.orderByChange() }
+      moOrder() { this.orderByChange() },
+      lang(language) {
+        this.$i18n.locale = language
+      }
     },
     methods: {
       showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
       },
-      langChange: function(language) {
-        this.lang = language
-        this.$i18n.locale = language
+      langChange: function(lang) {
+        this.$store.commit(SET_LANG, lang)
       },
       searchChange: debounce(function(search) {
         this.search = search
@@ -210,7 +215,9 @@
         const dir = this.moColumnOrder(column)
         return dir !== null ? [`mo-${dir}`] : []
       },
-      columnLabel: column => _COLUMNS_.columnLabelMap[column],
+      columnLabel(column, lang) {
+        return this.$i18n.t(_COLUMNS_.columnLabelMap[column], lang)
+      },
       columnValue: (row, column) => _COLUMNS_.columnValFuncMap[column](row),
       columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
       columnMeta: column => _COLUMNS_.columnMeta[column],
