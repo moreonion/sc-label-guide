@@ -14,8 +14,8 @@
     "Language": "Language"
   },
   "Languages": {
-    "English": "English",
-    "German": "German"
+    "en": "English",
+    "de": "German"
   },
   "Evaluation": {
     "Good": "Good",

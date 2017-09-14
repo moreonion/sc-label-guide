@@ -3,7 +3,7 @@
     "All": "Alle",
     "Unknown": "Unbekannt",
     "Add": "Hinzufügen",
-    "Filter": "Filter | Filters",
+    "Filter": "Filter | Filter",
     "Value": "Wert | Werte",
     "Description": "Beschreibung",
     "Operator": "Operator",
@@ -14,8 +14,12 @@
     "Language": "Sprache"
   },
   "Languages": {
-    "English": "Englisch",
-    "German": "Deutsch"
+    "en": "Englisch",
+    "de": "Deutsch"
+  },
+  "Columns": {
+    "GovTrans": "Regierung& Transparenz",
+    "EnvImpact": "Umwelteinflüsse"
   },
   "Evaluation": {
     "Good": "Gut",
