@@ -4,11 +4,13 @@
     <div>
       <el-button @click="addQuery" type="primary">{{$t('Basics.AddFilters')}}</el-button>
 
+      <!-- <pre>{{queryObjOut}}</pre> -->
+
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
           <el-select class="leftSelect" v-model="query.left" placeholder="$t('Basics.Column')">
             <el-option v-for="column in selectedColumns" :key="column[1]"
-              :label="columnLabel(column[0])" :value="column[0]">
+              :label="columnLabel(column[0], lang)" :value="column[0]">
             </el-option>
           </el-select>
 
@@ -33,11 +35,11 @@
               <!-- With autocomplete -->
               <!-- <autocomplete v-if="isRating(query.left)"
                 v-model="query.right"
-                :config="getAutocompleteConfig(query.left)" 
+                :config="getAutocompleteConfig(query.left)"
                 :selector="{'value':'value'}"
                 customItem="eval-dropdown-item">
               </autocomplete>
-              <autocomplete v-else 
+              <autocomplete v-else
                 :value="query.right"
                 :config="getAutocompleteConfig(query.left)"
                 @select="item => query.right = item">
@@ -90,6 +92,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   // import D from '../../lib/debug.js'
   import debounce from 'lodash.debounce'
   import {_OPERATORS_, _COLUMNS_, _API_} from '../../config/config.js'
@@ -108,6 +111,7 @@
     props: ['visible', 'queryObj', 'selectedColumns'],
     data: () => ({queryArr: [], countResults: null}),
     computed: {
+      ...mapState(['lang']),
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
       queryObjOut() {
         // Hack to solve input model issue
@@ -201,7 +205,9 @@
       getAutocompleteConfig(col) {
         return this.columnMeta(col).autocomplete
       },
-      columnLabel: col => _COLUMNS_.columnLabelMap[col],
+      columnLabel(col, lang) {
+        return this.$i18n.t(_COLUMNS_.columnLabelMap[col], lang)
+      },
       getSelector(col) {
         const ac = this.columnMeta(col).autocomplete
         if(ac && ac.dropdown) {
