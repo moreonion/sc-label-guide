@@ -4,7 +4,7 @@
     <el-checkbox-group v-model="columns" :min="2">
       <el-checkbox class="checkbox" v-for="column in availableColumns" :key="column[1]"
         :label="column[0]" :disabled="isMandadory(column[0])">
-       {{columnName(column[0])}}
+       {{columnName(column[0], lang)}}
      </el-checkbox>
     </el-checkbox-group>
     <span slot="footer">
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+
 import {_COLUMNS_} from '../../config/config.js'
 import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
 
@@ -23,6 +25,7 @@ export default {
   props: ['visible', 'selectedColumns'],
   data: () => ({columns: []}),
   computed: {
+    ...mapState(['lang']),
     availableColumns: () => _COLUMNS_.columns
   },
   methods: {
@@ -36,7 +39,9 @@ export default {
 
       this.$emit('update:visible', val)
     },
-    columnName: column => _COLUMNS_.columnLabelMap[_COLUMNS_.columnValueMap[column]],
+    columnName(column, lang) {
+      return this.$i18n.t(_COLUMNS_.columnLabelMap[_COLUMNS_.columnValueMap[column]], lang)
+    },
     isMandadory: column => _COLUMNS_.columnMeta[_COLUMNS_.columnValueMap[column]].isMandatory,
     projectColumns: function() {
       return this.availableColumns.filter(col => this.columns.find(c => c === col[0]) !== undefined)
