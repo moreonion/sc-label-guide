@@ -3,14 +3,15 @@ import Vue from 'vue'
 import '../../plugins/element-ui.js'
 import '../../plugins/globalComponents.js'
 import '../../plugins/mo-vue-table.js'
-import {i18n} from '../../plugins/vue-i18n.js'
+import {getI18nInst} from '../../plugins/vue-i18n.js'
 
 import LabelTable from '../../components/LabelTable.vue'
 import {extendModel} from '../../lib/queryModel.js'
 import fetchLabels from '../../lib/api/fetchLabels.js'
 
+// TODO: find best locale
 const WrapperAppFactory = (res, params, extendedQuery) => (new Vue({
-  i18n,
+  i18n: getI18nInst('en'),
   components: {'label-table': LabelTable},
   data: {
     tableData: res.data,
