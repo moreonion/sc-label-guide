@@ -3,5 +3,8 @@ export const _EVENTS_ = {
     // $on({left})      $emit({right})
     encodeAsRouteQuery: 'encodeAsRouteQuery',
     fetch: 'fetch'
+  },
+  LangSelect: {
+    langChange: 'langChange'
   }
 }

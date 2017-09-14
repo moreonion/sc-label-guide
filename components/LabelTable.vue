@@ -5,7 +5,7 @@
 
       <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="searchBlur"></el-input>
 
-      <lang-select class="lang-select" :lang.sync="moConfig.lang"></lang-select>
+      <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
     <!-- <pre>{{moConfig.selected}}</pre> -->
@@ -123,6 +123,7 @@
     },
     data() {
       return {
+        lang: this.moConfig.lang,
         search: this.moConfig.search,
         // Dialog visibility and data
         queryDialogVisible: false,
@@ -166,6 +167,10 @@
       showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
+      },
+      langChange: function(language) {
+        this.lang = language
+        this.$i18n.locale = language
       },
       searchChange: debounce(function(search) {
         this.search = search
