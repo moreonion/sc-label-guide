@@ -19,7 +19,8 @@
   },
   "Columns": {
     "GovTrans": "Regierung& Transparenz",
-    "EnvImpact": "Umwelteinflüsse"
+    "EnvImpact": "Umwelteinflüsse",
+    "Countries": "Staaten"
   },
   "Evaluation": {
     "Good": "Gut",

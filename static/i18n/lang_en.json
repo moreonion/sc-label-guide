@@ -51,7 +51,8 @@
     "EnvImpact": "Environmental impact",
     "ScoImpact": "Social impact",
     "Hotspots": "Issues label has impact on",
-    "Resources": "Raw materials label has impact on"
+    "Resources": "Raw materials label has impact on",
+    "Countries": "Countries"
   },
   "Texts": {
     "Embed": "Embed this label guide on your website",
