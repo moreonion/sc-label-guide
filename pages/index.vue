@@ -41,7 +41,7 @@
       }
       return true
     },
-    async asyncData({route}) {
+    async asyncData({app, route, store}) {
       // Decode route query parameters
       const {
         select: _encSelect,
@@ -94,7 +94,7 @@
       return {
         tableData: resp.data,
         tableConfig: {
-          lang: 'English',
+          lang: store.state.lang,
           selected,
           query,
           extendedQuery,
