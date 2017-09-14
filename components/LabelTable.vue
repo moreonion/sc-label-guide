@@ -12,7 +12,7 @@
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
-        <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{qlItem.op}} </div>
+        <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{opLabel(qlItem.op, lang)}} </div>
         <eval-circle class="queryItem" :value="projectValue(qlItem.left, qlItem.right)" v-if="columnIsRating(qlItem.left)"></eval-circle>
         <div class="queryItem" v-else><el-tag type="gray">{{projectLabel(qlItem.left, qlItem.right)}}</el-tag></div>
       </div>
@@ -217,6 +217,9 @@
       },
       columnLabel(column, lang) {
         return this.$i18n.t(_COLUMNS_.columnLabelMap[column], lang)
+      },
+      opLabel(op, lang) {
+        return this.$i18n.t(op, lang)
       },
       columnValue: (row, column) => _COLUMNS_.columnValFuncMap[column](row),
       columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
