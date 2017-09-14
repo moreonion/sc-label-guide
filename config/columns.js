@@ -99,13 +99,13 @@ export const _COLUMNS_ = {
     'countries': row => row.countries || []
   },
   columnLabelMap: {
-    'name': 'Label',
-    'details.score.credibility': 'Governance& Transparency',
-    'details.score.environment': 'Environmental impact',
-    'details.score.social': 'Social impact',
-    'hotspots': 'Issues label has impact on',
-    'resources': 'Raw materials label has impact on',
-    'countries': 'Countries'
+    'name': 'Columns.Label',
+    'details.score.credibility': 'Columns.GovTrans',
+    'details.score.environment': 'Columns.EnvImpact',
+    'details.score.social': 'Columns.ScoImpact',
+    'hotspots': 'Columns.Hotspots',
+    'resources': 'Columns.Resources',
+    'countries': 'Columns.Countries'
   },
   columnMeta: {
     'name': {
