@@ -8,22 +8,22 @@ import {SET_LANG} from '../store/mutation-types.js'
 
 locale.Locale['default'] = _DEFAULT_LANGUAGE_
 
-export default function({isClient, isServer, store, query, req}) {
-  const supportedLanguages = new locale.Locales(_AVAILABLE_LANGUAGES_, _DEFAULT_LANGUAGE_)
+export default function({app, isClient, isServer, store, query, req}) {
+  const supportedLanguages = new locale.Locales(_AVAILABLE_LANGUAGES_)
 
   let routeLang = null
   if(query && query.lang) {
-    const queryLocale = new locale.Locales([query.lang], _DEFAULT_LANGUAGE_)
+    const queryLocale = new locale.Locales([query.lang])
     routeLang = queryLocale.best(supportedLanguages)
   }
 
   let acceptLang = null
   if(isServer && req.headers['accept-language']) {
-    const acceptedLocales = new locale.Locales(req.headers['accept-language'], _DEFAULT_LANGUAGE_)
+    const acceptedLocales = new locale.Locales(req.headers['accept-language'])
     acceptLang = acceptedLocales.best(supportedLanguages)
   }
 
-  const clientLocale = new locale.Locales([locale2], _DEFAULT_LANGUAGE_)
+  const clientLocale = new locale.Locales([locale2])
   const clientLang = clientLocale.best(supportedLanguages)
 
   const bestLang = routeLang || acceptLang || clientLang || _DEFAULT_LANGUAGE_
