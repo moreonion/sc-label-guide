@@ -13,6 +13,15 @@
   "Translations": {
     "Language": "Sprache"
   },
+  "Operators": {
+    "eq": "ist",
+    "gt": "besser als",
+    "gte": ">=",
+    "lt": "schlechter als",
+    "lte": "<=",
+    "in": "in",
+    "text": "text"
+  },
   "Languages": {
     "en": "Englisch",
     "de": "Deutsch"

@@ -3,23 +3,23 @@ export const _OPERATORS_ = {
   ops: ['$eq', '$gt', '$gte', '$lt', '$lte'],
   // Operators mapped to displayable labels
   opLabelMap: {
-    '$eq': 'is',
-    '$gt': 'is better than',
-    '$gte': 'is at least',
-    '$lt': 'is worse than',
-    '$lte': 'is at most',
-    '$in': 'in',
-    '$text': '$text' // not displayed, therefore no mapping
+    '$eq': 'Operators.eq',
+    '$gt': 'Operators.gt',
+    '$gte': 'Operators.gte',
+    '$lt': 'Operators.lt',
+    '$lte': 'Operators.lte',
+    '$in': 'Operators.in',
+    '$text': 'Operators.text' // not displayed, therefore no mapping
   },
   // Operators mapped to displayable labels (reverse)
   opLabelMapRev: {
-    'is': '$eq',
-    'is better than': '$gt',
-    'is at least': '$gte',
-    'is worse than': '$lt',
-    'is at most': '$lte',
-    'in': '$in',
-    '$text': '$text'
+    'Operators.eq': '$eq',
+    'Operators.gt': '$gt',
+    'Operators.gte': '$gte',
+    'Operators.lt': '$lt',
+    'Operators.lte': '$lte',
+    'Operators.in': '$in',
+    'Operators.text': '$text'
   },
   // Operators mapped to encodeable route query params
   opEncMap: {

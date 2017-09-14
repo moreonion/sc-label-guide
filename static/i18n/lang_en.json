@@ -25,11 +25,12 @@
   },
   "Operators": {
     "eq": "is",
-    "gt": ">",
-    "gte": ">=",
-    "lt": "<",
-    "lte": "<=",
-    "in": "in"
+    "gt": "is better than",
+    "gte": "is at least",
+    "lt": "is worse than",
+    "lte": "is at most",
+    "in": "in",
+    "text": "text"
   },
   "Buttons": {
     "CustomizeDisplay": "Customize Display",
