@@ -4,23 +4,29 @@ import '../../plugins/element-ui.js'
 import '../../plugins/globalComponents.js'
 import '../../plugins/mo-vue-table.js'
 import {getI18nInst} from '../../plugins/vue-i18n.js'
-
 import LabelTable from '../../components/LabelTable.vue'
 import {extendModel} from '../../lib/queryModel.js'
 import fetchLabels from '../../lib/api/fetchLabels.js'
+import detectLang from '../../lib/detectLang.js'
+import {SET_LANG, SET_DETECTED_LANG} from '../../store/mutation-types.js'
 
 import pluginVuex from './pluginVuex'
 
 const store = pluginVuex(Vue)
 
 // TODO: find best locale
-const WrapperAppFactory = (res, params, extendedQuery) => (new Vue({
-  i18n: getI18nInst('en'),
+const WrapperAppFactory = (res, params, extendedQuery, lang) => (new Vue({
+  i18n: getI18nInst(lang),
   store,
   components: {'label-table': LabelTable},
-  data: {
+  data() {
+    store.commit(SET_LANG, lang)
+    store.commit(SET_DETECTED_LANG, lang)
+
+    return {
       tableData: res.data,
       tableConfig: {...params, extendedQuery}
+    }
   },
   render: function(h) {
     return h('label-table', {
@@ -85,7 +91,9 @@ const WrapperAppFactory = (res, params, extendedQuery) => (new Vue({
 }))
 
 export default async function createApp(res, params) {
+  const lang = detectLang()
+  const language = lang.language || lang
   const {query} = params
-  const extendedQuery = await extendModel(query)
-  return WrapperAppFactory(res, params, extendedQuery)
+  const extendedQuery = await extendModel(query, language)
+  return WrapperAppFactory(res, params, extendedQuery, language)
 }
