@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       options: ['SDK', 'IFrame'],
-      method: 'IFrame'
+      method: 'SDK'
     }
   },
   computed: {
