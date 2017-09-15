@@ -1,6 +1,6 @@
 import countries from 'i18n-iso-countries'
 import {AutocompleteTypes} from './api.js'
-import {_COUNTRIES_} from './countries.js'
+import {_GETCOUNTRIES_} from './countries.js'
 
 const types = {
   'RATING': 0,
@@ -16,7 +16,7 @@ const scoreValues = [
 ]
 
 const defaultModelConfig = {
-  sync: scoreValues,
+  sync: () => scoreValues,
   projectLabel: 'label',
   projectValue: 'value'
 }
@@ -52,7 +52,7 @@ const defaultAutocompleteConfig = {
 
 // vue element autocomplete requires objects as items in dropdown
 const defaultScoreAutocompleteConfig = {
-  sync: scoreValues,
+  sync: () => scoreValues,
   dropdown: {
     selector: {'label': 'label', 'value': 'label'}
   },
@@ -188,12 +188,12 @@ export const _COLUMNS_ = {
       },
       isQueryable: true,
       model: {
-        sync: _COUNTRIES_,
+        sync: params => _GETCOUNTRIES_(params),
         projectLabel: 'label',
         projectValue: 'code'
       },
       autocomplete: {
-        sync: _COUNTRIES_,
+        sync: params => _GETCOUNTRIES_(params),
         dropdown: {
           selector: {'label': 'label', 'value': 'label'}
         },
