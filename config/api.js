@@ -1,4 +1,6 @@
-export const _APIURL_ = 'https://supermarket.more-onion.at/api/v1'
+export const _DOMAIN_ = 'https://sc-label-guide.more-onion.at'
+export const _APIURL_ = `https://supermarket.more-onion.at/api/v1`
+export const _SDKURL_ = 'http://localhost:8080/sdk'
 
 export const _API_ = {
   queryDelim: ',',

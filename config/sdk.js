@@ -1,6 +1,6 @@
-const sdkURL = 'http://localhost:8080/sdk'
+import {_DOMAIN_, _SDKURL_} from './api'
 
-export default function getSDKSnippet(params) {
+export function getSDKSnippet(params) {
   return `
 <script>
   window.moAsyncInit = function(MO) {
@@ -15,11 +15,15 @@ export default function getSDKSnippet(params) {
     if (!d.getElementById(id)) {
       var js = d.createElement(s);
       js.id = id; js.async = true;
-      js.src = '${sdkURL}/sdk.js';
+      js.src = '${_SDKURL_}/sdk.js';
       var fjs = d.getElementsByTagName(s)[0];
       fjs.parentNode.insertBefore(js, fjs);
     }
   })(document, 'script', 'mo-label-guide-jssdk');
 </script>
 `
+}
+
+export function getIframeSnippet(encodedParams) {
+  return `<iframe style="width: 100%; border: none; height: 1000px" src="${_DOMAIN_}/${encodedParams}"></iframe>`
 }
