@@ -62,7 +62,7 @@
             </template>
             <template v-else>
               <!-- No autocomplete -->
-              <el-input class="valInput" placeholder="$tc('Basics.Value', 1)'" v-model="query.right"></el-input>
+              <el-input class="valInput" placeholder="$tc('Basics.Value', 1)" v-model="query.right"></el-input>
             </template>
           </template>
 
