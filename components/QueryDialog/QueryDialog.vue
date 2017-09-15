@@ -47,7 +47,7 @@
               <el-autocomplete v-if="isRating(query.left)"
                 class="valInput"
                 v-model="query.right"
-                :fetch-suggestions="autocompleteHandlerFactory(query.left)"
+                :fetch-suggestions="autocompleteHandlerFactory(query.left, lang)"
                 :props="getSelector(query.left)"
                 custom-item="eval-dropdown-item"
                 @select="selection => handleSelect(query, selection)">
@@ -55,7 +55,7 @@
               <el-autocomplete v-else
                 class="valInput"
                 v-model="query.right"
-                :fetch-suggestions="autocompleteHandlerFactory(query.left)"
+                :fetch-suggestions="autocompleteHandlerFactory(query.left, lang)"
                 :props="getSelector(query.left)"
                 @select="selection => handleSelect(query, selection)">
               </el-autocomplete>
