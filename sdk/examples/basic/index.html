@@ -18,7 +18,7 @@
     <!-- Label Guide: Embed Script -->
     <script>
       window.moAsyncInit = function(MO) {
-        const params = {"selected":[["name",0],["credibility",4],["environment",5],["social",6]],"search":"","query":{"$and":[{"details.score.social":{"$eq":3}},{"details.score.environment":{"$eq":2}}]},"orderBy":{"name":["desc",0]},"page":1,"limit":5};
+        const params = {"selected":[["name",0],["credibility",4],["environment",5],["social",6],["countries",7]],"search":"","query":{"$and":[{"countries":{"$eq":"US"}},{"countries":{"$eq":"AT"}}]},"orderBy":{},"page":2,"limit":5};
 
         MO.mount('#label-guide', params).catch(function(err) {
           console.log('Label Guide SDK Error:' + JSON.stringify(err));
