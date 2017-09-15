@@ -6,6 +6,7 @@
 
 <script>
   // import D from '../lib/debug.js'
+  import {mapState} from 'vuex'
 
   import LabelTable from '../components/LabelTable.vue'
 
@@ -41,7 +42,7 @@
       }
       return true
     },
-    async asyncData({app, route, store}) {
+    async asyncData({app, route}) {
       // Decode route query parameters
       const {
         select: _encSelect,
@@ -94,7 +95,6 @@
       return {
         tableData: resp.data,
         tableConfig: {
-          lang: store.state.lang,
           selected,
           query,
           extendedQuery,
@@ -104,6 +104,9 @@
           page
         }
       }
+    },
+    computed: {
+      ...mapState(['lang', 'detectedLang'])
     },
     methods: {
       async fetchData(search) {
@@ -131,6 +134,12 @@
         } else if(ignore.page) {
           // can be directly pushed
           this.routerPush(params, ignore)
+        } else if(ignore.lang) {
+          if(this.lang !== this.detectedLang) {
+            this.routerPush(params, ignore)
+          } else {
+            this.routerPush({}, {lang: true})
+          }
         }
       },
       handleEncSelect(selected) {
@@ -156,7 +165,7 @@
           _ROUTE_.queryDelim,
           _ROUTE_.querySubDelim)
       },
-      routerPush(queryParams, ignore) {
+      routerPush(queryParams, ignore={}) {
         this.$router.push({name: 'index', query: this.assembleQueryParams(queryParams, ignore)})
       },
       assembleQueryParams(queryParams, ignore={}) {
@@ -166,6 +175,8 @@
         if(!ignore.page) { Object.assign(prepQuery, {page: this.tableConfig.page}) }
 
         if(!ignore.limit) { Object.assign(prepQuery, {limit: this.tableConfig.limit}) }
+
+        if(!ignore.lang && this.lang !== this.detectedLang) { Object.assign(prepQuery, {lang: this.lang}) }
 
         if(!ignore.search && this.tableConfig.search.length > 0) {
           Object.assign(prepQuery, {search: this.tableConfig.search})
