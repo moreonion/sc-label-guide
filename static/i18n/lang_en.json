@@ -8,7 +8,8 @@
     "Description": "Description",
     "Operator": "Operator",
     "Column": "Column",
-    "AddFilters": "Add Filters"
+    "AddFilters": "Add Filters",
+    "Method": "Method"
   },
   "Translations": {
     "Language": "Language"
@@ -56,9 +57,11 @@
     "Countries": "Countries"
   },
   "Texts": {
-    "Embed": "Embed this label guide on your website",
-    "EmbedDescr": "Insert the following snippet directly into the {0} tag on each page you want to embed the label guide. Add an HTML element with the {1} identifier at the position in the document where you want to present this component.",
-    "EmbedDocs": "You can find more information on the SDK documentation website: {0}",
+    "EmbedSDK": {
+      "Embed": "Embed this label guide on your website",
+      "EmbedDescr": "Insert the following snippet directly into the {0} tag on each page you want to embed the label guide. Add an HTML element with the {1} identifier at the position in the document where you want to present this component.",
+      "EmbedDocs": "You can find more information on the SDK documentation website: {0}"
+    },
     "NumFilterResults": "This filter yields {0} results.",
     "AddFilters": "Add new filters to get more precise search results.",
     "NoResults": "No results found for specified filters or search term!"
