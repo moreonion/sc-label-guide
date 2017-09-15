@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
-    <!-- <pre>{{lang}}</pre> -->
+    <!-- <pre>{{moData.items}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
@@ -36,7 +36,7 @@
           <td :key="colIndex" v-for="(column, colIndex) in mappedSelectedColumns">
             <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
             <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
-              <img v-if="row.logo" class="logoImg" :src="row.logo">
+              <img v-if="row.logo" class="logoImg" :src="imageApi(row.logo)">
               {{columnValue(row, column[0])}}
             </span>
             <span v-else-if="columnIsList(column[0])">
@@ -236,6 +236,9 @@
       },
       columnIsList(column) {
         return this.columnMeta(column).type === _COLUMNS_.types.LIST
+      },
+      imageApi(url) {
+        return `${url}-/resize/x70/`
       }
     }
   }
@@ -344,7 +347,7 @@
   }
 
   .logoImg {
-    max-width: 50px;
+    max-width: 70px;
     vertical-align: middle;
     margin-right: 10px;
   }
