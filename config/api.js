@@ -1,3 +1,5 @@
+export const _APIURL_ = 'https://supermarket.more-onion.at/api/v1'
+
 export const _API_ = {
   queryDelim: ',',
   opDelim: ':',
