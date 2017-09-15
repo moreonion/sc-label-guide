@@ -42,7 +42,7 @@
       }
       return true
     },
-    async asyncData({app, route}) {
+    async asyncData({app, route, store}) {
       // Decode route query parameters
       const {
         select: _encSelect,
@@ -88,7 +88,7 @@
       const page = _encPage ? parseInt(_encPage) : 1
 
       // Async fetch labels data and route query models
-      const fetchPromises = [fetchLabels(selected, query, search, orderBy, limit, page), extendModel(query)]
+      const fetchPromises = [fetchLabels(selected, query, search, orderBy, limit, page), extendModel(query, store.state.lang)]
 
       const [resp, extendedQuery] = await Promise.all(fetchPromises)
 
