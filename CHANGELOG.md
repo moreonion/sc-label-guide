@@ -1,6 +1,15 @@
 # Changelog
 
+# 0.5.0 (2017-09-15)
+
+* Client language detection and handling
+* Select language feature (with some german dummy translations)
+* Embed via IFrame option in share dialog
+* Adapt new API (include param)
+* Show logos
+
 # 0.4.0 (2017-09-08)
+
 * Use vue-i18n to embed text in web app
 * Embed SDK (v0.1.0)
 
