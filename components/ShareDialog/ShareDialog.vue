@@ -17,7 +17,7 @@
       <el-input readonly type="textarea" :rows="22" :value="shareSnippet"></el-input>
     </div>
     <div v-else>
-      <el-input readonly type="textarea" :rows="10" :value="shareIframe"></el-input>
+      <el-input readonly type="textarea" :rows="5" :value="shareIframe"></el-input>
     </div>
 
     <span slot="footer">
@@ -28,7 +28,11 @@
 
 <script>
 import {moDialogVisibility} from '../../lib/mixins/DialogVisibility/DialogVisibility.js'
-import {getSDKSnippet, getIframeSnippet} from '../../config/sdk.js'
+import {getSDKSnippet, getIframeSnippet} from '../../lib/sdk.js'
+import {stringifyQuery} from '../../lib/transformQuery.js'
+import {
+  handleEncSelect, handleEncOrderBy, handleEncQuery
+} from '../../lib/handleEncode.js'
 
 export default {
   mixins: [moDialogVisibility],
@@ -45,9 +49,25 @@ export default {
       return getSDKSnippet({selected, search, query, orderBy, page, limit}).trim()
     },
     shareIframe() {
-      const t = this.config
-      debugger
-      return getIframeSnippet('')
+      const {selected, search, query, orderBy, page, limit} = this.config
+
+      const encSelect = handleEncSelect(selected)
+
+      const [encOrderBy, encOrderDir] = handleEncOrderBy(orderBy)
+      const encOrderByObj = {orderBy: encOrderBy, orderDir: encOrderDir}
+
+      const encQueryObj = handleEncQuery(query)
+
+      const qStr = stringifyQuery({
+        select: encSelect,
+        ...encOrderByObj,
+        ...encQueryObj,
+        page,
+        limit,
+        search: search.length > 0 ? search : undefined
+      })
+
+      return getIframeSnippet(qStr)
     }
   },
   methods: {
