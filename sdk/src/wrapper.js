@@ -14,17 +14,13 @@ import pluginVuex from './pluginVuex'
 const store = pluginVuex(Vue)
 
 // TODO: find best locale
-const WrapperAppFactory = (res, params) => (new Vue({
+const WrapperAppFactory = (res, params, extendedQuery) => (new Vue({
   i18n: getI18nInst('en'),
   store,
   components: {'label-table': LabelTable},
-  data() {
-    const extendedQuery = await extendModel(query, this.$store.state.lang)
-
-    return {
+  data: {
       tableData: res.data,
       tableConfig: {...params, extendedQuery}
-    }
   },
   render: function(h) {
     return h('label-table', {
@@ -90,5 +86,6 @@ const WrapperAppFactory = (res, params) => (new Vue({
 
 export default async function createApp(res, params) {
   const {query} = params
-  return WrapperAppFactory(res, params)
+  const extendedQuery = await extendModel(query)
+  return WrapperAppFactory(res, params, extendedQuery)
 }
