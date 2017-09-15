@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
-    <!-- <pre>{{moConfig.selected}}</pre> -->
+    <!-- <pre>{{lang}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
@@ -176,6 +176,7 @@
       },
       langChange: function(lang) {
         this.$store.commit(SET_LANG, lang)
+        this.emitEncode({lang}, {lang: true})
       },
       searchChange: debounce(function(search) {
         this.search = search
