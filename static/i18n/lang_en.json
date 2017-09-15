@@ -62,6 +62,9 @@
       "EmbedDescr": "Insert the following snippet directly into the {0} tag on each page you want to embed the label guide. Add an HTML element with the {1} identifier at the position in the document where you want to present this component.",
       "EmbedDocs": "You can find more information on the SDK documentation website: {0}"
     },
+    "EmbedIFrame": {
+      "EmbedDescr": "Insert the {0} element at the position in the document where you want to present this component."
+    },
     "NumFilterResults": "This filter yields {0} results.",
     "AddFilters": "Add new filters to get more precise search results.",
     "NoResults": "No results found for specified filters or search term!"

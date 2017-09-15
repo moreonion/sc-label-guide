@@ -17,6 +17,9 @@
       <el-input readonly type="textarea" :rows="22" :value="shareSnippet"></el-input>
     </div>
     <div v-else>
+      <i18n path="Texts.EmbedIFrame.EmbedDescr" tag="p">
+        <el-tag type="gray">iframe</el-tag>
+      </i18n>
       <el-input readonly type="textarea" :rows="5" :value="shareIframe"></el-input>
     </div>
 
