@@ -25,7 +25,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        include: [resolveArr(['components', 'lib', 'plugins', 'config', 'sdk/src'])],
+        include: [resolveArr(['components', 'lib', 'plugins', 'config', 'store', 'sdk/src'])],
         exclude: /node_modules/,
         use: ['babel-loader', 'eslint-loader']
       },
