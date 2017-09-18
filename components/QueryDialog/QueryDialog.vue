@@ -4,8 +4,6 @@
     <div>
       <el-button @click="addQuery" type="primary">{{$t('Basics.AddFilters')}}</el-button>
 
-      <!-- <pre>{{queryObjOut}}</pre> -->
-
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
           <el-select class="leftSelect" v-model="query.left" placeholder="$t('Basics.Column')">
@@ -44,14 +42,7 @@
                 :config="getAutocompleteConfig(query.left)"
                 @select="item => query.right = item">
               </autocomplete> -->
-              <el-select v-if="isRating(query.left)"
-                class="valInput"
-                v-model="query.right"
-                filterable>
-                <el-option
-                  v-for="">
-                </el-option>
-              </el-select>
+
               <!-- <el-autocomplete v-if="isRating(query.left)"
                 class="valInput"
                 v-model="query.right"
@@ -60,6 +51,23 @@
                 custom-item="eval-dropdown-item"
                 @select="selection => handleSelect(query, selection)">
               </el-autocomplete> -->
+              <el-select v-if="isRating(query.left)"
+                class="valInput"
+                v-model="query.right"
+                placeholder="Placeholder text"
+                no-data-text="No data text"
+                no-match-text="No match text"
+                filterable
+                remote
+                :remote-method="remoteMethodFactory(query)">
+                <el-option
+                  v-for="item in remoteOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                  <eval-circle :value="item.value"></eval-circle>
+                </el-option>
+              </el-select>
               <el-autocomplete v-else
                 class="valInput"
                 v-model="query.right"
@@ -88,9 +96,8 @@
       </div>
     </div>
 
-    <!-- <pre>{{queryArr}}</pre> -->
-    <!-- <pre>{{queryObjOut}}</pre> -->
-    <!-- <pre>{{shrunkQueryObjOut}}</pre> -->
+    <pre>{{queryArr}}</pre>
+    <pre>{{remoteOptions}}</pre>
 
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
@@ -117,7 +124,7 @@
   export default {
     mixins: [moDialogVisibility, moAutocomplete],
     props: ['visible', 'queryObj', 'selectedColumns'],
-    data: () => ({queryArr: [], countResults: null}),
+    data: () => ({queryArr: [], countResults: null, remoteOptions: []}),
     computed: {
       ...mapState(['lang']),
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
@@ -150,6 +157,15 @@
       }
     },
     methods: {
+      remoteMethodFactory(queryObj) {
+        const ac = this.autocompleteHandlerFactory(queryObj.left, this.lang)
+        return queryStr => {
+          ac(queryStr, res => {
+            console.log(JSON.stringify(res))
+            this.remoteOptions = res
+          })
+        }
+      },
       handleSelect(query, selection) {
         const model = this.columnMeta(query.left).model
         if(model) {
