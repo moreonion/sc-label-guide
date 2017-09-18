@@ -59,7 +59,7 @@
                 no-match-text="No match text"
                 filterable
                 remote
-                :remote-method="remoteMethodFactory(query)">
+                :remote-method="remoteMethodFactory(query.left)">
                 <el-option
                   v-for="item in remoteOptions"
                   :key="item.value"
@@ -157,8 +157,8 @@
       }
     },
     methods: {
-      remoteMethodFactory(queryObj) {
-        const ac = this.autocompleteHandlerFactory(queryObj.left, this.lang)
+      remoteMethodFactory(column) {
+        const ac = this.autocompleteHandlerFactory(column, this.lang)
         return queryStr => {
           ac(queryStr, res => {
             console.log(JSON.stringify(res))
