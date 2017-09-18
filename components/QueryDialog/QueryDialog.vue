@@ -44,14 +44,22 @@
                 :config="getAutocompleteConfig(query.left)"
                 @select="item => query.right = item">
               </autocomplete> -->
-              <el-autocomplete v-if="isRating(query.left)"
+              <el-select v-if="isRating(query.left)"
+                class="valInput"
+                v-model="query.right"
+                filterable>
+                <el-option
+                  v-for="">
+                </el-option>
+              </el-select>
+              <!-- <el-autocomplete v-if="isRating(query.left)"
                 class="valInput"
                 v-model="query.right"
                 :fetch-suggestions="autocompleteHandlerFactory(query.left, lang)"
                 :props="getSelector(query.left)"
                 custom-item="eval-dropdown-item"
                 @select="selection => handleSelect(query, selection)">
-              </el-autocomplete>
+              </el-autocomplete> -->
               <el-autocomplete v-else
                 class="valInput"
                 v-model="query.right"
