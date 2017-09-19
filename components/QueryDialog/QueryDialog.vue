@@ -64,7 +64,7 @@
                   v-for="item in remoteOptions"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value">
+                  :value="item">
                   <eval-circle :value="item.value"></eval-circle>
                 </el-option>
               </el-select>
