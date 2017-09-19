@@ -12,6 +12,7 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
     "precommit": "npm run lint",
     "dev:sdk": "webpack-dev-server --config webpack-sdk.dev-config.js",
+    "build:spa": "nuxt generate -s",
     "build:dev-sdk": "webpack --config webpack-sdk.dev-config.js",
     "build:sdk": "webpack --config webpack-sdk.config.js",
     "build:analyze": "webpack --config webpack-sdk.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json"
