@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.5.1 (2017-09-18)
+
+* Use SDK url (http://transparency.supplychainge.org/sdk.js)
+
 # 0.5.0 (2017-09-15)
 
 * Client language detection and handling

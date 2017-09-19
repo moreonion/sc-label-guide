@@ -12,7 +12,7 @@ module.exports = merge(common, {
     new webpack.BannerPlugin(`${pkg.name} v${pkg.version}, Copyright (c) ${new Date().getFullYear()}`),
     // new ExtractTextPlugin("sdk.css"),
     new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
+      sourceMap: false,
       compress: {warnings: false}
     }),
     new webpack.DefinePlugin({
