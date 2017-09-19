@@ -185,9 +185,9 @@
            * keep the complete information about the query.
            */
           this.queryArr = res.map(q => {
-            const model = this.columnMeta(q.left).model
-            if(model) {
-              return {...q, right: q.right[model.projectLabel], model: q.right}
+            const cModel = this.columnMeta(q.left).model
+            if(cModel) {
+              return {...q, right: q.right[cModel.projectLabel], model: q.right}
             } else {
               return {...q}
             }
