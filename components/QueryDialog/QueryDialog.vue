@@ -145,7 +145,7 @@
             if(cModel && model && right && right === model[cModel.projectLabel]) {
               return {left, op, right: model}
             } else {
-              return {left, op, right, model}
+              return {left, op, right}
             }
           })
 
