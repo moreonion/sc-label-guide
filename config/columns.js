@@ -109,7 +109,11 @@ export const _COLUMNS_ = {
       isDefaultSelected: true,
       model: {
         projectLabel: 'name',
-        projectValue: 'name'
+        projectValue: 'name',
+        async: 'labels?only=name,id',
+        middlewares: {
+          postfetch: res => res.data.items[0]
+        }
       },
       autocomplete: {
         ...defaultAutocompleteConfig,
