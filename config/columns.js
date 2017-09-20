@@ -109,6 +109,10 @@ export const _COLUMNS_ = {
       isQueryable: true,
       isMandatory: true,
       isDefaultSelected: true,
+      model: {
+        projectLabel: 'name',
+        projectValue: 'id'
+      },
       autocomplete: {
         ...defaultAutocompleteConfig,
         async: 'labels?only=name,id'
