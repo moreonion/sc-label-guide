@@ -212,9 +212,9 @@
       hasAutocomplete(col) {
         return this.columnMeta(col).autocomplete !== undefined
       },
-      getAutocompleteConfig(col) {
-        return this.columnMeta(col).autocomplete
-      },
+      // getAutocompleteConfig(col) {
+      //   return this.columnMeta(col).autocomplete
+      // },
       columnLabel(col, lang) {
         return this.$i18n.t(_COLUMNS_.columnLabelMap[col], lang)
       },
