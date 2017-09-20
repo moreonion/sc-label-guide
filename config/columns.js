@@ -188,9 +188,6 @@ export const _COLUMNS_ = {
       },
       autocomplete: {
         sync: params => _GETCOUNTRIES_(params),
-        dropdown: {
-          selector: {'label': 'label', 'value': 'label'}
-        },
         middlewares: {
           postfetch(data, query) {
             if(typeof query === 'string' && query.length > 0) {
