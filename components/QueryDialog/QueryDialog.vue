@@ -163,21 +163,16 @@
           // Query -> Filters array
           const res = queryObjToArr(this.queryObj, id, op => _OPERATORS_.opLabelMap[op])
 
-          /*
-           * Transform to intermediate representation
-           * where query.right is the label that is
-           * shown in form input controls.
-           * Additionally, a model object is attached to
-           * keep the complete information about the query.
-           */
-          this.queryArr = res.map(q => {
-            const cModel = this.columnMeta(q.left).model
-            if(cModel) {
-              return {...q, right: q.right[cModel.projectLabel], model: q.right}
-            } else {
-              return {...q}
-            }
+          res.forEach(query => {
+            const ac = this.autocompleteHandlerFactory(query.left, this.lang)
+            const cModel = this.columnMeta(query.left).model
+            // Remote options must be fetched so that selection is visible
+            ac(query.right, resp => {
+              this.remoteOptions = resp
+            })
           })
+
+          this.queryArr = res
         }
 
         this.$emit('update:visible', val)
