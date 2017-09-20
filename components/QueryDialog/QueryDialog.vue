@@ -153,8 +153,8 @@
         }
       },
       handleSelect(query, selection) {
-        const model = this.columnMeta(query.left).model
-        if(model) {
+        const cModel = this.columnMeta(query.left).model
+        if(cModel) {
           query.model = selection
         }
       },
