@@ -6,55 +6,43 @@
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" @change="val => leftChanged(qIndex, val)" placeholder="$t('Basics.Column')">
+          <el-select class="leftSelect" v-model="query.left" @change="val => leftChanged(qIndex, val, query.op)" placeholder="$t('Basics.Column')">
             <el-option v-for="column in selectedColumns" :key="column[1]"
               :label="columnLabel(column[0], lang)" :value="column[0]">
             </el-option>
           </el-select>
 
-          <el-select class="opSelect" v-model="query.op" :placeholder="$t('Basics.Operator')">
+          <el-select class="opSelect" v-model="query.op" @change="val => opChanged(qIndex, val)" :placeholder="$t('Basics.Operator')">
             <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="opLabel(op)" :value="op"></el-option>
           </el-select>
 
-          <template v-if="isListOperator(query.op)">
-            <!-- List operator -->
-            <template v-if="hasAutocomplete(query.left)">
-              <!-- With autocomplete -->
-              <!-- TODO -->
-            </template>
-            <template v-else>
-              <!-- No autocomplete -->
-              <!-- TODO -->
-            </template>
+          <!-- Single value operator -->
+          <template v-if="hasAutocomplete(query.left)">
+            <!-- With autocomplete -->
+            <el-select
+              class="valInput"
+              v-model="query.right"
+              placeholder="Placeholder text"
+              no-data-text="No data text"
+              no-mantch-text="No match text"
+              :multiple="isListOperator(query.op)"
+              :value-key="getValueKey(query.left)"
+              filterable
+              remote
+              :remote-method="remoteMethodFactory(query, qIndex, 'remote-method')">
+              <el-option
+                v-for="item in query.optionsBuffer"
+                :key="getValue(query.left, item)"
+                :label="getLabel(query.left, item)"
+                :value="item">
+                <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
+                <div v-else>{{getLabel(query.left, item)}}</div>
+              </el-option>
+            </el-select>
           </template>
           <template v-else>
-            <!-- Single value operator -->
-            <template v-if="hasAutocomplete(query.left)">
-              <!-- With autocomplete -->
-              <el-select
-                class="valInput"
-                v-model="query.right"
-                placeholder="Placeholder text"
-                no-data-text="No data text"
-                no-mantch-text="No match text"
-                :value-key="getValueKey(query.left)"
-                filterable
-                remote
-                :remote-method="remoteMethodFactory(query, qIndex, 'remote-method')">
-                <el-option
-                  v-for="item in query.optionsBuffer"
-                  :key="getValue(query.left, item)"
-                  :label="getLabel(query.left, item)"
-                  :value="item">
-                  <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
-                  <div v-else>{{getLabel(query.left, item)}}</div>
-                </el-option>
-              </el-select>
-            </template>
-            <template v-else>
-              <!-- No autocomplete -->
-              <el-input class="valInput" placeholder="$tc('Basics.Value', 1)" v-model="query.right"></el-input>
-            </template>
+            <!-- No autocomplete -->
+            <el-input class="valInput" placeholder="$tc('Basics.Value', 1)" v-model="query.right"></el-input>
           </template>
 
           <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
@@ -70,7 +58,7 @@
       </div>
     </div>
 
-    <!-- <pre>{{queryArr}}</pre> -->
+    <pre>{{shrunkQueryObjOut}}</pre>
 
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
@@ -133,8 +121,16 @@
           })
         }
       },
-      leftChanged(qIndex, val) {
-        this.queryArr[qIndex].right = null
+      opChanged(qIndex, op) {
+        const isListOp = this.isListOperator(op)
+        if(isListOp) {
+          this.$set(this.queryArr[qIndex], 'right', [])
+        } else {
+          this.$set(this.queryArr[qIndex], 'right', null)
+        }
+      },
+      leftChanged(qIndex, val, op) {
+        this.opChanged(qIndex, op)
         this.remoteMethodFactory(this.queryArr[qIndex], qIndex, 'leftChanged')()
       },
       handleSelect(query, selection) {
