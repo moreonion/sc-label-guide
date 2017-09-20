@@ -6,7 +6,7 @@
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" placeholder="$t('Basics.Column')">
+          <el-select class="leftSelect" v-model="query.left" @change="val => leftChanged(qIndex, val)" placeholder="$t('Basics.Column')">
             <el-option v-for="column in selectedColumns" :key="column[1]"
               :label="columnLabel(column[0], lang)" :value="column[0]">
             </el-option>
@@ -31,50 +31,25 @@
             <!-- Single value operator -->
             <template v-if="hasAutocomplete(query.left)">
               <!-- With autocomplete -->
-              <!-- <autocomplete v-if="isRating(query.left)"
-                v-model="query.right"
-                :config="getAutocompleteConfig(query.left)"
-                :selector="{'value':'value'}"
-                customItem="eval-dropdown-item">
-              </autocomplete>
-              <autocomplete v-else
-                :value="query.right"
-                :config="getAutocompleteConfig(query.left)"
-                @select="item => query.right = item">
-              </autocomplete> -->
-
-              <!-- <el-autocomplete v-if="isRating(query.left)"
-                class="valInput"
-                v-model="query.right"
-                :fetch-suggestions="autocompleteHandlerFactory(query.left, lang)"
-                :props="getSelector(query.left)"
-                custom-item="eval-dropdown-item"
-                @select="selection => handleSelect(query, selection)">
-              </el-autocomplete> -->
-              <el-select v-if="isRating(query.left)"
+              <el-select
                 class="valInput"
                 v-model="query.right"
                 placeholder="Placeholder text"
                 no-data-text="No data text"
                 no-mantch-text="No match text"
+                :value-key="getValueKey(query.left)"
                 filterable
                 remote
-                :remote-method="remoteMethodFactory(query.left)">
+                :remote-method="remoteMethodFactory(query, qIndex, 'remote-method')">
                 <el-option
-                  v-for="(item, index) in remoteOptions"
-                  :key="index"
+                  v-for="item in query.optionsBuffer"
+                  :key="getValue(query.left, item)"
                   :label="getLabel(query.left, item)"
                   :value="item">
-                  <eval-circle :value="item.value"></eval-circle>
+                  <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
+                  <div v-else>{{getLabel(query.left, item)}}</div>
                 </el-option>
               </el-select>
-              <el-autocomplete v-else
-                class="valInput"
-                v-model="query.right"
-                :fetch-suggestions="autocompleteHandlerFactory(query.left, lang)"
-                :props="getSelector(query.left)"
-                @select="selection => handleSelect(query, selection)">
-              </el-autocomplete>
             </template>
             <template v-else>
               <!-- No autocomplete -->
@@ -85,8 +60,7 @@
           <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
         </div>
       </div>
-      <!-- BUG: v-else not working here -->
-      <div v-if="queryArr.length === 0" class="emptyState">
+      <div v-else class="emptyState">
         {{$t('Texts.AddFilters')}}
       </div>
       <div v-if="countResults !== null" class="emptyState">
@@ -96,8 +70,7 @@
       </div>
     </div>
 
-    <pre>{{queryArr}}</pre>
-    <pre>{{remoteOptions}}</pre>
+    <pre>{{queryObjOut}}</pre>
 
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
@@ -124,7 +97,7 @@
   export default {
     mixins: [moDialogVisibility, moAutocomplete],
     props: ['visible', 'queryObj', 'selectedColumns'],
-    data: () => ({queryArr: [], countResults: null, remoteOptions: []}),
+    data: () => ({queryArr: [], countResults: null}),
     computed: {
       ...mapState(['lang']),
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
@@ -142,15 +115,27 @@
     methods: {
       getLabel(column, item) {
         const cModel = this.columnMeta(column).model
-        return cModel ? item[cModel.projectLabel] : item
+        return item[cModel.projectLabel]
       },
-      remoteMethodFactory(column) {
-        const ac = this.autocompleteHandlerFactory(column, this.lang)
+      getValueKey(column) {
+        const cModel = this.columnMeta(column).model
+        return cModel.projectValue
+      },
+      getValue(column, item) {
+        const valueKey = this.getValueKey(column)
+        return item[valueKey]
+      },
+      remoteMethodFactory(query, qIndex, str) {
+        const ac = this.autocompleteHandlerFactory(query.left, this.lang)
         return queryStr => {
-          ac(queryStr, res => {
-            this.remoteOptions = res
+          ac(queryStr).then(res => {
+            this.$set(this.queryArr[qIndex], 'optionsBuffer', res)
           })
         }
+      },
+      leftChanged(qIndex, val) {
+        this.queryArr[qIndex].right = null
+        this.remoteMethodFactory(this.queryArr[qIndex], qIndex, 'leftChanged')()
       },
       handleSelect(query, selection) {
         const cModel = this.columnMeta(query.left).model
@@ -158,19 +143,17 @@
           query.model = selection
         }
       },
-      updateVisible(val) {
+      async updateVisible(val) {
         if(val) {
           // Query -> Filters array
           const res = queryObjToArr(this.queryObj, id, op => _OPERATORS_.opLabelMap[op])
 
-          res.forEach(query => {
+          for(let i = 0; i < res.length; i++) {
+            const query = res[i]
             const ac = this.autocompleteHandlerFactory(query.left, this.lang)
-            const cModel = this.columnMeta(query.left).model
-            // Remote options must be fetched so that selection is visible
-            ac(query.right, resp => {
-              this.remoteOptions = resp
-            })
-          })
+            const options = await ac(query.right)
+            query.optionsBuffer = options
+          }
 
           this.queryArr = res
         }
