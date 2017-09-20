@@ -56,14 +56,14 @@
                 v-model="query.right"
                 placeholder="Placeholder text"
                 no-data-text="No data text"
-                no-match-text="No match text"
+                no-mantch-text="No match text"
                 filterable
                 remote
                 :remote-method="remoteMethodFactory(query.left)">
                 <el-option
-                  v-for="item in remoteOptions"
-                  :key="item.value"
-                  :label="item.label"
+                  v-for="(item, index) in remoteOptions"
+                  :key="index"
+                  :label="getLabel(query.left, item)"
                   :value="item">
                   <eval-circle :value="item.value"></eval-circle>
                 </el-option>
