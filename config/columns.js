@@ -39,9 +39,6 @@ const defaultAutocompleteConfig = {
     },
     totalPages: res => res.data.pages.total
   },
-  dropdown: {
-    selector: {'label': 'name', 'value': 'name'}
-  },
   endpoint: {
     type: AutocompleteTypes.EMULATED,
     minResults: 5,
@@ -53,9 +50,6 @@ const defaultAutocompleteConfig = {
 // vue element autocomplete requires objects as items in dropdown
 const defaultScoreAutocompleteConfig = {
   sync: () => scoreValues,
-  dropdown: {
-    selector: {'label': 'label', 'value': 'label'}
-  },
   middlewares: {
     postfetch(data, query) {
       if(typeof query === 'string' && query.length > 0) {
