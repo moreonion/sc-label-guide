@@ -69,7 +69,6 @@
 
 <script>
   import {mapState} from 'vuex'
-  // import D from '../../lib/debug.js'
   import debounce from 'lodash.debounce'
   import {_OPERATORS_, _COLUMNS_, _API_} from '../../config/config.js'
   import {id} from '../../lib/fp.js'

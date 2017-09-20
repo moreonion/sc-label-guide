@@ -3,7 +3,6 @@ import detectLang from '../lib/detectLang.js'
 
 import {_DEFAULT_LANGUAGE_, _AVAILABLE_LANGUAGES_} from '../config/language.js'
 import {SET_LANG, SET_DETECTED_LANG} from '../store/mutation-types.js'
-// import D from '../lib/debug.js'
 
 locale.Locale['default'] = _DEFAULT_LANGUAGE_
 

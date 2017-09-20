@@ -5,7 +5,6 @@
 </template>
 
 <script>
-  // import D from '../lib/debug.js'
   import {mapState} from 'vuex'
 
   import LabelTable from '../components/LabelTable.vue'
