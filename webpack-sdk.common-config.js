@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 const resolve = dir => path.resolve(__dirname, dir)
@@ -47,7 +48,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['sdk-dist'])
+    new CleanWebpackPlugin(['sdk-dist']),
+    new webpack.NormalModuleReplacementPlugin(/element-ui[\/\\]lib[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-ui/lib/locale/lang/en')
   ],
   output: {
     path: path.resolve(__dirname, './sdk-dist'),
