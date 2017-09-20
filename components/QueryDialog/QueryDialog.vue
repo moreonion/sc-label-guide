@@ -129,25 +129,8 @@
       ...mapState(['lang']),
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
       queryObjOut() {
-        // Hack to solve input model issue
         const res = this.queryArr
-          .filter(({left, right, model}) => {
-            const cModel = this.columnMeta(left).model
-            if(cModel) {
-              return model ? right === model[cModel.projectLabel] : false
-            } else {
-              return right !== null && right !== ''
-            }
-          })
-          .map(({left, op, right, model}) => {
-            const cModel = this.columnMeta(left).model
-
-            if(cModel && model && right && right === model[cModel.projectLabel]) {
-              return {left, op, right: model}
-            } else {
-              return {left, op, right}
-            }
-          })
+          .filter(({left, right, model}) => right !== null && right !== '')
 
         // Filters array -> Query
         return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
