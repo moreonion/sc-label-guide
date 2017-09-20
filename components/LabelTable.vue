@@ -192,13 +192,13 @@
       orderByChange() { this.emitEncode(this.moTable.orderBy, {orderBy: true}) },
       pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
-      projectLabel(column, query) {
+      projectLabel(column, model) {
         const cModel = this.columnMeta(column).model
-        return query[cModel.projectLabel]
+        return model[cModel.projectLabel]
       },
-      projectValue(column, query) {
+      projectValue(column, model) {
         const cModel = this.columnMeta(column).model
-        return query[cModel.projectValue]
+        return model[cModel.projectValue]
       },
       projectItemLabel(column, li) {
         const model = this.columnMeta(column)
