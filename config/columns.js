@@ -109,7 +109,7 @@ export const _COLUMNS_ = {
       isDefaultSelected: true,
       model: {
         projectLabel: 'name',
-        projectValue: 'id'
+        projectValue: 'name'
       },
       autocomplete: {
         ...defaultAutocompleteConfig,
