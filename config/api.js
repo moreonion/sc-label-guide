@@ -5,6 +5,7 @@ export const _SDKURL_ = 'http://transparency.supplychainge.org/sdk.js'
 export const _API_ = {
   queryDelim: ',',
   opDelim: ':',
+  listDelim: ',',
   orderBy: {
     token: {
       asc: '',
