@@ -193,20 +193,12 @@
       pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
       projectLabel(column, query) {
-        const model = this.columnMeta(column).model
-        if(model) {
-          return query[model.projectLabel]
-        } else {
-          return query
-        }
+        const cModel = this.columnMeta(column).model
+        return query[cModel.projectLabel]
       },
       projectValue(column, query) {
-        const model = this.columnMeta(column).model
-        if(model) {
-          return query[model.projectValue]
-        } else {
-          return query
-        }
+        const cModel = this.columnMeta(column).model
+        return query[cModel.projectValue]
       },
       projectItemLabel(column, li) {
         const model = this.columnMeta(column)
