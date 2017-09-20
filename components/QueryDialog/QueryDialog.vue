@@ -157,11 +157,14 @@
       }
     },
     methods: {
+      getLabel(column, item) {
+        const cModel = this.columnMeta(column).model
+        return cModel ? item[cModel.projectLabel] : item
+      },
       remoteMethodFactory(column) {
         const ac = this.autocompleteHandlerFactory(column, this.lang)
         return queryStr => {
           ac(queryStr, res => {
-            console.log(JSON.stringify(res))
             this.remoteOptions = res
           })
         }
