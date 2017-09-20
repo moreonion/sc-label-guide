@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <pre>{{queryObjOut}}</pre>
+    <!-- <pre>{{queryArr}}</pre> -->
 
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
@@ -151,7 +151,7 @@
           for(let i = 0; i < res.length; i++) {
             const query = res[i]
             const ac = this.autocompleteHandlerFactory(query.left, this.lang)
-            const options = await ac(query.right)
+            const options = await ac(this.getLabel(query.left, query.right))
             query.optionsBuffer = options
           }
 
