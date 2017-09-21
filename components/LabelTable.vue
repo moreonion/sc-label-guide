@@ -8,13 +8,21 @@
       <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
-    <!-- <pre>{{moData.items}}</pre> -->
+    <pre>{{queryList}}</pre>
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
         <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{opLabel(qlItem.op, lang)}} </div>
-        <eval-circle class="queryItem" :value="projectValue(qlItem.left, qlItem.right)" v-if="columnIsRating(qlItem.left)"></eval-circle>
-        <div class="queryItem" v-else><el-tag type="gray">{{projectLabel(qlItem.left, qlItem.right)}}</el-tag></div>
+        <template v-if="isListOperator(qlItem.op)">
+          <span :key="index" v-for="(val, index) in qlItem.right">
+            <eval-circle v-if="columnIsRating(qlItem.left)" class="queryItem" :value="projectValue(qlItem.left, val)"></eval-circle>
+            <div v-else class="queryItem"><el-tag type="gray">{{projectLabel(qlItem.left, val)}}</el-tag></div>
+          </span>
+        </template>
+        <template v-else>
+          <eval-circle v-if="columnIsRating(qlItem.left)" class="queryItem" :value="projectValue(qlItem.left, qlItem.right)"></eval-circle>
+          <div v-else class="queryItem"><el-tag type="gray">{{projectLabel(qlItem.left, qlItem.right)}}</el-tag></div>
+        </template>
       </div>
     </div>
 
@@ -109,6 +117,8 @@
 
   import {SET_LANG} from '../store/mutation-types.js'
 
+  import {isListOperator} from '../lib/operator.js'
+
   export default {
     props: ['moData', 'moConfig'],
     mixins: [moLocalTable],
@@ -170,6 +180,9 @@
       }
     },
     methods: {
+      isListOperator(op) {
+        return isListOperator(_OPERATORS_.opLabelMapRev[op])
+      },
       showInfoDialog(row, col) {
         this.infoDialogInput = {row, col}
         this.infoDialogVisible = true
