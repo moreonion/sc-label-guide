@@ -182,7 +182,7 @@
 
 <style>
   .cont {
-    padding: 20px;
+    padding: 5px;
     margin: 0 auto;
     margin-top: 20px;
   }
