@@ -209,7 +209,7 @@
         handler: debounce(async function() {
           if(this.visible && this.shrunkQueryObjOut['$and'].length > 0) {
             const qParams = encodeApiQuery(this.shrunkQueryObjOut, id,
-              op => _OPERATORS_.opEncApiMap[op], _API_.opDelim)
+              op => _OPERATORS_.opEncApiMap[op], _API_.opDelim, _API_.listDelim)
 
             const params = {only: 'id', ...qParams}
 
