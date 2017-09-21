@@ -3,7 +3,7 @@
  * Is the route query encoding of: label > 3 && govTrans > 1
  */
 export const _ROUTE_ = {
-  queryDelim: ',',
-  querySubDelim: '-',
-  queryListDelim: '_'
+  queryDelim: '_s_',
+  querySubDelim: '_v_',
+  queryListDelim: '_l_'
 }
