@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
-    <pre>{{queryList}}</pre>
+    <!-- <pre>{{queryList}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
