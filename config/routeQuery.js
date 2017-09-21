@@ -5,5 +5,5 @@
 export const _ROUTE_ = {
   queryDelim: ',',
   querySubDelim: '-',
-  listDelim: ','
+  queryListDelim: '_'
 }
