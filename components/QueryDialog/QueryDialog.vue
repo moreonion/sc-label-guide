@@ -90,7 +90,7 @@
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
       queryObjOut() {
         const res = this.queryArr
-          .filter(({left, right, model}) => right !== null && right !== '')
+          .filter(({right}) => right !== null && right !== '')
 
         // Filters array -> Query
         return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
