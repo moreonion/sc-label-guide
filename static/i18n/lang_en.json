@@ -57,6 +57,11 @@
     "Countries": "Countries"
   },
   "Texts": {
+    "Forms": {
+      "Placeholder": "Please choose a value",
+      "NoData": "Nothing found",
+      "NoMatch": "No matches found"
+    },
     "EmbedSDK": {
       "Embed": "Embed this label guide on your website",
       "EmbedDescr": "Insert the following snippet directly into the {0} tag on each page you want to embed the label guide. Add an HTML element with the {1} identifier at the position in the document where you want to present this component.",

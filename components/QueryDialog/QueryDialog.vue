@@ -22,9 +22,9 @@
             <el-select
               class="valInput"
               v-model="query.right"
-              placeholder="Placeholder text"
-              no-data-text="No data text"
-              no-mantch-text="No match text"
+              :placeholder="$t('Texts.Forms.Placeholder')"
+              :no-data-text="$t('Texts.Forms.NoData')"
+              :no-mantch-text="$t('Texts.Forms.NoMatch')"
               :multiple="isListOperator(query.op)"
               :value-key="getValueKey(query.left)"
               filterable
