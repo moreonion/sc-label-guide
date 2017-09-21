@@ -29,7 +29,7 @@
               :value-key="getValueKey(query.left)"
               filterable
               remote
-              :remote-method="remoteMethodFactory(query, qIndex, 'remote-method')">
+              :remote-method="remoteMethodFactory(query, qIndex)">
               <el-option
                 v-for="item in query.optionsBuffer"
                 :key="getValue(query.left, item)"
@@ -51,6 +51,7 @@
       <div v-else class="emptyState">
         {{$t('Texts.AddFilters')}}
       </div>
+
       <div v-if="countResults !== null" class="emptyState">
         <i18n path="Texts.NumFilterResults" tag="span">
           <el-tag :type="countResults > 0 ? 'success' : 'danger'">{{countResults}}</el-tag>
@@ -58,7 +59,7 @@
       </div>
     </div>
 
-    <pre>{{shrunkQueryObjOut}}</pre>
+    <!--<pre>{{queryArr}}</pre>-->
 
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
@@ -90,8 +91,13 @@
       ...mapState(['lang']),
       operators: () => _OPERATORS_.ops.map(o => _OPERATORS_.opLabelMap[o]),
       queryObjOut() {
-        const res = this.queryArr
-          .filter(({right}) => right !== null && right !== '')
+        const res = this.queryArr.filter(({right}) => {
+          if(right && right.length !== undefined) {
+            return right.length > 0
+          } else {
+            return right !== null && right !== ''
+          }
+        })
 
         // Filters array -> Query
         return queryArrToObj(res, id, op => _OPERATORS_.opLabelMapRev[op])
@@ -113,7 +119,7 @@
         const valueKey = this.getValueKey(column)
         return item[valueKey]
       },
-      remoteMethodFactory(query, qIndex, str) {
+      remoteMethodFactory(query, qIndex) {
         const ac = this.autocompleteHandlerFactory(query.left, this.lang)
         return queryStr => {
           ac(queryStr).then(res => {
