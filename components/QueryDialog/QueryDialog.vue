@@ -78,6 +78,7 @@
   import {shrinkModel} from '../../lib/queryModel.js'
   import {LabelsRes} from '../../lib/api/LabelsRes.js'
   import {encodeApiQuery} from '../../lib/encodeApi.js'
+  import {isListOperator} from '../../lib/operator.js'
 
   const opLabelMap = o => _OPERATORS_.opLabelMap[o]
 
@@ -175,8 +176,7 @@
         this.$emit('close', this.transformQuery())
       },
       isListOperator: op => {
-        const opMeta = _OPERATORS_.opMeta[_OPERATORS_.opLabelMapRev[op]]
-        return opMeta && opMeta.isListOperator
+        return isListOperator(_OPERATORS_.opLabelMapRev[op])
       },
       columnMeta: col => _COLUMNS_.columnMeta[col],
       isRating(col) {
