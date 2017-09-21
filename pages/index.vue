@@ -72,7 +72,8 @@
         encColumn => columnMap[encColumn],
         (column, val) => _COLUMNS_.columnMeta[column].type === _COLUMNS_.types.RATING ? parseInt(val) : val,
         _ROUTE_.queryDelim,
-        _ROUTE_.querySubDelim)
+        _ROUTE_.querySubDelim,
+        _ROUTE_.queryListDelim)
 
       const query = _OPERATORS_.ops.map(o => [o, _OPERATORS_.opEncMap[o]]).reduce((accum, [op, encOp]) => {
         const encOpVal = route.query[encOp]
