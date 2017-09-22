@@ -6,13 +6,13 @@
 
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" @change="val => leftChanged(qIndex, val, query.op)" placeholder="$t('Basics.Column')">
+          <el-select class="leftSelect" v-model="query.left" @input="val => leftChanged(qIndex, val, query.op)" placeholder="$t('Basics.Column')">
             <el-option v-for="column in selectedColumns" :key="column[1]"
               :label="columnLabel(column[0], lang)" :value="column[0]">
             </el-option>
           </el-select>
 
-          <el-select class="opSelect" v-model="query.op" @change="val => opChanged(qIndex, val)" :placeholder="$t('Basics.Operator')">
+          <el-select class="opSelect" v-model="query.op" @input="val => opChanged(qIndex, val)" :placeholder="$t('Basics.Operator')">
             <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="opLabel(op)" :value="op"></el-option>
           </el-select>
 
