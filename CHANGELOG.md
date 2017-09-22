@@ -1,5 +1,12 @@
 # Changelog
 
+# 0.6.0 (2017-09-22)
+
+* Support for $in operator in filters
+* Support options for form inputs in filters dialog
+* Only allow selection of valid options in filters dialog
+* Bug fixes in filters dialog
+
 # 0.5.1 (2017-09-18)
 
 * Use SDK url (http://transparency.supplychainge.org/sdk.js)
