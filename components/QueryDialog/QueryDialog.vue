@@ -19,13 +19,34 @@
           <!-- Single value operator -->
           <template v-if="hasAutocomplete(query.left)">
             <!-- With autocomplete -->
-            <el-select
+            <el-select v-if="isListOperator(query.op)"
+              key="multi"
               class="valInput"
               v-model="query.right"
               :placeholder="$t('Texts.Forms.Placeholder')"
               :no-data-text="$t('Texts.Forms.NoData')"
               :no-mantch-text="$t('Texts.Forms.NoMatch')"
-              :multiple="isListOperator(query.op)"
+              multiple
+              :value-key="getValueKey(query.left)"
+              filterable
+              remote
+              :remote-method="remoteMethodFactory(query, qIndex)">
+              <el-option
+                v-for="item in query.optionsBuffer"
+                :key="getValue(query.left, item)"
+                :label="getLabel(query.left, item)"
+                :value="item">
+                <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
+                <div v-else>{{getLabel(query.left, item)}}</div>
+              </el-option>
+            </el-select>
+            <el-select v-else
+              key="single"
+              class="valInput"
+              v-model="query.right"
+              :placeholder="$t('Texts.Forms.Placeholder')"
+              :no-data-text="$t('Texts.Forms.NoData')"
+              :no-mantch-text="$t('Texts.Forms.NoMatch')"
               :value-key="getValueKey(query.left)"
               filterable
               remote
@@ -59,7 +80,7 @@
       </div>
     </div>
 
-    <!--<pre>{{queryArr}}</pre>-->
+    <!-- <pre>{{queryArr}}</pre> -->
 
     <span slot="footer">
       <el-button @click="dismiss">{{$t('Buttons.Close')}}</el-button>
@@ -128,6 +149,7 @@
         }
       },
       opChanged(qIndex, op) {
+        this.remoteMethodFactory(this.queryArr[qIndex], qIndex)()
         const isListOp = this.isListOperator(op)
         if(isListOp) {
           this.$set(this.queryArr[qIndex], 'right', [])
@@ -137,7 +159,7 @@
       },
       leftChanged(qIndex, val, op) {
         this.opChanged(qIndex, op)
-        this.remoteMethodFactory(this.queryArr[qIndex], qIndex, 'leftChanged')()
+        this.remoteMethodFactory(this.queryArr[qIndex], qIndex)()
       },
       handleSelect(query, selection) {
         const cModel = this.columnMeta(query.left).model
