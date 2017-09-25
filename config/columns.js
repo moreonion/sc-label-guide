@@ -124,7 +124,7 @@ export const _COLUMNS_ = {
       'only': ['resources'],
       'include': ['resources.name']
     },
-    'coutries': {
+    'countries': {
       'only': ['countries'],
       'include': []
     }
