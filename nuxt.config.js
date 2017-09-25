@@ -33,7 +33,8 @@ module.exports = {
       'qs', 'axios',
       'element-ui', 'mo-vue-table',
       'lodash.debounce', 'lodash.zip',
-      'lodash.unzip', 'lodash.reduce'
+      'lodash.unzip', 'lodash.reduce',
+      'lodash.uniq'
     ],
     /*
     ** Run ESLINT on save
