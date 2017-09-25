@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.6.1 (2017-09-23)
+
+* Fix el-select multiple property issue in filter dialog
+
 # 0.6.0 (2017-09-22)
 
 * Support for $in operator in filters
