@@ -15,7 +15,8 @@
     "build:spa": "nuxt generate -s",
     "build:dev-sdk": "webpack --config webpack-sdk.dev-config.js",
     "build:sdk": "webpack --config webpack-sdk.config.js",
-    "build:analyze": "webpack --config webpack-sdk.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json"
+    "build:analyze": "webpack --config webpack-sdk.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json",
+    "chrome:unsecure": "/usr/bin/open -a \"/Applications/Google Chrome.app\" --args --disable-web-security --user-data-dir "
   },
   "engines": {
     "node": ">=8.4.0",
