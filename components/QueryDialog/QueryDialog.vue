@@ -7,7 +7,7 @@
       <div v-if="queryArr.length > 0" class="query-cont">
         <div :key="qIndex" v-for="(query, qIndex) in queryArr">
           <el-select class="leftSelect" v-model="query.left" @input="val => leftChanged(qIndex, val, query.op)" placeholder="$t('Basics.Column')">
-            <el-option v-for="column in selectedColumns" :key="column[1]"
+            <el-option v-for="column in availableColumns" :key="column[1]"
               :label="columnLabel(column[0], lang)" :value="column[0]">
             </el-option>
           </el-select>
@@ -125,6 +125,20 @@
       },
       shrunkQueryObjOut() {
         return shrinkModel(this.queryObjOut)
+      },
+      availableColumns() {
+        const res = [].concat(this.selectedColumns)
+
+        const additional = this.queryArr.filter(({left}) => {
+          return this.selectedColumns.find(([name, _]) => name === left) === undefined
+        })
+
+        const addColumns = additional.map(({left}) => {
+          const colSpec = _COLUMNS_.columns.find(([name, i]) => _COLUMNS_.columnValueMapRev[left] === name)
+          return [left, colSpec[1]]
+        })
+
+        return res.concat(addColumns)
       }
     },
     methods: {
