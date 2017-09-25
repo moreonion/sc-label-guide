@@ -99,6 +99,36 @@ export const _COLUMNS_ = {
     'resources': 'Columns.Resources',
     'countries': 'Columns.Countries'
   },
+  columnApiProj: {
+    'name': {
+      'only': ['name', 'logo'],
+      'include': []
+    },
+    'credibility': {
+      'only': ['details'],
+      'include': []
+    },
+    'environment': {
+      'only': ['details'],
+      'include': []
+    },
+    'social': {
+      'only': ['details'],
+      'include': []
+    },
+    'hotspots': {
+      'only': ['hotspots'],
+      'include': ['hotspots.name']
+    },
+    'resources': {
+      'only': ['resources'],
+      'include': ['resources.name']
+    },
+    'coutries': {
+      'only': ['countries'],
+      'include': []
+    }
+  },
   columnMeta: {
     'name': {
       type: types.TEXT,
