@@ -1,8 +1,10 @@
 # Changelog
 
-# 0.6.2 (2017-09-)
+# 0.6.2 (2017-09-25)
 
 * Fix column option label when deselected column has a query in filter dialog
+* Use server side column projection via API calls
+* Fetch additional label data only when info modal is opened
 
 # 0.6.1 (2017-09-23)
 
