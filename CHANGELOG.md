@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.6.2 (2017-09-)
+
+* Fix column option label when deselected column has a query in filter dialog
+
 # 0.6.1 (2017-09-23)
 
 * Fix el-select multiple property issue in filter dialog
