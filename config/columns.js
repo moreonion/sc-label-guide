@@ -101,7 +101,7 @@ export const _COLUMNS_ = {
   },
   columnApiProj: {
     'name': {
-      'only': ['name', 'logo'],
+      'only': ['name', 'logo', 'id'],
       'include': []
     },
     'credibility': {

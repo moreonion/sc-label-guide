@@ -119,6 +119,8 @@
 
   import {isListOperator} from '../lib/operator.js'
 
+  import {LabelsRes} from '../lib/api/LabelsRes.js'
+
   export default {
     props: ['moData', 'moConfig'],
     mixins: [moLocalTable],
@@ -183,8 +185,13 @@
       isListOperator(op) {
         return isListOperator(_OPERATORS_.opLabelMapRev[op])
       },
-      showInfoDialog(row, col) {
-        this.infoDialogInput = {row, col}
+      async showInfoDialog(row, col) {
+        const {data: {item}} = await LabelsRes.fetchId(row.id, {
+          only: 'description,name,meets_criteria',
+          include: 'meets_criteria.criterion.all'
+        })
+
+        this.infoDialogInput = {row: item, col}
         this.infoDialogVisible = true
       },
       langChange: function(lang) {
