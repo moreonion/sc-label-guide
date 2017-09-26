@@ -5,69 +5,72 @@
       <el-button @click="addQuery" type="primary">{{$t('Basics.AddFilters')}}</el-button>
 
       <div v-if="queryArr.length > 0" class="query-cont">
-        <div :key="qIndex" v-for="(query, qIndex) in queryArr">
-          <el-select class="leftSelect" v-model="query.left" @input="val => leftChanged(qIndex, val, query.op)" placeholder="$t('Basics.Column')">
-            <el-option v-for="column in availableColumns" :key="column[1]"
-              :label="columnLabel(column[0], lang)" :value="column[0]">
-            </el-option>
-          </el-select>
+        <el-row class="query-row" :key="qIndex" v-for="(query, qIndex) in queryArr" :gutter="5">
+          <i class="el-icon-close rm-btn" @click="queryArr.splice(qIndex, 1)"></i>
 
-          <el-select class="opSelect" v-model="query.op" @input="val => opChanged(qIndex, val)" :placeholder="$t('Basics.Operator')">
-            <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="opLabel(op)" :value="op"></el-option>
-          </el-select>
-
-          <!-- Single value operator -->
-          <template v-if="hasAutocomplete(query.left)">
-            <!-- With autocomplete -->
-            <el-select v-if="isListOperator(query.op)"
-              key="multi"
-              class="valInput"
-              v-model="query.right"
-              :placeholder="$t('Texts.Forms.Placeholder')"
-              :no-data-text="$t('Texts.Forms.NoData')"
-              :no-mantch-text="$t('Texts.Forms.NoMatch')"
-              multiple
-              :value-key="getValueKey(query.left)"
-              filterable
-              remote
-              :remote-method="remoteMethodFactory(query, qIndex)">
-              <el-option
-                v-for="item in query.optionsBuffer"
-                :key="getValue(query.left, item)"
-                :label="getLabel(query.left, item)"
-                :value="item">
-                <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
-                <div v-else>{{getLabel(query.left, item)}}</div>
+          <el-col :xs="24" :sm="8">
+            <el-select v-model="query.left" @input="val => leftChanged(qIndex, val, query.op)" placeholder="$t('Basics.Column')">
+              <el-option v-for="column in availableColumns" :key="column[1]"
+                :label="columnLabel(column[0], lang)" :value="column[0]">
               </el-option>
             </el-select>
-            <el-select v-else
-              key="single"
-              class="valInput"
-              v-model="query.right"
-              :placeholder="$t('Texts.Forms.Placeholder')"
-              :no-data-text="$t('Texts.Forms.NoData')"
-              :no-mantch-text="$t('Texts.Forms.NoMatch')"
-              :value-key="getValueKey(query.left)"
-              filterable
-              remote
-              :remote-method="remoteMethodFactory(query, qIndex)">
-              <el-option
-                v-for="item in query.optionsBuffer"
-                :key="getValue(query.left, item)"
-                :label="getLabel(query.left, item)"
-                :value="item">
-                <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
-                <div v-else>{{getLabel(query.left, item)}}</div>
-              </el-option>
-            </el-select>
-          </template>
-          <template v-else>
-            <!-- No autocomplete -->
-            <el-input class="valInput" placeholder="$tc('Basics.Value', 1)" v-model="query.right"></el-input>
-          </template>
+          </el-col>
 
-          <el-button @click="queryArr.splice(qIndex, 1)"><i class="el-icon-delete"></i></el-button>
-        </div>
+          <el-col :xs="24" :sm="8">
+            <el-select v-model="query.op" @input="val => opChanged(qIndex, val)" :placeholder="$t('Basics.Operator')">
+              <el-option v-for="(op, index) in getOperators(query.left)" :key="index" :label="opLabel(op)" :value="op"></el-option>
+            </el-select>
+          </el-col>
+
+          <el-col :xs="24" :sm="8">
+            <template v-if="hasAutocomplete(query.left)">
+              <!-- With autocomplete -->
+              <el-select v-if="isListOperator(query.op)"
+                key="multi"
+                v-model="query.right"
+                :placeholder="$t('Texts.Forms.Placeholder')"
+                :no-data-text="$t('Texts.Forms.NoData')"
+                :no-mantch-text="$t('Texts.Forms.NoMatch')"
+                multiple
+                :value-key="getValueKey(query.left)"
+                filterable
+                remote
+                :remote-method="remoteMethodFactory(query, qIndex)">
+                <el-option
+                  v-for="item in query.optionsBuffer"
+                  :key="getValue(query.left, item)"
+                  :label="getLabel(query.left, item)"
+                  :value="item">
+                  <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
+                  <div v-else>{{getLabel(query.left, item)}}</div>
+                </el-option>
+              </el-select>
+              <el-select v-else
+                key="single"
+                v-model="query.right"
+                :placeholder="$t('Texts.Forms.Placeholder')"
+                :no-data-text="$t('Texts.Forms.NoData')"
+                :no-mantch-text="$t('Texts.Forms.NoMatch')"
+                :value-key="getValueKey(query.left)"
+                filterable
+                remote
+                :remote-method="remoteMethodFactory(query, qIndex)">
+                <el-option
+                  v-for="item in query.optionsBuffer"
+                  :key="getValue(query.left, item)"
+                  :label="getLabel(query.left, item)"
+                  :value="item">
+                  <eval-circle v-if="isRating(query.left)" :value="getValue(query.left, item)"></eval-circle>
+                  <div v-else>{{getLabel(query.left, item)}}</div>
+                </el-option>
+              </el-select>
+            </template>
+            <template v-else>
+              <!-- No autocomplete -->
+              <el-input placeholder="$tc('Basics.Value', 1)" v-model="query.right"></el-input>
+            </template>
+          </el-col>
+        </el-row>
       </div>
       <div v-else class="emptyState">
         {{$t('Texts.AddFilters')}}
@@ -268,28 +271,40 @@
 </script>
 
 <style>
+  .el-select {
+    width: 100%;
+  }
+
   .query-cont {
-    border: 1px solid #CFD0D1;
+    position: relative;
     padding: 10px;
     margin-bottom: 20px;
+  }
+
+  .query-row {
+    padding: 25px;
+    border: 4px dashed #e4e4e4;
+  }
+
+  .query-row:not(:last-child) {
+    margin-bottom: 10px;
   }
 
   .emptyState {
     padding: 20px;
   }
 
-  .leftSelect {
-    width: 150px;
-    margin-right: 5px;
+  .rm-btn {
+    cursor: pointer;
+    font-size: 8px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    padding: 5px;
+    color: #bfcbd9;
   }
 
-  .opSelect {
-    width: 150px;
-    margin-right: 5px;
-  }
-
-  .valInput {
-    width: 200px;
-    margin-right: 5px;
+  .rm-btn:hover, .rm-btn:focus {
+    color: #20a0ff;
   }
 </style>
