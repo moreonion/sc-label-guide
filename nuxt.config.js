@@ -25,13 +25,20 @@ module.exports = {
   /*
   ** Build configuration
   */
-  plugins: ['~plugins/vue-i18n.js', '~plugins/globalComponents.js', '~plugins/mo-vue-table', '~plugins/element-ui'],
+  plugins: [
+    '~plugins/vue-i18n.js',
+    '~plugins/globalComponents.js',
+    '~plugins/mo-vue-table.js',
+    '~plugins/element-ui.js',
+    '~plugins/vue-async-computed.js'
+  ],
   build: {
     vendor: [
       'locale', 'locale2',
       'vue-i18n', 'i18n-iso-countries',
       'qs', 'axios',
       'element-ui', 'mo-vue-table',
+      'vue-async-computed',
       'lodash.debounce', 'lodash.zip',
       'lodash.unzip', 'lodash.reduce',
       'lodash.uniq'
