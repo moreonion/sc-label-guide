@@ -8,7 +8,7 @@
       <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
-    <!-- <pre>{{shrunkQuery}}</pre> -->
+    <!-- <pre>{{queryList}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
@@ -73,7 +73,7 @@
 
     <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
-     :queryObj="moConfig.extendedQuery" :selectedColumns="queryableSelectedColumns">
+     :queryObj="extendedQuery" :selectedColumns="queryableSelectedColumns">
     </query-dialog>
 
     <!-- Info Dialog -->
@@ -103,6 +103,11 @@
 
   import {id} from '../lib/fp.js'
   import {queryObjToArr} from '../lib/transformQuery.js'
+  import {shrinkModel, extendModel} from '../lib/queryModel.js'
+  import {isListOperator} from '../lib/operator.js'
+  import {LabelsRes} from '../lib/api/LabelsRes.js'
+
+  import {SET_LANG} from '../store/mutation-types.js'
 
   import LangSelect from './LangSelect.vue'
   import TableLegend from './TableLegend.vue'
@@ -112,14 +117,6 @@
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
-
-  import {shrinkModel} from '../lib/queryModel.js'
-
-  import {SET_LANG} from '../store/mutation-types.js'
-
-  import {isListOperator} from '../lib/operator.js'
-
-  import {LabelsRes} from '../lib/api/LabelsRes.js'
 
   export default {
     props: ['moData', 'moConfig'],
@@ -148,15 +145,29 @@
         customizeDialogVisible: false
       }
     },
+    asyncComputed: {
+      async extendedQuery() {
+        const res = await extendModel(this.moConfig.query, this.lang)
+        return res
+      }
+    },
     computed: {
       ...mapState(['lang']),
       offset() { return (this.moConfig.page - 1) * this.moConfig.limit },
       shrunkQuery() {
-        return shrinkModel(this.moConfig.extendedQuery)
+        if(this.extendedQuery !== null) {
+          return shrinkModel(this.extendedQuery)
+        } else {
+          return {$and: []}
+        }
       },
       queryList() {
-        const queryArr = queryObjToArr(this.moConfig.extendedQuery, id, op => _OPERATORS_.opLabelMap[op])
-        return queryArr.filter(q => q.op !== '$text')
+        if(this.extendedQuery !== null) {
+          const queryArr = queryObjToArr(this.extendedQuery, id, op => _OPERATORS_.opLabelMap[op])
+          return queryArr.filter(q => q.op !== '$text')
+        } else {
+          return []
+        }
       },
       mappedSelectedColumns() {
         return this.moSelectedColumns.map(([col, colIndx]) => [_COLUMNS_.columnValueMap[col], colIndx])
