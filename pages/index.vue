@@ -48,8 +48,7 @@
         orderBy: _encOrderBy,
         orderDir: _encOrderDir,
         limit: _encLimit,
-        page: _encPage,
-        search: _encSearch
+        page: _encPage
         // eq, gt, gte,lt, lte - Encialized operators may also be attached
       } = route.query
 
@@ -83,9 +82,9 @@
         return accum
       }, {$and: []})
 
-      const search = _encSearch || ''
       const limit = _encLimit ? parseInt(_encLimit) : 5
       const page = _encPage ? parseInt(_encPage) : 1
+      const search = ''
 
       // Async fetch labels data and route query models
       const fetchPromises = [fetchLabels(selected, query, search, orderBy, limit, page), extendModel(query, store.state.lang)]
@@ -96,9 +95,9 @@
         tableData: resp.data,
         tableConfig: {
           selected,
+          search,
           query,
           extendedQuery,
-          search,
           orderBy,
           limit,
           page
@@ -152,10 +151,6 @@
         if(!ignore.limit) { Object.assign(prepQuery, {limit: this.tableConfig.limit}) }
 
         if(!ignore.lang && this.lang !== this.detectedLang) { Object.assign(prepQuery, {lang: this.lang}) }
-
-        if(!ignore.search && this.tableConfig.search.length > 0) {
-          Object.assign(prepQuery, {search: this.tableConfig.search})
-        }
 
         if(!ignore.oderBy) {
           const [encOrderBy, encOrderDir] = handleEncOrderBy(this.tableConfig.orderBy)
