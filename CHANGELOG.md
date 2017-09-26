@@ -3,7 +3,7 @@
 # 0.6.3 (2017-09-26)
 
 * Disable serialization of search input field, since it leads subtle bugs.
-* Responsive layout: table legend
+* Responsive layout: table legend, table top controls
 
 # 0.6.2 (2017-09-25)
 
