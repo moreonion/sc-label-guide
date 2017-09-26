@@ -204,16 +204,6 @@
     width: 100%;
   }
 
-  /* .search-input {
-    max-width: 200px;
-  } */
-
-  /* .lang-select {
-    float: right;
-    margin-right: 0px;
-    max-width: 100px;
-  } */
-
   .table-wrapper {
     overflow-y: scroll;
   }
