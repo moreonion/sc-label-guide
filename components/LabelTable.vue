@@ -169,9 +169,9 @@
       'moConfig.offset': { handler() { this.moSetOffset(this.moConfig.offset) }, immediate: true },
       'moConfig.limit': { handler() { this.moSetLimit(this.moConfig.limit) }, immediate: true },
       'moConfig.selected': { handler() { this.moSetSelectState(this.moConfig.selected) }, immediate: true },
-      shrunkQuery: { handler() { this.moSetWhereState(this.shrunkQuery) }, immediate: true },
       'moConfig.orderBy': { handler() { this.moTable.orderBy = this.moConfig.orderBy }, immediate: true },
       moOrder() { this.orderByChange() },
+      shrunkQuery: { handler() { this.moSetWhereState(this.shrunkQuery) }, immediate: true },
       lang(language) {
         this.$i18n.locale = language
       }
