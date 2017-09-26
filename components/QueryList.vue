@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import {_COLUMNS_} from '../config/config.js'
 import {moColumnHelpers} from '../lib/mixins/ColumnHelpers.js'
 
 export default {
