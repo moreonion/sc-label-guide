@@ -177,9 +177,7 @@
       }
     },
     methods: {
-      isListOperator(op) {
-        return isListOperator(_OPERATORS_.opLabelMapRev[op])
-      },
+      isListOperator: op => isListOperator(_OPERATORS_.opLabelMapRev[op]),
       async showInfoDialog(row, col) {
         const {data: {item}} = await LabelsRes.fetchId(row.id, {
           only: 'description,name,meets_criteria',
