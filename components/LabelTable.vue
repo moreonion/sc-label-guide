@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-row :gutter="5">
-      <el-col :xs="6" :sm="6"><el-button class="filters-btn" @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button></el-col>
+      <el-col :xs="6" :sm="4"><el-button class="filters-btn" @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button></el-col>
       <el-col :xs="12" :sm="8"><el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input></el-col>
-      <el-col :xs="6" :sm="{'span': 4, 'offset': 6}"><lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select></el-col>
+      <el-col :xs="6" :sm="{'span': 4, 'offset': 8}"><lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select></el-col>
     </el-row>
 
     <!-- <pre>{{queryList}}</pre> -->
