@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-row :gutter="10">
-      <el-col :xs="6"><el-button class="filters-btn" @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button></el-col>
-      <el-col :xs="8"><el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input></el-col>
-      <el-col :xs="6"><lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select></el-col>
+    <el-row :gutter="5">
+      <el-col :xs="6" :sm="6"><el-button class="filters-btn" @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button></el-col>
+      <el-col :xs="12" :sm="8"><el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input></el-col>
+      <el-col :xs="6" :sm="{'span': 4, 'offset': 6}"><lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select></el-col>
     </el-row>
 
     <!-- <pre>{{queryList}}</pre> -->
-
     <query-list :queryList="queryList"></query-list>
+
     <div class="table-wrapper">
       <table v-show="moData.items.length > 0">
         <thead>
@@ -56,21 +56,16 @@
       <el-button @click="shareDialogVisible = true">{{$t('Buttons.Share')}}</el-button>
     </div>
 
-    <!-- Filters Dialog -->
     <query-dialog :visible.sync="queryDialogVisible" @close="queryDialogResult"
      :queryObj="extendedQuery" :selectedColumns="queryableSelectedColumns">
     </query-dialog>
 
-    <!-- Info Dialog -->
     <info-dialog :visible.sync="infoDialogVisible" :label="infoDialogInput"></info-dialog>
 
-    <!-- Bg Info Dialog -->
     <bginfo-dialog :visible.sync="bginfoDialogVisible"></bginfo-dialog>
 
-    <!-- Share Dialog -->
     <share-dialog :visible.sync="shareDialogVisible" :config="moConfig"></share-dialog>
 
-    <!-- Customize Display Dialog -->
     <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
       :selectedColumns="moConfig.selected">
     </customize-dialog>
@@ -245,10 +240,6 @@
 
   table th:not(:last-child), table td:not(:last-child) {
     border-right: 1px solid #D9DADB;
-  }
-
-  table th:first-child {
-    width: 40%;
   }
 
   table td {
