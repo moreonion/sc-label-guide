@@ -21,8 +21,6 @@
 
   import {Validation} from '../lib/validation.js'
 
-  import {extendModel} from '../lib/queryModel.js'
-
   import {
     handleEncSelect, handleEncOrderBy, handleEncQuery
   } from '../lib/handleEncode.js'
@@ -87,9 +85,7 @@
       const search = ''
 
       // Async fetch labels data and route query models
-      const fetchPromises = [fetchLabels(selected, query, search, orderBy, limit, page), extendModel(query, store.state.lang)]
-
-      const [resp, extendedQuery] = await Promise.all(fetchPromises)
+      const resp = await fetchLabels(selected, query, search, orderBy, limit, page)
 
       return {
         tableData: resp.data,
@@ -97,7 +93,6 @@
           selected,
           search,
           query,
-          extendedQuery,
           orderBy,
           limit,
           page
