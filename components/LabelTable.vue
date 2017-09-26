@@ -241,9 +241,7 @@
       columnIsList(column) {
         return this.columnMeta(column).type === _COLUMNS_.types.LIST
       },
-      imageApi(url) {
-        return `${url}-/resize/x70/`
-      }
+      imageApi: url => `${url}-/resize/x70/`
     }
   }
 </script>
