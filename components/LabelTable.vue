@@ -66,8 +66,7 @@
 
     <share-dialog :visible.sync="shareDialogVisible" :config="moConfig"></share-dialog>
 
-    <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult"
-      :selectedColumns="moConfig.selected">
+    <customize-dialog :visible.sync="customizeDialogVisible" @close="customizeDialogResult" :selectedColumns="moConfig.selected">
     </customize-dialog>
   </div>
 </template>
