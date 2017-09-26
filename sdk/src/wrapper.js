@@ -3,6 +3,7 @@ import Vue from 'vue'
 import '../../plugins/element-ui.js'
 import '../../plugins/globalComponents.js'
 import '../../plugins/mo-vue-table.js'
+import '../../plugins/vue-async-computed.js'
 import {getI18nInst} from '../../plugins/vue-i18n.js'
 import LabelTable from '../../components/LabelTable.vue'
 import {extendModel} from '../../lib/queryModel.js'
@@ -15,7 +16,7 @@ import pluginVuex from './pluginVuex'
 const store = pluginVuex(Vue)
 
 // TODO: find best locale
-const WrapperAppFactory = (res, params, extendedQuery, lang) => (new Vue({
+const WrapperAppFactory = (res, params, lang) => (new Vue({
   i18n: getI18nInst(lang),
   store,
   components: {'label-table': LabelTable},
@@ -25,7 +26,7 @@ const WrapperAppFactory = (res, params, extendedQuery, lang) => (new Vue({
 
     return {
       tableData: res.data,
-      tableConfig: {...params, extendedQuery}
+      tableConfig: {...params}
     }
   },
   render: function(h) {
@@ -48,8 +49,6 @@ const WrapperAppFactory = (res, params, extendedQuery, lang) => (new Vue({
               newConfig = {...c, query: params, extendedQuery: extQuery}
             } else if(overwrite.orderBy) {
               newConfig = {...c, orderBy: params}
-            } else if(overwrite.search) {
-              newConfig = {...c, search: params}
             } else if(overwrite.page) {
               newConfig = {...c, page: params.page}
             } else if(overwrite.lang) {
@@ -58,11 +57,11 @@ const WrapperAppFactory = (res, params, extendedQuery, lang) => (new Vue({
             }
 
             const {
-              selected, query, search,
+              selected, query,
               orderBy, limit, page
             } = newConfig
 
-            const res = await fetchLabels(selected, query, search, orderBy, limit, page)
+            const res = await fetchLabels(selected, query, this.tableConfig.search, orderBy, limit, page)
             this.tableData = res.data
             this.tableConfig = newConfig
           } catch(err) {
@@ -93,7 +92,5 @@ const WrapperAppFactory = (res, params, extendedQuery, lang) => (new Vue({
 export default async function createApp(res, params) {
   const lang = detectLang()
   const language = lang.language || lang
-  const {query} = params
-  const extendedQuery = await extendModel(query, language)
-  return WrapperAppFactory(res, params, extendedQuery, language)
+  return WrapperAppFactory(res, params, language)
 }
