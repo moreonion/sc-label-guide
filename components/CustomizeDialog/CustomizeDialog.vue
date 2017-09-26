@@ -55,5 +55,9 @@ export default {
 </script>
 
 <style>
-
+  .checkbox.el-checkbox {
+    display: block;
+    margin-left: 0px;
+    margin-bottom: 10px;
+  }
 </style>
