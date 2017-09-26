@@ -282,7 +282,7 @@
   }
 
   .query-row {
-    padding: 25px;
+    padding: 15px;
     border: 4px dashed #e4e4e4;
   }
 
@@ -298,8 +298,8 @@
     cursor: pointer;
     font-size: 8px;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 2px;
+    top: 2px;
     padding: 5px;
     color: #bfcbd9;
   }
