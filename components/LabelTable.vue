@@ -1,63 +1,48 @@
 <template>
   <div>
-    <div>
-      <el-button @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button>
-
-      <el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input>
-
-      <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
-    </div>
+    <el-row :gutter="10">
+      <el-col :xs="6"><el-button class="filters-btn" @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button></el-col>
+      <el-col :xs="8"><el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input></el-col>
+      <el-col :xs="6"><lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select></el-col>
+    </el-row>
 
     <!-- <pre>{{queryList}}</pre> -->
 
-    <div class="queryList">
-      <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
-        <div class="queryItem">{{columnLabel(qlItem.left)}} </div> <div class="queryItem">{{opLabel(qlItem.op, lang)}} </div>
-        <template v-if="isListOperator(qlItem.op)">
-          <span :key="index" v-for="(val, index) in qlItem.right">
-            <eval-circle v-if="columnIsRating(qlItem.left)" class="queryItem" :value="projectValue(qlItem.left, val)"></eval-circle>
-            <div v-else class="queryItem"><el-tag type="gray">{{projectLabel(qlItem.left, val)}}</el-tag></div>
-          </span>
-        </template>
-        <template v-else>
-          <eval-circle v-if="columnIsRating(qlItem.left)" class="queryItem" :value="projectValue(qlItem.left, qlItem.right)"></eval-circle>
-          <div v-else class="queryItem"><el-tag type="gray">{{projectLabel(qlItem.left, qlItem.right)}}</el-tag></div>
-        </template>
-      </div>
-    </div>
-
-    <table v-show="moData.items.length > 0">
-      <thead>
-        <tr>
-          <template v-for="column in mappedSelectedColumns">
-            <template v-if="columnIsSortable(column[0])">
-              <th :key="column[1]" :class="columnClass(column[0])" v-mo-toggle-orderby="column[0]">{{columnLabel(column[0], lang)}}</th>
+    <query-list :queryList="queryList"></query-list>
+    <div class="table-wrapper">
+      <table v-show="moData.items.length > 0">
+        <thead>
+          <tr>
+            <template v-for="column in mappedSelectedColumns">
+              <template v-if="columnIsSortable(column[0])">
+                <th :key="column[1]" :class="columnClass(column[0])" v-mo-toggle-orderby="column[0]">{{columnLabel(column[0], lang)}}</th>
+              </template>
+              <template v-else>
+                <th :key="column[1]" :class="columnClass(column[0])">{{columnLabel(column[0], lang)}}</th>
+              </template>
             </template>
-            <template v-else>
-              <th :key="column[1]" :class="columnClass(column[0])">{{columnLabel(column[0], lang)}}</th>
-            </template>
-          </template>
-        </tr>
-      </thead>
-      <tbody>
-        <tr :key="index" v-for="(row, index) in moData.items">
-          <td :key="colIndex" v-for="(column, colIndex) in mappedSelectedColumns">
-            <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
-            <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
-              <img v-if="row.logo" class="logoImg" :src="imageApi(row.logo)">
-              {{columnValue(row, column[0])}}
-            </span>
-            <span v-else-if="columnIsList(column[0])">
-              <span :key="index" v-for="(li, index) in columnValue(row, column[0])">
-                <span v-if="index < columnValue(row, column[0]).length-1">{{projectItemLabel(column[0], li)}}, </span>
-                <span v-else>{{projectItemLabel(column[0], li)}}</span>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="index" v-for="(row, index) in moData.items">
+            <td :key="colIndex" v-for="(column, colIndex) in mappedSelectedColumns">
+              <eval-circle v-if="columnIsRating(column[0])" :value="columnValue(row, column[0])"></eval-circle>
+              <span class="pointable" v-else-if="columnHasInfo(column[0])" @click="showInfoDialog(row, column[0])">
+                <img v-if="row.logo" class="logoImg" :src="imageApi(row.logo)">
+                {{columnValue(row, column[0])}}
               </span>
-            </span>
-            <span v-else>{{columnValue(row, column[0])}}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              <span v-else-if="columnIsList(column[0])">
+                <span :key="index" v-for="(li, index) in columnValue(row, column[0])">
+                  <span v-if="index < columnValue(row, column[0]).length-1">{{projectItemLabel(column[0], li)}}, </span>
+                  <span v-else>{{projectItemLabel(column[0], li)}}</span>
+                </span>
+              </span>
+              <span v-else>{{columnValue(row, column[0])}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div class="noResults" v-show="moData.items.length === 0">{{$t('Texts.NoResults')}}</div>
 
     <el-pagination v-if="moData.items.length > 0" small layout="prev, pager, next"
@@ -66,7 +51,7 @@
 
     <table-legend @click="bginfoDialogVisible = true"></table-legend>
 
-    <div class="last-row">
+    <div class="actions-row">
       <el-button @click="customizeDialogVisible = true">{{$t('Buttons.CustomizeTable')}}</el-button>
       <el-button @click="shareDialogVisible = true">{{$t('Buttons.Share')}}</el-button>
     </div>
@@ -104,8 +89,8 @@
   import {id} from '../lib/fp.js'
   import {queryObjToArr} from '../lib/transformQuery.js'
   import {shrinkModel, extendModel} from '../lib/queryModel.js'
-  import {isListOperator} from '../lib/operator.js'
   import {LabelsRes} from '../lib/api/LabelsRes.js'
+  import {moColumnHelpers} from '../lib/mixins/ColumnHelpers.js'
 
   import {SET_LANG} from '../store/mutation-types.js'
 
@@ -117,11 +102,13 @@
   import InfoDialog from './InfoDialog/InfoDialog.vue'
   import BgInfoDialog from './BgInfoDialog/BgInfoDialog.vue'
   import CustomizeDialog from './CustomizeDialog/CustomizeDialog.vue'
+  import QueryList from './QueryList.vue'
 
   export default {
     props: ['moData', 'moConfig'],
-    mixins: [moLocalTable],
+    mixins: [moLocalTable, moColumnHelpers],
     components: {
+      'query-list': QueryList,
       'lang-select': LangSelect,
       'table-legend': TableLegend,
       'query-dialog': QueryDialog,
@@ -188,7 +175,6 @@
       }
     },
     methods: {
-      isListOperator: op => isListOperator(_OPERATORS_.opLabelMapRev[op]),
       async showInfoDialog(row, col) {
         const {data: {item}} = await LabelsRes.fetchId(row.id, {
           only: 'description,name,meets_criteria',
@@ -214,80 +200,28 @@
       queryDialogResult(newQuery) { this.emitEncode(shrinkModel(newQuery), {query: true}) },
       orderByChange() { this.emitEncode(this.moTable.orderBy, {orderBy: true}) },
       pageChange(page) { this.emitEncode({page}, {page: true}) },
-      // Helper methods on columns
-      projectLabel(column, model) {
-        const cModel = this.columnMeta(column).model
-        return model[cModel.projectLabel]
-      },
-      projectValue(column, model) {
-        const cModel = this.columnMeta(column).model
-        return model[cModel.projectValue]
-      },
-      projectItemLabel(column, li) {
-        const model = this.columnMeta(column)
-        return model.projectItemLabel(li)
-      },
-      columnClass(column) {
-        const dir = this.moColumnOrder(column)
-        return dir !== null ? [`mo-${dir}`] : []
-      },
-      columnLabel(column, lang) {
-        return this.$i18n.t(_COLUMNS_.columnLabelMap[column], lang)
-      },
-      opLabel(op, lang) {
-        return this.$i18n.t(op, lang)
-      },
-      columnValue: (row, column) => _COLUMNS_.columnValFuncMap[column](row),
-      columnMapRev: column => _COLUMNS_.columnValueMapRev[column],
-      columnMeta: column => _COLUMNS_.columnMeta[column],
-      columnIsRating(column) {
-        return this.columnMeta(column).type === _COLUMNS_.types.RATING
-      },
-      columnHasInfo(column) {
-        return this.columnMeta(column).hasInfo
-      },
-      columnIsSortable(column) {
-        return this.columnMeta(column).isSortable
-      },
-      columnIsList(column) {
-        return this.columnMeta(column).type === _COLUMNS_.types.LIST
-      },
       imageApi: url => `${url}-/resize/x70/`
     }
   }
 </script>
 
 <style>
-  .el-button, .el-input {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 5px;
+  .filters-btn {
+    width: 100%;
   }
 
-  .search-input {
+  /* .search-input {
     max-width: 200px;
-  }
+  } */
 
-  .lang-select {
+  /* .lang-select {
     float: right;
     margin-right: 0px;
     max-width: 100px;
-  }
+  } */
 
-  .queryList {
-    transform: scale(0.8);
-    transform-origin: top left;
-  }
-
-  .queryStr {
-    display: flex;
-    align-items: center;
-  }
-
-  .queryItem {
-    margin-top: 2px;
-    margin-left: 2px;
-    margin-right: 2px;
+  .table-wrapper {
+    overflow-y: scroll;
   }
 
   table {
@@ -351,7 +285,7 @@
     margin-bottom: 20px;
   }
 
-  .last-row {
+  .actions-row {
     padding-top: 10px;
   }
 
@@ -363,11 +297,5 @@
     max-width: 70px;
     vertical-align: middle;
     margin-right: 10px;
-  }
-
-  .checkbox.el-checkbox {
-    display: block;
-    margin-left: 0px;
-    margin-bottom: 10px;
   }
 </style>

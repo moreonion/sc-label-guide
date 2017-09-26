@@ -170,8 +170,12 @@
 
 <style>
   .cont {
-    padding: 5px;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 5px;
+  }
+
+  .el-button, .el-input {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-right: 5px;
   }
 </style>
