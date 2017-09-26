@@ -3,12 +3,12 @@
     <div>
       <el-button @click="queryDialogVisible = true">{{$tc('Basics.Filter', 2)}}</el-button>
 
-      <el-input class="search-input" icon="search" :value="search" @input="searchChange" @blur="searchBlur"></el-input>
+      <el-input class="search-input" icon="search" :value="search" @input="searchChange"></el-input>
 
       <lang-select class="lang-select" :lang="lang" @langChange="langChange"></lang-select>
     </div>
 
-    <!-- <pre>{{queryList}}</pre> -->
+    <!-- <pre>{{shrunkQuery}}</pre> -->
 
     <div class="queryList">
       <div class="queryStr" :key="index" v-for="(qlItem, index) in queryList">
@@ -151,16 +151,11 @@
     computed: {
       ...mapState(['lang']),
       offset() { return (this.moConfig.page - 1) * this.moConfig.limit },
-      completeQuery() {
-        // Perform case insenstive search on label name
-        const searchQuery = {'label.name': {$text: {$search: this.moConfig.search}}}
-        return this.search.length > 0 ? Object.assign(searchQuery, this.moConfig.extendedQuery) : this.moConfig.extendedQuery
-      },
       shrunkQuery() {
-        return shrinkModel(this.completeQuery)
+        return shrinkModel(this.moConfig.extendedQuery)
       },
       queryList() {
-        const queryArr = queryObjToArr(this.completeQuery, id, op => _OPERATORS_.opLabelMap[op])
+        const queryArr = queryObjToArr(this.moConfig.extendedQuery, id, op => _OPERATORS_.opLabelMap[op])
         return queryArr.filter(q => q.op !== '$text')
       },
       mappedSelectedColumns() {
@@ -201,14 +196,13 @@
       searchChange: debounce(function(search) {
         this.search = search
         this.$emit(_EVENTS_.Index.fetch, search)
-      }, 1000),
+      }, 200),
       // Emit encode as route query params
       emitEncode: function(query, ignore) {
         this.$emit(_EVENTS_.Index.encodeAsRouteQuery, query, ignore)
       },
       customizeDialogResult(selected) { this.emitEncode(selected, {select: true}) },
       queryDialogResult(newQuery) { this.emitEncode(shrinkModel(newQuery), {query: true}) },
-      searchBlur() { this.emitEncode({search: this.search.length > 0 ? this.search : undefined}, {search: true}) },
       orderByChange() { this.emitEncode(this.moTable.orderBy, {orderBy: true}) },
       pageChange(page) { this.emitEncode({page}, {page: true}) },
       // Helper methods on columns
