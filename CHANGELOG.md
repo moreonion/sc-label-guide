@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.6.3 (2017-09-26)
+
+* Disable serialization of search input field, since it leads subtle bugs.
+
 # 0.6.2 (2017-09-25)
 
 * Fix column option label when deselected column has a query in filter dialog
