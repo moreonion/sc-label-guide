@@ -1,9 +1,15 @@
 // import 'babel-polyfill'
 import fetchLabels from '../../lib/api/fetchLabels.js'
+import detectLang from '../../lib/detectLang.js'
 import createApp from './wrapper.js'
 
-function fetchData({selected, query, search, orderBy, limit, page}) {
-  return fetchLabels(selected, query, search, orderBy, limit, page)
+function getLang() {
+  const lang = detectLang()
+  return lang.language || lang
+}
+
+function fetchData({selected, query, search, orderBy, limit, page, lang}) {
+  return fetchLabels(selected, query, search, orderBy, limit, page, lang)
 }
 
 async function mount(selector, params, res) {
@@ -13,8 +19,9 @@ async function mount(selector, params, res) {
 }
 
 async function fetchAndMount(selector, params) {
-  const data = await fetchData(params)
-  const vueInst = await mount(selector, params, data)
+  const _params = {...params, lang: getLang()}
+  const data = await fetchData(_params)
+  const vueInst = await mount(selector, _params, data)
   return {vueInst}
 }
 

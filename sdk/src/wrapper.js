@@ -1,21 +1,20 @@
 import Vue from 'vue'
+import {mapState} from 'vuex'
 
 import '../../plugins/element-ui.js'
 import '../../plugins/globalComponents.js'
 import '../../plugins/mo-vue-table.js'
 import '../../plugins/vue-async-computed.js'
 import {getI18nInst} from '../../plugins/vue-i18n.js'
-import LabelTable from '../../components/LabelTable.vue'
 import {extendModel} from '../../lib/queryModel.js'
 import fetchLabels from '../../lib/api/fetchLabels.js'
-import detectLang from '../../lib/detectLang.js'
 import {SET_LANG, SET_DETECTED_LANG} from '../../store/mutation-types.js'
+import LabelTable from '../../components/LabelTable.vue'
 
 import pluginVuex from './pluginVuex'
 
 const store = pluginVuex(Vue)
 
-// TODO: find best locale
 const WrapperAppFactory = (res, params, lang) => (new Vue({
   i18n: getI18nInst(lang),
   store,
@@ -28,6 +27,9 @@ const WrapperAppFactory = (res, params, lang) => (new Vue({
       tableData: res.data,
       tableConfig: {...params}
     }
+  },
+  computed: {
+    ...mapState(['lang'])
   },
   render: function(h) {
     return h('label-table', {
@@ -61,7 +63,7 @@ const WrapperAppFactory = (res, params, lang) => (new Vue({
               orderBy, limit, page
             } = newConfig
 
-            const res = await fetchLabels(selected, query, this.tableConfig.search, orderBy, limit, page)
+            const res = await fetchLabels(selected, query, this.tableConfig.search, orderBy, limit, page, this.lang)
             this.tableData = res.data
             this.tableConfig = newConfig
           } catch(err) {
@@ -77,7 +79,7 @@ const WrapperAppFactory = (res, params, lang) => (new Vue({
 
             const newConfig = {...this.tableConfig, search}
 
-            const res = await fetchLabels(selected, query, search, orderBy, limit, page)
+            const res = await fetchLabels(selected, query, search, orderBy, limit, page, this.lang)
             this.tableData = res.data
             this.tableConfig = newConfig
           } catch(err) {
@@ -90,7 +92,5 @@ const WrapperAppFactory = (res, params, lang) => (new Vue({
 }))
 
 export default async function createApp(res, params) {
-  const lang = detectLang()
-  const language = lang.language || lang
-  return WrapperAppFactory(res, params, language)
+  return WrapperAppFactory(res, params, params.lang)
 }
