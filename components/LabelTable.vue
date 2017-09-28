@@ -172,7 +172,8 @@
       async showInfoDialog(row, col) {
         const {data: {item}} = await LabelsRes.fetchId(row.id, {
           only: 'description,name,meets_criteria',
-          include: 'meets_criteria.criterion.all'
+          include: 'meets_criteria.criterion.all',
+          lang: this.lang
         })
 
         this.infoDialogInput = {row: item, col}
