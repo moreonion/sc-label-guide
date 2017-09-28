@@ -85,7 +85,7 @@
       const search = ''
 
       // Async fetch labels data and route query models
-      const resp = await fetchLabels(selected, query, search, orderBy, limit, page)
+      const resp = await fetchLabels(selected, query, search, orderBy, limit, page, store.state.lang)
 
       return {
         tableData: resp.data,
@@ -106,7 +106,7 @@
       async fetchData(search) {
         const def = this.tableConfig
         try {
-          const resp = await fetchLabels(def.selected, def.query, search, def.orderBy, def.limit, 1)
+          const resp = await fetchLabels(def.selected, def.query, search, def.orderBy, def.limit, 1, this.lang)
           this.tableConfig.search = search
           this.tableData = resp.data
         } catch(err) {
