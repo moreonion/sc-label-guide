@@ -140,14 +140,14 @@ export const _COLUMNS_ = {
       model: {
         projectLabel: 'name',
         projectValue: 'name',
-        async: 'labels?only=name,id',
+        async: lang => `labels?only=name,id&lang=${lang}`,
         middlewares: {
           postfetch: res => res.data.items[0]
         }
       },
       autocomplete: {
         ...defaultAutocompleteConfig,
-        async: 'labels?only=name,id'
+        async: lang => `labels?only=name,id&lang=${lang}`
       },
       ops: ['$eq', '$in']
     },
@@ -180,7 +180,7 @@ export const _COLUMNS_ = {
       projectItemLabel: li => li.name,
       isQueryable: true,
       model: {
-        async: 'hotspots?only=name,id',
+        async: lang => `hotspots?only=name,id&lang=${lang}`,
         projectLabel: 'name',
         projectValue: 'id',
         middlewares: {
@@ -189,7 +189,7 @@ export const _COLUMNS_ = {
       },
       autocomplete: {
         ...defaultAutocompleteConfig,
-        async: 'hotspots?only=name,id'
+        async: lang => `hotspots?only=name,id&lang=${lang}`
       },
       ops: ['$eq', '$in']
     },
@@ -198,7 +198,7 @@ export const _COLUMNS_ = {
       projectItemLabel: li => li.name,
       isQueryable: true,
       model: {
-        async: 'resources?only=name,id',
+        async: lang => `resources?only=name,id&lang=${lang}`,
         projectLabel: 'name',
         projectValue: 'id',
         middlewares: {
@@ -207,7 +207,7 @@ export const _COLUMNS_ = {
       },
       autocomplete: {
         ...defaultAutocompleteConfig,
-        async: 'resources?only=name,id'
+        async: lang => `resources?only=name,id&lang=${lang}`
       },
       ops: ['$eq', '$in']
     },
