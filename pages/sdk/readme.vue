@@ -1,14 +1,12 @@
 <template>
   <el-card class="readme-cont">
-    <vue-markdown :source="readme"></vue-markdown>
+    <vue-markdown :source="readme" :html="true"></vue-markdown>
   </el-card>
 </template>
 
 <script>
   import VueMarkdown from 'vue-markdown'
   import readme from '../../sdk/README.md'
-
-  debugger
 
   export default {
     components: {
