@@ -36,7 +36,7 @@ module.exports = {
     vendor: [
       'locale', 'locale2',
       'vue-i18n', 'i18n-iso-countries',
-      'qs', 'axios',
+      'qs', 'axios', 'vue-markdown',
       'element-ui', 'mo-vue-table',
       'vue-async-computed',
       'lodash.debounce', 'lodash.zip',
