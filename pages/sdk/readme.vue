@@ -1,12 +1,14 @@
 <template>
-  <div>
-    <vue-markdown>{{readme}}</vue-markdown>
-  </div>
+  <el-card class="readme-cont">
+    <vue-markdown :source="readme"></vue-markdown>
+  </el-card>
 </template>
 
 <script>
   import VueMarkdown from 'vue-markdown'
-  // import readme from '../../sdk/README.md'
+  import readme from '../../sdk/README.md'
+
+  debugger
 
   export default {
     components: {
@@ -14,12 +16,16 @@
     },
     data() {
       return {
-        readme: '* dasdads'
+        readme
       }
     }
   }
 </script>
 
 <style>
-
+  .readme-cont {
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: 20px;
+  }
 </style>

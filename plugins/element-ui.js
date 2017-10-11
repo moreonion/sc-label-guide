@@ -2,7 +2,7 @@ import Vue from 'vue'
 import {
   Button, Input, Select, Pagination,
   Row, Col, Dialog, Checkbox, CheckboxGroup,
-  Option, Tag
+  Option, Tag, Card
 } from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
 
@@ -22,3 +22,4 @@ Vue.component(Checkbox.name, Checkbox)
 Vue.component(CheckboxGroup.name, CheckboxGroup)
 Vue.component(Option.name, Option)
 Vue.component(Tag.name, Tag)
+Vue.component(Card.name, Card)
