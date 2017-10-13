@@ -1,13 +1,12 @@
-/* eslint-disable */
-
-export default ({ app }) => {
-  /* Only run on client-side and only in production mode */
+export default ({app}) => {
+  // Only in production mode
   if (process.env.NODE_ENV !== 'production') return
 
-  /* Include Piwik Tracking Code */
-  var _paq = _paq || [];
+  // Include Piwik Tracking Code
+  var _paq = _paq || []
   _paq.push(['enableLinkTracking']);
 
+  /* eslint-disable */
   (function() {
     var u="//www.ci-romero.de/piwik/";
     _paq.push(['setTrackerUrl', u+'piwik.php']);
@@ -19,9 +18,15 @@ export default ({ app }) => {
     g.src=u+'piwik.js';
     s.parentNode.insertBefore(g,s);
   })();
+  /* eslint-enable */
 
-  /* Send page view every time the route changes (fired on initialization too) */
-  app.router.afterEach((to, from) => {
-    _paq.push(['trackPageView']);
-  })
+  if(app.router) {
+    // Send page view every time the route changes (fired on initialization too)
+    app.router.afterEach(() => {
+      _paq.push(['trackPageView'])
+    })
+  } else {
+    // When embedded via SDK, there is no router
+    _paq.push(['trackPageView'])
+  }
 }
