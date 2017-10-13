@@ -6,6 +6,7 @@ import '../../plugins/globalComponents.js'
 import '../../plugins/mo-vue-table.js'
 import '../../plugins/vue-async-computed.js'
 import {getI18nInst} from '../../plugins/vue-i18n.js'
+import piwik from '../../plugins/piwik.js'
 import {extendModel} from '../../lib/queryModel.js'
 import fetchLabels from '../../lib/api/fetchLabels.js'
 import {SET_LANG, SET_DETECTED_LANG} from '../../store/mutation-types.js'
@@ -92,5 +93,7 @@ const WrapperAppFactory = (res, params, lang) => (new Vue({
 }))
 
 export default async function createApp(res, params) {
-  return WrapperAppFactory(res, params, params.lang)
+  const vueInst = WrapperAppFactory(res, params, params.lang)
+  piwik({app: vueInst})
+  return vueInst
 }
