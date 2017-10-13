@@ -30,7 +30,8 @@ module.exports = {
     '~plugins/globalComponents.js',
     '~plugins/mo-vue-table.js',
     '~plugins/element-ui.js',
-    '~plugins/vue-async-computed.js'
+    '~plugins/vue-async-computed.js',
+    { src: '~plugins/piwik.js', ssr: false }
   ],
   build: {
     vendor: [
