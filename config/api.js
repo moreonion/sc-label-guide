@@ -1,6 +1,6 @@
 export const _DOMAIN_ = 'https://sc-label-guide.more-onion.at'
 export const _APIURL_ = 'https://api.supplychainge.org/api/v1'
-export const _SDKURL_ = 'http://transparency.supplychainge.org/sdk.js'
+export const _SDKURL_ = 'https://transparency.supplychainge.org/sdk.js'
 
 export const _API_ = {
   queryDelim: ',',
