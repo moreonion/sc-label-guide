@@ -12,7 +12,7 @@
         <el-tag type="primary">label-guide</el-tag>
       </i18n>
       <i18n path="Texts.EmbedSDK.EmbedDocs" tag="p">
-        <a href="http://localhost:8080/sdk/readme.md">SDK Readme</a>
+        <a href="sdk/readme">SDK Readme</a>
       </i18n>
       <el-input readonly type="textarea" :rows="22" :value="shareSnippet"></el-input>
     </div>
