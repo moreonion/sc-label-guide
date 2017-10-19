@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.6.6 (2017-10-19)
+
+* Add SDK readme route
+* Adapt SDK readme link in share dialog
+
 # 0.6.5 (2017-10-13)
 
 * Add Piwik tracking
