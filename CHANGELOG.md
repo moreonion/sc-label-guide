@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.6.5 (2017-10-13)
+
+* Add Piwik tracking
+
 # 0.6.4 (2017-09-28)
 
 * Use lang parameter for API calls
