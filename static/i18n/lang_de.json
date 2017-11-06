@@ -1,40 +1,80 @@
 {
   "Basics": {
     "All": "Alle",
-    "Unknown": "Unbekannt",
+    "Unknown": "Unbekannt\n",
     "Add": "Hinzufügen",
-    "Filter": "Filter | Filter",
+    "Filter": "Filter",
     "Value": "Wert | Werte",
     "Description": "Beschreibung",
     "Operator": "Operator",
     "Column": "Spalte",
-    "AddFilters": "Filter Hinzufügen"
+    "AddFilters": "Filter Hinzufügen",
+    "Method": "Methodik"
+  },
+  "Evaluation": {
+    "Good": "Gut",
+    "Mediocre": "Mittelmäßig",
+    "NotGood": "Nicht gut",
+    "Unknown": "Unbekannt"
+  },
+  "Operators": {
+    "eq": "ist",
+    "gt": ">",
+    "gte": "> =",
+    "lt": "<",
+    "lte": "< =",
+    "in": "in",
+    "text": "text"
+  },
+  "Buttons": {
+    "CustomizeDisplay": "Anzeige personalisieren",
+    "BackgroundInformation": "Hintergrundinformationen",
+    "Apply": "Anwenden",
+    "Close": "Schließen",
+    "CustomizeTable": "Anzeige personalisieren",
+    "Share": "Teilen"
+  },
+  "Modals": {
+    "Headers": {
+      "CriteriaMet": "Kriterien erfüllt",
+      "ColumnsToShow": "Sichtbare Spalten"
+    }
+  },
+  "Columns": {
+    "Label": "Etikett",
+    "GovTrans": "Governance & Transparenz",
+    "EnvImpact": "Einfluss auf die Umwelt",
+    "ScoImpact": "Einfluss auf soziale Bereiche",
+    "Hotspots": "Themengebiet-Etikett hat Einfluss auf",
+    "Resources": "Rohmaterial-Etikett hat Einfluss auf",
+    "Countries": "Staaten"
+  },
+  "Texts": {
+    "NumFilterResults": "Dieser Filter ergab {Anzahl} Treffer.",
+    "EmbedSDK": {
+      "Embed": "Betten Sie diesen Etikett-Guide in Ihre Webseite ein.",
+      "EmbedDescr": "Füge das folgende Snippet auf allen Seiten im {0} Tag ein, auf denen der Label Guide angezeigt werden soll.",
+      "EmbedDocs": "Du findest mehr Information auf der SDK Dokumenationsseite {0}"
+    },
+    "EmbedIFrame": {
+      "EmbedDescr": "Füge das {0} an jener Position ein, an der der Label Guide aufscheinen soll."
+    },
+    "AddFilters": "Fügen Sie neue Filter hinzu, um die Suche zu verfeinern.",
+    "NoResults": "Für diese Filter oder Suche können wir keine Resultate finden",
+    "Forms": {
+      "Placeholder": "Wähle einen Wert",
+      "NoData": "Nichts gefunden.",
+      "NoMatch": "Keine Treffer."
+    }
+  },
+  "Questions": {
+    "Scoring": "Woraus ergibt sich die Bewertung?"
   },
   "Translations": {
     "Language": "Sprache"
   },
-  "Operators": {
-    "eq": "ist",
-    "gt": "besser als",
-    "gte": ">=",
-    "lt": "schlechter als",
-    "lte": "<=",
-    "in": "in",
-    "text": "text"
-  },
   "Languages": {
     "en": "Englisch",
     "de": "Deutsch"
-  },
-  "Columns": {
-    "GovTrans": "Regierung& Transparenz",
-    "EnvImpact": "Umwelteinflüsse",
-    "Countries": "Staaten"
-  },
-  "Evaluation": {
-    "Good": "Gut",
-    "Mediocre": "Mittel",
-    "NotGood": "Schlecht",
-    "Unknown": "Unbekannt"
   }
 }
