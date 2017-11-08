@@ -62,12 +62,13 @@ const defaultScoreAutocompleteConfig = {
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6], ['countries', 7]],
+  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6], ['animal_welfare', 7], ['countries', 8]],
   columnValueMap: {
     'name': 'name',
     'credibility': 'details.score.credibility',
     'environment': 'details.score.environment',
     'social': 'details.score.social',
+    'animal_welfare': 'details.score.animal_welfare',
     'hotspots': 'hotspots',
     'resources': 'resources',
     'countries': 'countries'
@@ -77,6 +78,7 @@ export const _COLUMNS_ = {
     'details.score.credibility': 'credibility',
     'details.score.environment': 'environment',
     'details.score.social': 'social',
+    'details.score.animal_welfare': 'animal_welfare',
     'hotspots': 'hotspots',
     'resources': 'resources',
     'countries': 'countries'
@@ -86,6 +88,7 @@ export const _COLUMNS_ = {
     'details.score.credibility': row => row.details.score.credibility || 0,
     'details.score.environment': row => row.details.score.environment || 0,
     'details.score.social': row => row.details.score.social || 0,
+    'details.score.animal_welfare': row => row.details.score.animal_welfare || 0,
     'hotspots': row => row.hotspots || [],
     'resources': row => row.resources || [],
     'countries': row => row.countries || []
@@ -95,6 +98,7 @@ export const _COLUMNS_ = {
     'details.score.credibility': 'Columns.GovTrans',
     'details.score.environment': 'Columns.EnvImpact',
     'details.score.social': 'Columns.ScoImpact',
+    'details.score.animal_welfare': 'Columns.AniWelfare',
     'hotspots': 'Columns.Hotspots',
     'resources': 'Columns.Resources',
     'countries': 'Columns.Countries'
@@ -168,6 +172,14 @@ export const _COLUMNS_ = {
       autocomplete: defaultScoreAutocompleteConfig
     },
     'details.score.social': {
+      type: types.RATING,
+      isSortable: true,
+      isQueryable: true,
+      isDefaultSelected: true,
+      model: defaultModelConfig,
+      autocomplete: defaultScoreAutocompleteConfig
+    },
+    'details.score.animal_welfare': {
       type: types.RATING,
       isSortable: true,
       isQueryable: true,
