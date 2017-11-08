@@ -120,6 +120,10 @@ export const _COLUMNS_ = {
       'only': ['details'],
       'include': []
     },
+    'animal_welfare': {
+      'only': ['animal_welfare'],
+      'include': []
+    },
     'hotspots': {
       'only': ['hotspots'],
       'include': ['hotspots.name']
