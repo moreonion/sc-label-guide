@@ -121,7 +121,7 @@ export const _COLUMNS_ = {
       'include': []
     },
     'animal': {
-      'only': ['animal_welfare'],
+      'only': ['details'],
       'include': []
     },
     'hotspots': {
