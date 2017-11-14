@@ -19,9 +19,9 @@
     "de": "German"
   },
   "Evaluation": {
-    "Good": "Good",
-    "Mediocre": "Mediocre",
-    "NotGood": "Not Good",
+    "Good": "High aspiration",
+    "Mediocre": "Medium aspiration",
+    "NotGood": "Low \/ No aspiration",
     "Unknown": "Unkown"
   },
   "Operators": {

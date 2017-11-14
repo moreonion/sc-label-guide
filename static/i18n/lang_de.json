@@ -1,37 +1,37 @@
 {
   "Basics": {
     "All": "Alle",
-    "Unknown": "Unbekannt\n",
+    "Unknown": "Unbekannt",
     "Add": "Hinzufügen",
     "Filter": "Filter",
     "Value": "Wert | Werte",
     "Description": "Beschreibung",
     "Operator": "Operator",
     "Column": "Spalte",
-    "AddFilters": "Filter Hinzufügen",
+    "AddFilters": "Filter hinzufügen",
     "Method": "Methodik"
   },
   "Evaluation": {
-    "Good": "Gut",
-    "Mediocre": "Mittelmäßig",
-    "NotGood": "Nicht gut",
+    "Good": "Hoher Anspruch",
+    "Mediocre": "Mittlerer Anspruch",
+    "NotGood": "Geringer \/ Kein Anspruch",
     "Unknown": "Unbekannt"
   },
   "Operators": {
     "eq": "ist",
-    "gt": ">",
-    "gte": "> =",
-    "lt": "<",
-    "lte": "< =",
+    "gt": "Besser als",
+    "gte": "Ist mindestens",
+    "lt": "Ist schlechter als",
+    "lte": "Ist maximal",
     "in": "in",
-    "text": "text"
+    "text": "Text"
   },
   "Buttons": {
     "CustomizeDisplay": "Anzeige personalisieren",
     "BackgroundInformation": "Hintergrundinformationen",
     "Apply": "Anwenden",
     "Close": "Schließen",
-    "CustomizeTable": "Anzeige personalisieren",
+    "CustomizeTable": "Anzeige anpassen",
     "Share": "Teilen"
   },
   "Modals": {
@@ -41,21 +41,21 @@
     }
   },
   "Columns": {
-    "Label": "Etikett",
-    "GovTrans": "Governance & Transparenz",
-    "EnvImpact": "Einfluss auf die Umwelt",
-    "ScoImpact": "Einfluss auf soziale Bereiche",
+    "Label": "Gütesiegel",
+    "GovTrans": "Fundiertheit",
+    "EnvImpact": "Umwelt",
+    "ScoImpact": "Soziales",
     "AniWelfare": "Tierwohl",
-    "Hotspots": "Themengebiet-Etikett hat Einfluss auf",
-    "Resources": "Rohmaterial-Etikett hat Einfluss auf",
+    "Hotspots": "Themengebiet auf die das Gütesiegel Einfluss hat",
+    "Resources": "Rohstoffe auf die das Gütesiegel Einfluss hat",
     "Countries": "Staaten"
   },
   "Texts": {
     "NumFilterResults": "Dieser Filter ergab {Anzahl} Treffer.",
     "EmbedSDK": {
-      "Embed": "Betten Sie diesen Etikett-Guide in Ihre Webseite ein.",
+      "Embed": "Teilen",
       "EmbedDescr": "Füge das folgende Snippet auf allen Seiten im {0} Tag ein, auf denen der Label Guide angezeigt werden soll.",
-      "EmbedDocs": "Du findest mehr Information auf der SDK Dokumenationsseite {0}"
+      "EmbedDocs": "Du findest mehr Information auf der SDK Webseite unter Dokumentation {0}"
     },
     "EmbedIFrame": {
       "EmbedDescr": "Füge das {0} an jener Position ein, an der der Label Guide aufscheinen soll."
@@ -64,12 +64,12 @@
     "NoResults": "Für diese Filter oder Suche können wir keine Resultate finden",
     "Forms": {
       "Placeholder": "Wähle einen Wert",
-      "NoData": "Nichts gefunden.",
+      "NoData": "Nichts gefunden",
       "NoMatch": "Keine Treffer."
     }
   },
   "Questions": {
-    "Scoring": "Woraus ergibt sich die Bewertung?"
+    "Scoring": "Wie funktioniert unsere Bewertung?"
   },
   "Translations": {
     "Language": "Sprache"
