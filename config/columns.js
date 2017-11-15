@@ -62,13 +62,13 @@ const defaultScoreAutocompleteConfig = {
 export const _COLUMNS_ = {
   types,
   // Columns with order
-  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6], ['animal_welfare', 7], ['countries', 8]],
+  columns: [['name', 0], ['hotspots', 2], ['resources', 3], ['credibility', 4], ['environment', 5], ['social', 6], ['animal', 7], ['countries', 8]],
   columnValueMap: {
     'name': 'name',
     'credibility': 'details.score.credibility',
     'environment': 'details.score.environment',
     'social': 'details.score.social',
-    'animal_welfare': 'details.score.animal_welfare',
+    'animal': 'details.score.animal_welfare',
     'hotspots': 'hotspots',
     'resources': 'resources',
     'countries': 'countries'
@@ -78,7 +78,7 @@ export const _COLUMNS_ = {
     'details.score.credibility': 'credibility',
     'details.score.environment': 'environment',
     'details.score.social': 'social',
-    'details.score.animal_welfare': 'animal_welfare',
+    'details.score.animal_welfare': 'animal',
     'hotspots': 'hotspots',
     'resources': 'resources',
     'countries': 'countries'
@@ -120,8 +120,8 @@ export const _COLUMNS_ = {
       'only': ['details'],
       'include': []
     },
-    'animal_welfare': {
-      'only': ['animal_welfare'],
+    'animal': {
+      'only': ['details'],
       'include': []
     },
     'hotspots': {
