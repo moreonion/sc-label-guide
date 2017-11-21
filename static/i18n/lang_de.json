@@ -1,6 +1,6 @@
 {
   "Basics": {
-    "All": "Alle",
+    "All": "International",
     "Unknown": "Unbekannt",
     "Add": "Hinzufügen",
     "Filter": "Filter",
@@ -32,7 +32,7 @@
     "Apply": "Anwenden",
     "Close": "Schließen",
     "CustomizeTable": "Anzeige anpassen",
-    "Share": "Teilen"
+    "Share": "Einbetten"
   },
   "Modals": {
     "Headers": {
@@ -45,10 +45,10 @@
     "GovTrans": "Fundiertheit",
     "EnvImpact": "Umwelt",
     "ScoImpact": "Soziales",
-    "AniWelfare": "Tierwohl",
     "Hotspots": "Themengebiet auf die das Gütesiegel Einfluss hat",
     "Resources": "Rohstoffe auf die das Gütesiegel Einfluss hat",
-    "Countries": "Staaten"
+    "Countries": "Staaten",
+    "AniWelfare": "Tierwohl"
   },
   "Texts": {
     "NumFilterResults": "Dieser Filter ergab {Anzahl} Treffer.",
@@ -78,5 +78,5 @@
     "en": "Englisch",
     "de": "Deutsch"
   },
-  "background-link-url": "https://www.global2000.at/node/5322/"
+  "background-link-url": "https:\/\/www.global2000.at\/node\/5322\/"
 }

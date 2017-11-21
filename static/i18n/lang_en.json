@@ -1,6 +1,6 @@
 {
   "Basics": {
-    "All": "All",
+    "All": "International",
     "Unknown": "Unknown",
     "Add": "Add",
     "Filter": "Filter | Filters",
@@ -10,13 +10,6 @@
     "Column": "Column",
     "AddFilters": "Add Filters",
     "Method": "Method"
-  },
-  "Translations": {
-    "Language": "Language"
-  },
-  "Languages": {
-    "en": "English",
-    "de": "German"
   },
   "Evaluation": {
     "Good": "High aspiration",
@@ -39,7 +32,7 @@
     "Apply": "Apply",
     "Close": "Close",
     "CustomizeTable": "Customize Display",
-    "Share": "Share It"
+    "Share": "Embed It"
   },
   "Modals": {
     "Headers": {
@@ -49,20 +42,16 @@
   },
   "Columns": {
     "Label": "Label",
-    "GovTrans": "Governance& Transparency",
-    "EnvImpact": "Environmental impact",
-    "ScoImpact": "Social impact",
-    "AniWelfare": "Animal welfare",
+    "GovTrans": "Governance & Transparency",
+    "EnvImpact": "Environmental criteria",
+    "ScoImpact": "Social criteria",
     "Hotspots": "Issues label has impact on",
     "Resources": "Raw materials label has impact on",
-    "Countries": "Countries"
+    "Countries": "Countries",
+    "AniWelfare": "Animal welfare"
   },
   "Texts": {
-    "Forms": {
-      "Placeholder": "Please choose a value",
-      "NoData": "Nothing found",
-      "NoMatch": "No matches found"
-    },
+    "NumFilterResults": "This filter yields {0} results.",
     "EmbedSDK": {
       "Embed": "Share It",
       "EmbedDescr": "Insert the following snippet directly into the {0} tag on each page you want to embed the label guide. Add an HTML element with the {1} identifier at the position in the document where you want to present this component.",
@@ -71,12 +60,23 @@
     "EmbedIFrame": {
       "EmbedDescr": "Insert the {0} element at the position in the document where you want to present this component."
     },
-    "NumFilterResults": "This filter yields {0} results.",
     "AddFilters": "Add new filters to get more precise search results.",
-    "NoResults": "No results found for specified filters or search term!"
+    "NoResults": "No results found for specified filters or search term!",
+    "Forms": {
+      "Placeholder": "Please choose a value",
+      "NoData": "Nothing found",
+      "NoMatch": "No matches found"
+    }
   },
   "Questions": {
     "Scoring": "How does the scoring work?"
   },
-  "background-link-url": "https://www.global2000.at/en/node/5321"
+  "Translations": {
+    "Language": "Language"
+  },
+  "Languages": {
+    "en": "English",
+    "de": "German"
+  },
+  "background-link-url": "https:\/\/www.global2000.at\/en\/node\/5321"
 }
