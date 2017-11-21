@@ -33,7 +33,7 @@
         <el-col>
           <div class="bginfo-wrapper">
             <span>{{$t('Questions.Scoring')}}</span><br>
-            <a :href="$t('background-link-url')">{{$t('Buttons.BackgroundInformation')}}</a>
+            <a :href="$t('background-link-url')" target="_blank">{{$t('Buttons.BackgroundInformation')}}</a>
           </div>
         </el-col>
       </el-row>

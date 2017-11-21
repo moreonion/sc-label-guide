@@ -1,6 +1,7 @@
 import countries from 'i18n-iso-countries'
 import {AutocompleteTypes} from './api.js'
 import {_GETCOUNTRIES_} from './countries.js'
+import ObjectPath from 'object-path'
 
 const types = {
   'RATING': 0,
@@ -85,10 +86,10 @@ export const _COLUMNS_ = {
   },
   columnValFuncMap: {
     'name': row => row.name,
-    'details.score.credibility': row => row.details.score.credibility || 0,
-    'details.score.environment': row => row.details.score.environment || 0,
-    'details.score.social': row => row.details.score.social || 0,
-    'details.score.animal_welfare': row => row.details.score.animal_welfare || 0,
+    'details.score.credibility': row => ObjectPath.get(row, 'details.score.credibility') || 0,
+    'details.score.environment': row => ObjectPath.get(row, 'details.score.environment') || 0,
+    'details.score.social': row => ObjectPath.get(row, 'details.score.social') || 0,
+    'details.score.animal_welfare': row => ObjectPath.get(row, 'details.score.animal_welfare') || 0,
     'hotspots': row => row.hotspots || [],
     'resources': row => row.resources || [],
     'countries': row => row.countries || []
