@@ -28,7 +28,4 @@ export default function({app, isClient, isServer, store, query, req}) {
 
   store.commit(SET_LANG, bestLang.language || bestLang)
   store.commit(SET_DETECTED_LANG, detectedLang.language || detectedLang)
-
-  // update the locale
-  app.i18n.locale = bestLang.language || bestLang
 }
