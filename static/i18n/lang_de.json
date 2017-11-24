@@ -36,7 +36,7 @@
   },
   "Modals": {
     "Headers": {
-      "CriteriaMet": "Kriterien erfüllt",
+      "CriteriaMet": "Welche Kriterien erfüllt das Gütesiegel?",
       "ColumnsToShow": "Sichtbare Spalten"
     }
   },
@@ -45,8 +45,8 @@
     "GovTrans": "Fundiertheit",
     "EnvImpact": "Umwelt",
     "ScoImpact": "Soziales",
-    "Hotspots": "Themengebiet auf die das Gütesiegel Einfluss hat",
-    "Resources": "Rohstoffe auf die das Gütesiegel Einfluss hat",
+    "Hotspots": "Themengebiete, auf die das Gütesiegel Einfluss hat",
+    "Resources": "Rohstoffe, auf die das Gütesiegel Einfluss hat",
     "Countries": "Staaten",
     "AniWelfare": "Tierwohl"
   },
