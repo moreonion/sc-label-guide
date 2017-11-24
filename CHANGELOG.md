@@ -1,8 +1,10 @@
 # Changelog
 
-# 0.6.12 (TODO: set date)
+# 0.6.12 (2017-11-24)
 
 * Bugfix in i18n initialization
+* Use absolute URL for SDK readme link
+* Remove nuxt favicon
 
 # 0.6.6 (2017-10-19)
 
