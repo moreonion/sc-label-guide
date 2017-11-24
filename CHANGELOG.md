@@ -1,5 +1,9 @@
 # Changelog
 
+# 0.6.12 (TODO: set date)
+
+* Bugfix in i18n initialization
+
 # 0.6.6 (2017-10-19)
 
 * Add SDK readme route
