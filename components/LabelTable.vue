@@ -164,8 +164,11 @@
       'moConfig.orderBy': { handler() { this.moTable.orderBy = this.moConfig.orderBy }, immediate: true },
       moOrder() { this.orderByChange() },
       shrunkQuery: { handler() { this.moSetWhereState(this.shrunkQuery) }, immediate: true },
-      lang(language) {
-        this.$i18n.locale = language
+      lang: {
+        handler: function(language) {
+          this.$i18n.locale = language
+        },
+        immediate: true
       }
     },
     methods: {
