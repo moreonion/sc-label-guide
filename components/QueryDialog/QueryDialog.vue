@@ -296,12 +296,12 @@
 
   .rm-btn {
     cursor: pointer;
-    font-size: 8px;
+    font-size: 10px;
     position: absolute;
-    right: 2px;
-    top: 2px;
+    right: 1px;
+    top: 1px;
     padding: 5px;
-    color: #bfcbd9;
+    color: #667788;
   }
 
   .rm-btn:hover, .rm-btn:focus {
