@@ -17,7 +17,7 @@ export default {
   props: ['value'],
   computed: {
     color: function() {
-      if(this.value < 0) {
+      if(this.value === null) {
         return _GRAY_
       } else if(this.value < 33) {
         return _RED_
