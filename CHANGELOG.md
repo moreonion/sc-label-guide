@@ -1,5 +1,10 @@
 # Changelog
 
+# 0.6.13 (2017-12-11)
+
+* API changes: expect score values as percentage
+* Style changes: darker close button, pointer on sortable column headers
+
 # 0.6.12 (2017-11-24)
 
 * Bugfix in i18n initialization
