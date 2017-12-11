@@ -235,6 +235,10 @@
     border-right: 1px solid #D9DADB;
   }
 
+  th.mo-desc, th.mo-asc, th.mo-unordered {
+    cursor: pointer;
+  }
+
   table td {
     padding: 20px;
     text-align: center;
