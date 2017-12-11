@@ -178,4 +178,8 @@
     margin-bottom: 5px;
     margin-right: 5px;
   }
+
+  .el-dialog__headerbtn .el-dialog__close {
+    color: #667788;
+  }
 </style>

@@ -10,10 +10,9 @@ const types = {
 }
 
 const scoreValues = [
-  {label: '0', value: 0},
-  {label: '1', value: 1},
-  {label: '2', value: 2},
-  {label: '3', value: 3}
+  {label: '1', value: 0},
+  {label: '2', value: 33},
+  {label: '3', value: 55}
 ]
 
 const defaultModelConfig = {
@@ -60,6 +59,15 @@ const defaultScoreAutocompleteConfig = {
   }
 }
 
+// returns a number or null
+const parseAsNumberSafe = (value) => {
+  if (typeof value === 'number') {
+    return value
+  } else {
+    return null
+  }
+}
+
 export const _COLUMNS_ = {
   types,
   // Columns with order
@@ -86,10 +94,10 @@ export const _COLUMNS_ = {
   },
   columnValFuncMap: {
     'name': row => row.name,
-    'details.score.credibility': row => ObjectPath.get(row, 'details.score.credibility') || 0,
-    'details.score.environment': row => ObjectPath.get(row, 'details.score.environment') || 0,
-    'details.score.social': row => ObjectPath.get(row, 'details.score.social') || 0,
-    'details.score.animal_welfare': row => ObjectPath.get(row, 'details.score.animal_welfare') || 0,
+    'details.score.credibility': row => parseAsNumberSafe(ObjectPath.get(row, 'details.score.credibility')),
+    'details.score.environment': row => parseAsNumberSafe(ObjectPath.get(row, 'details.score.environment')),
+    'details.score.social': row => parseAsNumberSafe(ObjectPath.get(row, 'details.score.social')),
+    'details.score.animal_welfare': row => parseAsNumberSafe(ObjectPath.get(row, 'details.score.animal_welfare')),
     'hotspots': row => row.hotspots || [],
     'resources': row => row.resources || [],
     'countries': row => row.countries || []

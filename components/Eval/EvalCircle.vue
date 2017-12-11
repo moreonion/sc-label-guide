@@ -17,11 +17,11 @@ export default {
   props: ['value'],
   computed: {
     color: function() {
-      if(this.value < 1) {
+      if(this.value === null) {
         return _GRAY_
-      } else if(this.value < 2) {
+      } else if(this.value < 33) {
         return _RED_
-      } else if(this.value < 3) {
+      } else if(this.value < 55) {
         return _ORANGE_
       } else {
         return _GREEN_
