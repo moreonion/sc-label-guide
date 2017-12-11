@@ -4,25 +4,25 @@
       <el-row>
         <el-col :span="6">
           <div class="eval-cont">
-            <eval-circle value="3"></eval-circle>
+            <eval-circle value="55"></eval-circle>
             <span class="eval-label">{{$t('Evaluation.Good')}}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="eval-cont">
-            <eval-circle value="2"></eval-circle>
+            <eval-circle value="33"></eval-circle>
             <span class="eval-label">{{$t('Evaluation.Mediocre')}}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="eval-cont">
-            <eval-circle value="1"></eval-circle>
+            <eval-circle value="0"></eval-circle>
             <span class="eval-label">{{$t('Evaluation.NotGood')}}</span>
           </div>
         </el-col>
         <el-col :span="6">
           <div class="eval-cont">
-            <eval-circle value="0"></eval-circle>
+            <eval-circle :value="null"></eval-circle>
             <span class="eval-label">{{$t('Evaluation.Unknown')}}</span>
           </div>
         </el-col>
